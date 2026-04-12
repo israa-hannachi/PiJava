@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.Back.BackGameListController"
+            style="-fx-background-color: #f8fafc;">
+
+    <!-- SIDEBAR -->
+    <left>
+        <VBox prefWidth="250" style="-fx-background-color: #1e293b;">
+            <Label text="NAJA7NI ADMIN" style="-fx-text-fill: white; -fx-font-size: 18; -fx-font-weight: bold; -fx-padding: 20 20 10 20;" />
+            <Label text="Navigation" style="-fx-text-fill: #94a3b8; -fx-font-size: 11; -fx-padding: 0 20 8 20;" />
+
+            <Button text="🏠 Dashboard" maxWidth="Infinity"
+                    style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-alignment: CENTER_LEFT; -fx-padding: 10 20;" />
+            <Button text="👤 Comptes" maxWidth="Infinity"
+                    style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-alignment: CENTER_LEFT; -fx-padding: 10 20;" />
+            <Button text="📚 Cours" maxWidth="Infinity"
+                    style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-alignment: CENTER_LEFT; -fx-padding: 10 20;" />
+            <Button text="🎮 Jeux" maxWidth="Infinity"
+                    style="-fx-background-color: #334155; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-padding: 10 20;" />
+            <Button text="💬 Forums" maxWidth="Infinity"
+                    style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-alignment: CENTER_LEFT; -fx-padding: 10 20;" />
+            <Button text="📅 Events" maxWidth="Infinity"
+                    style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-alignment: CENTER_LEFT; -fx-padding: 10 20;" />
+            <Button text="📹 Meet" maxWidth="Infinity"
+                    style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-alignment: CENTER_LEFT; -fx-padding: 10 20;" />
+
+            <Region VBox.vgrow="ALWAYS"/>
+            <Button text="🚪 Logout" maxWidth="Infinity"
+                    style="-fx-background-color: transparent; -fx-text-fill: #f87171; -fx-alignment: CENTER_LEFT; -fx-padding: 10 20;" />
+        </VBox>
+    </left>
+
+    <!-- TOP HEADER -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="12"
+              style="-fx-background-color: white; -fx-border-color: #e2e8f0; -fx-border-width: 0 0 1 0; -fx-padding: 12 20;">
+            <Label text="🎮 Gestion des Jeux" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <TextField fx:id="searchField" promptText="🔍 Rechercher un jeu..."
+                       prefWidth="280"
+                       style="-fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 8 12;"
+                       onAction="#handleSearch"/>
+            <Button text="➕ Ajouter" onAction="#handleAddGame"
+                    style="-fx-background-color:#0FB5A9; -fx-text-fill:white; -fx-font-weight:700; -fx-background-radius:8; -fx-padding:8 16;"/>
+        </HBox>
+    </top>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <VBox spacing="14" style="-fx-padding: 20; -fx-background-color: #f8fafc;">
+
+            <!-- Breadcrumb -->
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Label text="Dashboard" style="-fx-text-fill: #64748b; -fx-font-size: 13;" />
+                <Label text="›" style="-fx-text-fill: #94a3b8;" />
+                <Label text="Jeux" style="-fx-text-fill: #0f172a; -fx-font-weight: bold; -fx-font-size: 13;" />
+            </HBox>
+
+            <!-- Stats Strip -->
+            <HBox spacing="12">
+                <VBox style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 12 20;" HBox.hgrow="ALWAYS">
+                    <Label text="Total Jeux" style="-fx-text-fill: #64748b; -fx-font-size: 11;"/>
+                    <Label fx:id="totalGamesLabel" text="—" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                </VBox>
+                <VBox style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 12 20;" HBox.hgrow="ALWAYS">
+                    <Label text="QCM" style="-fx-text-fill: #64748b; -fx-font-size: 11;"/>
+                    <Label fx:id="qcmCountLabel" text="—" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #2563eb;"/>
+                </VBox>
+                <VBox style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 12 20;" HBox.hgrow="ALWAYS">
+                    <Label text="Vrai/Faux" style="-fx-text-fill: #64748b; -fx-font-size: 11;"/>
+                    <Label fx:id="vfCountLabel" text="—" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #0FB5A9;"/>
+                </VBox>
+                <VBox style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 12 20;" HBox.hgrow="ALWAYS">
+                    <Label text="Libres" style="-fx-text-fill: #64748b; -fx-font-size: 11;"/>
+                    <Label fx:id="libreCountLabel" text="—" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #dc2626;"/>
+                </VBox>
+            </HBox>
+
+            <!-- Table des Jeux -->
+            <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #e2e8f0; -fx-border-radius: 10; -fx-padding: 0;" VBox.vgrow="ALWAYS">
+                <TableView fx:id="gamesTable" VBox.vgrow="ALWAYS"
+                           style="-fx-background-color: white; -fx-border-color: transparent;">
+                    <columns>
+                        <TableColumn fx:id="idColumn"       text="ID"        prefWidth="60" />
+                        <TableColumn fx:id="titreColumn"    text="Titre"     prefWidth="200" />
+                        <TableColumn fx:id="typeColumn"     text="Type"      prefWidth="120" />
+                        <TableColumn fx:id="niveauColumn"   text="Niveau"    prefWidth="120" />
+                        <TableColumn fx:id="attemptColumn"  text="Tentatives" prefWidth="100" />
+                        <TableColumn fx:id="actionsColumn"  text="Actions"   prefWidth="160" />
+                    </columns>
+                    <placeholder>
+                        <Label text="Aucun jeu trouvé." style="-fx-text-fill: #94a3b8; -fx-font-size: 14;"/>
+                    </placeholder>
+                </TableView>
+
+            </VBox>
+            <!-- Table des Questions liées -->
+            <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #e2e8f0; -fx-border-radius: 10; -fx-padding: 10;" VBox.vgrow="ALWAYS">
+                <Label text="Détails des Questions" style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#0f172a;"/>
+                <TableView fx:id="questionsTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="questionIdColumn" text="ID" prefWidth="60"/>
+                        <TableColumn fx:id="questionTextColumn" text="Question" prefWidth="300"/>
+                        <TableColumn fx:id="correctAnswerColumn" text="Réponse Correcte" prefWidth="230"/>
+                        <TableColumn fx:id="questionActionsColumn" text="Actions" prefWidth="160"/>
+                    </columns>
+                    <placeholder>
+                        <Label text="Sélectionnez un jeu pour voir ses questions." style="-fx-text-fill:#94a3b8;"/>
+                    </placeholder>
+                </TableView>
+            </VBox>
+
+
+        </VBox>
+    </center>
+</BorderPane>
