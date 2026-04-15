@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.Back.BackForumsDashboardController"
+            prefHeight="900.0" prefWidth="1400.0" style="-fx-background-color: #f8fafc;">
+
+    <!-- TOP NAVBAR -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15"
+              style="-fx-background-color: #ffffff; -fx-border-color: #e2e8f0; -fx-border-width: 0 0 1 0; -fx-padding: 15;">
+            <Label text="NAJA7NI" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+            <Separator orientation="VERTICAL" />
+            <Label text="Dashboard Forums" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #64748b;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="🏠 Dashboard" onAction="#handleDashboard" />
+            <Button text="🚪 Logout" onAction="#handleLogout" />
+        </HBox>
+    </top>
+
+    <!-- MAIN CONTENT - Combined Dashboard -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: #f8fafc;">
+            <VBox spacing="30" style="-fx-padding: 40; -fx-background-color: #f8fafc;">
+
+                <!-- Breadcrumb -->
+                <HBox spacing="5" alignment="CENTER_LEFT">
+                    <Label text="Home" style="-fx-text-fill: #94a3b8; -fx-font-size: 14;" />
+                    <Label text=">" style="-fx-text-fill: #94a3b8; -fx-font-size: 14;" />
+                    <Label text="Dashboard" style="-fx-text-fill: #0f172a; -fx-font-size: 14; -fx-font-weight: bold;" />
+                </HBox>
+
+                <!-- Dashboard Title -->
+                <Label text="Dashboard Forum" style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+
+                <!-- Stats Cards -->
+                <GridPane hgap="15" vgap="15">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="25" />
+                        <ColumnConstraints percentWidth="25" />
+                        <ColumnConstraints percentWidth="25" />
+                        <ColumnConstraints percentWidth="25" />
+                    </columnConstraints>
+
+                    <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 25; -fx-border-color: #e2e8f0; -fx-border-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);"
+                          GridPane.columnIndex="0">
+                        <Label text="�️" style="-fx-font-size: 20;" />
+                        <Label text="Catégories" style="-fx-text-fill: #64748b; -fx-font-size: 13;" />
+                        <Label fx:id="totalCategoriesLabel" text="—" style="-fx-text-fill: #0f172a; -fx-font-size: 28; -fx-font-weight: bold;" />
+                        <ProgressBar progress="0.7" style="-fx-accent: #0FB5A9; -fx-pref-width: 100;" />
+                    </VBox>
+
+                    <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 25; -fx-border-color: #e2e8f0; -fx-border-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);"
+                          GridPane.columnIndex="1">
+                        <Label text="💬" style="-fx-font-size: 20;" />
+                        <Label text="Forums" style="-fx-text-fill: #64748b; -fx-font-size: 13;" />
+                        <Label fx:id="totalForumsLabel" text="—" style="-fx-text-fill: #0f172a; -fx-font-size: 28; -fx-font-weight: bold;" />
+                        <ProgressBar progress="0.5" style="-fx-accent: #3b82f6; -fx-pref-width: 100;" />
+                    </VBox>
+
+                    <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 25; -fx-border-color: #e2e8f0; -fx-border-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);"
+                          GridPane.columnIndex="2">
+                        <Label text="�" style="-fx-font-size: 20;" />
+                        <Label text="Messages" style="-fx-text-fill: #64748b; -fx-font-size: 13;" />
+                        <Label fx:id="totalMessagesLabel" text="—" style="-fx-text-fill: #0f172a; -fx-font-size: 28; -fx-font-weight: bold;" />
+                        <ProgressBar progress="0.8" style="-fx-accent: #8b5cf6; -fx-pref-width: 100;" />
+                    </VBox>
+
+                    <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 25; -fx-border-color: #e2e8f0; -fx-border-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);"
+                          GridPane.columnIndex="3">
+                        <Label text="✅" style="-fx-font-size: 20;" />
+                        <Label text="Forums Actifs" style="-fx-text-fill: #64748b; -fx-font-size: 13;" />
+                        <Label fx:id="activeForumsLabel" text="—" style="-fx-text-fill: #0f172a; -fx-font-size: 28; -fx-font-weight: bold;" />
+                        <ProgressBar progress="0.6" style="-fx-accent: #10b981; -fx-pref-width: 100;" />
+                    </VBox>
+                </GridPane>
+
+                <!-- Quick Actions Section -->
+                <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 25; -fx-border-color: #e2e8f0; -fx-border-radius: 12;" spacing="20">
+                    <Label text="⚡ Actions Rapides" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <Button text="➕ Créer un nouveau forum" onAction="#handleCreateForum"
+                                style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 15 30; -fx-cursor: hand; -fx-min-width: 200;" />
+                        <Button text="📁 Ajouter une catégorie" onAction="#handleAddCategory"
+                                style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 15 30; -fx-cursor: hand; -fx-min-width: 200;" />
+                        <Button text="📊 Statistiques" onAction="#handleStatistics"
+                                style="-fx-background-color: #06b6d4; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 15 30; -fx-cursor: hand; -fx-min-width: 200;" />
+                        <Button text="🔍 Clustering des discussions" onAction="#handleClustering"
+                                style="-fx-background-color: #f59e0b; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 15 30; -fx-cursor: hand; -fx-min-width: 200;" />
+                        <Button text="🌐 Go to Front" onAction="#handleGoToFront"
+                                style="-fx-background-color: #4b5563; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 15 30; -fx-cursor: hand; -fx-min-width: 200;" />
+                    </HBox>
+                </VBox>
+
+                <!-- Management Section -->
+                <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 25; -fx-border-color: #e2e8f0; -fx-border-radius: 12;" spacing="20">
+                    <Label text="🛠️ Gestion" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <Button text="📁 Gérer Catégories" onAction="#handleManageCategories"
+                                style="-fx-background-color: #0FB5A9; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 15 30; -fx-background-radius: 8; -fx-min-width: 200;" />
+                        <Button text="💬 Gérer Forums" onAction="#handleManageForums"
+                                style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 15 30; -fx-background-radius: 8; -fx-min-width: 200;" />
+                        <Button text="💬 Gérer Messages" onAction="#handleManageMessages"
+                                style="-fx-background-color: #8b5cf6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 15 30; -fx-background-radius: 8; -fx-min-width: 200;" />
+                    </HBox>
+                </VBox>
+
+                <!-- Welcome Section -->
+                <VBox style="-fx-background-color: #f0f9ff; -fx-background-radius: 12; -fx-padding: 30; -fx-border-color: #3b82f6; -fx-border-radius: 12; -fx-border-width: 2;" spacing="10">
+                    <Label text="✨ Bienvenue dans le Dashboard Forum" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+                    <Label text="Vous avez accès à tous les outils de gestion des forums : Catégories, Forums, Messages et Statistiques." style="-fx-font-size: 14; -fx-text-fill: #64748b;" />
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

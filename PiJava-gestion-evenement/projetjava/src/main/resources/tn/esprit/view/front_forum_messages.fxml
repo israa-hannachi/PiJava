@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.front.FrontForumMessagesController"
+            style="-fx-background-color: #f8fafc;">
+
+    <!-- Sidebar style dashboard (clair) -->
+    <left>
+        <VBox prefWidth="120.0" spacing="8.0"
+              style="-fx-background-color:#F7FFFE; -fx-border-color:rgba(15,181,169,0.10); -fx-border-width:0 1 0 0;">
+            <padding><Insets top="14.0" right="8.0" bottom="14.0" left="8.0"/></padding>
+
+            <ImageView fitHeight="62.0" preserveRatio="true" pickOnBounds="true">
+                <image><Image url="@/assets/images/logo.png"/></image>
+            </ImageView>
+
+            <Button text="🏠 Accueil" onAction="#handleDashboard" maxWidth="1.7976931348623157E308"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="👤 Profil" maxWidth="1.7976931348623157E308" onAction="#handleProfile"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="📚 Cours" maxWidth="1.7976931348623157E308" onAction="#handleCours"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="🧭 Parcours" maxWidth="1.7976931348623157E308"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="🎥 Meet" maxWidth="1.7976931348623157E308"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="🎮 Jeux" onAction="#handleGameList" maxWidth="1.7976931348623157E308"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="📅 Events" onAction="#handleEvents" maxWidth="1.7976931348623157E308"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="💬 Forums" maxWidth="1.7976931348623157E308" onAction="#handleBackToForums"
+                    style="-fx-background-color:rgba(15,181,169,0.14); -fx-text-fill:#0FB5A9; -fx-font-weight:700; -fx-background-radius:10;"/>
+
+            <Region VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </left>
+
+    <!-- Main Content -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: #f8fafc;" VBox.vgrow="ALWAYS">
+            <VBox spacing="20" style="-fx-padding: 30; -fx-background-color: #f8fafc;">
+
+                <!-- Breadcrumb -->
+                <HBox spacing="5" alignment="CENTER_LEFT">
+                    <Label text="Forums" style="-fx-font-size: 13; -fx-text-fill: #64748b;"/>
+                    <Label text="›" style="-fx-font-size: 13; -fx-text-fill: #64748b;"/>
+                    <Label fx:id="breadcrumbCategory" text="Catégorie" style="-fx-font-size: 13; -fx-text-fill: #64748b;"/>
+                    <Label text="›" style="-fx-font-size: 13; -fx-text-fill: #64748b;"/>
+                    <Label fx:id="breadcrumbForum" text="Forum" style="-fx-font-size: 13; -fx-text-fill: #0FB5A9; -fx-font-weight: bold;"/>
+                </HBox>
+
+                <!-- Header coloré du forum -->
+                <VBox fx:id="forumHeader" spacing="10" style="-fx-background-color: linear-gradient(to right, #8b5cf6, #ec4899); -fx-background-radius: 12; -fx-padding: 25;">
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <Label fx:id="forumIcon" text="📁" style="-fx-font-size: 28; -fx-min-width: 50; -fx-min-height: 50; -fx-alignment: center; -fx-background-color: rgba(255,255,255,0.2); -fx-background-radius: 25; -fx-text-fill: white;"/>
+                        <VBox spacing="5">
+                            <Label fx:id="forumTitle" text="Chapitre 1" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                            <Label fx:id="forumDescription" text="Description du forum..." style="-fx-font-size: 14; -fx-text-fill: rgba(255,255,255,0.9);"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <!-- Formulaire nouveau message -->
+                <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 20; -fx-border-color: #e5e7eb; -fx-border-radius: 12;">
+                    <Label text="Nouveau message" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
+                    <TextField fx:id="messageTitleField" promptText="Sujet du message" style="-fx-background-radius: 8; -fx-padding: 10;"/>
+                    <TextArea fx:id="messageContentField" promptText="Votre message..." wrapText="true" prefRowCount="4" style="-fx-background-radius: 8;"/>
+                    <HBox alignment="CENTER_RIGHT" spacing="10" minHeight="60" prefHeight="60" style="-fx-padding: 10 0 0 0;">
+                        <Button text="Publier" onAction="#handlePublishMessage"
+                                minHeight="40" minWidth="120" prefHeight="40" prefWidth="120"
+                                style="-fx-background-color: #0FB5A9; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Liste des messages -->
+                <VBox spacing="15">
+                    <HBox alignment="CENTER_LEFT" spacing="10">
+                        <Label text="Messages" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
+                        <Label fx:id="messagesCount" text="(0)" style="-fx-font-size: 14; -fx-text-fill: #64748b;"/>
+                    </HBox>
+                    <VBox fx:id="messagesContainer" spacing="12">
+                        <!-- Les messages seront ajoutés dynamiquement -->
+                    </VBox>
+                </VBox>
+
+                <!-- Bouton retour -->
+                <Button text="← Retour à la catégorie" onAction="#handleBackToCategory"
+                        style="-fx-background-color: white; -fx-text-fill: #64748b; -fx-border-color: #e5e7eb; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 20; -fx-cursor: hand;"/>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

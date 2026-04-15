@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.Back.BackCoursCategorieFormController"
+            style="-fx-background-color: #f8fafc;">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="12"
+              style="-fx-background-color: white; -fx-border-color: #e2e8f0; -fx-border-width: 0 0 1 0; -fx-padding: 12 20;">
+            <Button text="← Retour" onAction="#handleRetour"
+                    style="-fx-background-color: transparent; -fx-text-fill: #64748b; -fx-font-size: 13; -fx-cursor: hand;"/>
+            <Label fx:id="titleLabel" text="Ajouter une Catégorie"
+                   style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: #f8fafc;">
+            <VBox spacing="20" style="-fx-padding: 30; -fx-max-width: 600; -fx-alignment: TOP_CENTER;">
+
+                <!-- Form Card -->
+                <VBox spacing="16" style="-fx-background-color: white; -fx-background-radius: 12; -fx-border-color: #e2e8f0; -fx-border-radius: 12; -fx-padding: 28; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.06), 8, 0, 0, 2);">
+
+                    <!-- Nom -->
+                    <VBox spacing="6">
+                        <Label text="Nom *" style="-fx-font-weight: bold; -fx-text-fill: #374151; -fx-font-size: 13;"/>
+                        <TextField fx:id="nomField" promptText="Nom de la catégorie"
+                                   style="-fx-border-color: #d1d5db; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 12; -fx-font-size: 13;"/>
+                        <Label fx:id="nomError" text="" style="-fx-text-fill: #dc2626; -fx-font-size: 11;" visible="false" managed="false"/>
+                    </VBox>
+
+                    <!-- Description -->
+                    <VBox spacing="6">
+                        <Label text="Description" style="-fx-font-weight: bold; -fx-text-fill: #374151; -fx-font-size: 13;"/>
+                        <TextArea fx:id="descriptionField" promptText="Description de la catégorie (optionnel)"
+                                  prefRowCount="4"
+                                  style="-fx-border-color: #d1d5db; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 12; -fx-font-size: 13;"/>
+                    </VBox>
+
+                    <!-- Actif -->
+                    <VBox spacing="6">
+                        <Label text="Statut *" style="-fx-font-weight: bold; -fx-text-fill: #374151; -fx-font-size: 13;"/>
+                        <ComboBox fx:id="actifCombo" prefWidth="200"
+                                  style="-fx-border-color: #d1d5db; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 2;"/>
+                        <Label fx:id="actifError" text="" style="-fx-text-fill: #dc2626; -fx-font-size: 11;" visible="false" managed="false"/>
+                    </VBox>
+
+                    <!-- Buttons -->
+                    <HBox spacing="12" alignment="CENTER_RIGHT" style="-fx-padding: 10 0 0 0;">
+                        <Button text="Annuler" onAction="#handleRetour"
+                                style="-fx-background-color: white; -fx-border-color: #d1d5db; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-size: 13; -fx-cursor: hand;"/>
+                        <Button fx:id="submitBtn" text="Enregistrer" onAction="#handleSubmit"
+                                style="-fx-background-color: #0FB5A9; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 24; -fx-font-size: 13; -fx-cursor: hand;"/>
+                    </HBox>
+
+                    <!-- Global message -->
+                    <Label fx:id="globalMessage" text="" wrapText="true"
+                           style="-fx-font-size: 12;" visible="false" managed="false"/>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

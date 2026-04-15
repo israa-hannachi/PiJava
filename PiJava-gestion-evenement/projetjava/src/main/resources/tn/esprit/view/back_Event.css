@@ -1,0 +1,77 @@
+/* back_Event.css */
+.root {
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 1;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+.table-view .column-header {
+    -fx-background-color: #f8fafc;
+    -fx-padding: 10;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 0 0 1 0;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #64748b;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #f0f9ff;
+    -fx-text-fill: #0c4a6e;
+}
+
+.tab-pane .tab-header-area {
+    -fx-padding: 0 0 10 0;
+}
+
+.tab {
+    -fx-background-color: transparent;
+    -fx-padding: 10 20;
+}
+
+.tab:selected {
+    -fx-background-color: white;
+    -fx-border-color: #0FB5A9;
+    -fx-border-width: 0 0 3 0;
+}
+
+.tab .label {
+    -fx-text-fill: #64748b;
+    -fx-font-size: 14px;
+}
+
+.tab:selected .label {
+    -fx-text-fill: #0FB5A9;
+    -fx-font-weight: bold;
+}
+
+.button {
+    -fx-cursor: hand;
+    -fx-background-radius: 8;
+    -fx-transition: 0.2s;
+}
+
+.button:hover {
+    -fx-opacity: 0.8;
+}
+
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8 12;
+}
+
+.text-field:focused {
+    -fx-border-color: #0FB5A9;
+}
