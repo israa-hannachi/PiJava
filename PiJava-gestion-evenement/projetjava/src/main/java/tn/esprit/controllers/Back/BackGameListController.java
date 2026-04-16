@@ -342,7 +342,6 @@ public class BackGameListController {
     // Modifier un jeu
     private void modifier(Game g) {
         Dialog<Game> dialog = new Dialog<>();
-        applyDialogStyle(dialog);
         dialog.setTitle("Modifier le jeu");
         dialog.setHeaderText("Modifier les informations du jeu : " + g.getTitre());
 
@@ -384,6 +383,7 @@ public class BackGameListController {
                 }
 
                 Game newGame = new Game();
+                newGame.setId(g.getId()); // ⚡ garder l’ID du jeu existant
                 newGame.setTitre(titreField.getText().trim());
                 newGame.setType(typeField.getText());
                 newGame.setNiveau(niveauField.getText());
@@ -392,13 +392,12 @@ public class BackGameListController {
                 } catch (NumberFormatException e) {
                     newGame.setAttemptNumber(0); // valeur par défaut si vide ou invalide
                 }
-                newGame.setCreatedAt(new java.sql.Timestamp(System.currentTimeMillis()));
+                newGame.setCreatedAt(g.getCreatedAt()); // garder la date originale
 
                 return newGame;
             }
             return null;
         });
-
 
         dialog.showAndWait().ifPresent(updatedGame -> {
             try {

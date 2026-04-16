@@ -83,14 +83,25 @@ public class FrontCoursListController implements Initializable {
     }
 
     private void loadData() {
-        allCours = coursController.findByModuleId(currentModule.getId()).stream()
-                .filter(c -> c.getActif() == 1)
-                .sorted(Comparator.comparingInt(Cours::getOrdre))
-                .collect(Collectors.toList());
-        updateStats(allCours);
-        renderCards(allCours);
-    }
+        if (isProf) {
 
+            allCours = coursController.findByModuleId(currentModule.getId()).stream()
+                    .filter(c -> c.getActif() == 1)
+                    .sorted(Comparator.comparingInt(Cours::getOrdre))
+                    .collect(Collectors.toList());
+            updateStats(allCours);
+            renderCards(allCours);
+        }
+        else {
+            allCours = coursController.findByModuleId(currentModule.getId()).stream()
+                    .filter( c -> (c.getVisible() == 1))
+                    .sorted(Comparator.comparingInt(Cours::getOrdre))
+                    .collect(Collectors.toList());
+            updateStats(allCours);
+            renderCards(allCours);
+
+        }
+    }
     private void updateStats(List<Cours> list) {
         totalCoursLabel.setText(String.valueOf(list.size()));
         withPdfLabel.setText(String.valueOf(
@@ -144,7 +155,7 @@ public class FrontCoursListController implements Initializable {
                         "-fx-background-radius:6; -fx-padding:2 8; -fx-font-size:11;");
                 badges.getChildren().add(pdfBadge);
             }
-            if (c.getVisible() == 1) {
+            if ((c.getVisible() == 1) && isProf) {
                 Label visBadge = new Label("👁 Visible");
                 visBadge.setStyle("-fx-background-color:#f0fdf4; -fx-text-fill:#166534; " +
                         "-fx-background-radius:6; -fx-padding:2 8; -fx-font-size:11;");
@@ -468,7 +479,6 @@ public class FrontCoursListController implements Initializable {
     @FXML public void handleJeux() { navigateTo("/tn/esprit/view/front_GameList.fxml"); }
     @FXML public void handleLogout() { navigateTo("/tn/esprit/view/front_login.fxml"); }
     @FXML public void handleProfile() { navigateTo("/tn/esprit/view/front_profile.fxml"); }
-    @FXML public void handleForums() { navigateTo("/tn/esprit/view/front_forum.fxml"); }
 
     private void navigateTo(String fxml) {
         try {
@@ -486,16 +496,6 @@ public class FrontCoursListController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
                 Parent root = loader.load();
                 FrontProfileController ctrl = loader.getController();
-                ctrl.initUser(currentUser);
-                Stage stage = (Stage) coursContainer.getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.show();
-                return;
-            }
-            if ("/tn/esprit/view/front_forum.fxml".equals(fxml) && currentUser != null) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-                Parent root = loader.load();
-                FrontForumController ctrl = loader.getController();
                 ctrl.initUser(currentUser);
                 Stage stage = (Stage) coursContainer.getScene().getWindow();
                 stage.setScene(new Scene(root));
