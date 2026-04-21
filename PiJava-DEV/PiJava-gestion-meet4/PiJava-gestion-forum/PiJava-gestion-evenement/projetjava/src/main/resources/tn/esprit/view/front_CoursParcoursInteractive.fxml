@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.front.FrontCoursParcoursInteractiveController"
+            prefWidth="1200.0" prefHeight="880.0"
+            style="-fx-background-color:#F8FAFC; -fx-font-family:'Segoe UI';">
+
+    <center>
+        <StackPane>
+            <VBox spacing="20.0" alignment="CENTER" maxWidth="1080.0" maxHeight="800.0">
+                <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+                <!-- Contenu principal ici -->
+            </VBox>
+        </StackPane>
+    </center>
+
+    <!-- SIDEBAR GAUCHE -->
+    <left>
+        <VBox prefWidth="120.0" spacing="8.0"
+              style="-fx-background-color:#F7FFFE; -fx-border-color:rgba(15,181,169,0.10); -fx-border-width:0 1 0 0;">
+            <padding><Insets top="14.0" right="8.0" bottom="14.0" left="8.0"/></padding>
+            <ImageView fitHeight="56.0" preserveRatio="true" pickOnBounds="true">
+                <image><Image url="@/assets/images/logo.png"/></image>
+            </ImageView>
+            <Button text="Home" maxWidth="Infinity" onAction="#handleHome"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="Profile" maxWidth="Infinity" onAction="#handleProfile"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="Courses" maxWidth="Infinity" onAction="#handleCoursCategories"
+                    style="-fx-background-color:rgba(15,181,169,0.14); -fx-text-fill:#0FB5A9; -fx-font-weight:700; -fx-background-radius:10;"/>
+            <Button text="Meet" maxWidth="Infinity" onAction="#handleMeets"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="Jeux" maxWidth="Infinity" onAction="#handleGameList"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="Events" maxWidth="Infinity" onAction="#handleEvents"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="Forums" maxWidth="Infinity" onAction="#handleForums"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="Back" maxWidth="Infinity" onAction="#handleBackToList"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Region VBox.vgrow="ALWAYS"/>
+            <Button text="Logout" maxWidth="Infinity" onAction="#handleLogout"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+        </VBox>
+    </left>
+
+    <!-- CONTENU PRINCIPAL -->
+    <center>
+        <VBox spacing="0.0" style="-fx-background-color:#F0FFFE;">
+            <!-- HEADER AVEC RECHERCHE ET PROFIL -->
+            <HBox spacing="16.0" alignment="CENTER_LEFT"
+                  style="-fx-background-color:white; -fx-border-color:#e5e7eb; -fx-border-width:0 0 1 0; -fx-padding:16 24;">
+                
+                <!-- Champ de recherche -->
+                <TextField fx:id="searchField" promptText="Rechercher des cours, modules..."
+                           prefWidth="300.0"
+                           style="-fx-background-color:#f8fafc; -fx-border-color:#e2e8f0; -fx-border-radius:8; -fx-padding:10 14;"/>
+                
+                <!-- Bouton de tri -->
+                <Button text="Trier (Date)" onAction="#handleSort"
+                        style="-fx-background-color:#f1f5f9; -fx-text-fill:#475569; -fx-border-color:#e2e8f0; -fx-border-radius:8; -fx-padding:10 16;"/>
+                
+                <Region HBox.hgrow="ALWAYS"/>
+                
+                <!-- Avatar et statut -->
+                <HBox spacing="8.0" alignment="CENTER_RIGHT">
+                    <StackPane>
+                        <Circle fx:id="userAvatar" radius="20.0" fill="#0FB5A9"/>
+                        <Label fx:id="userInitial" text="A" 
+                               style="-fx-text-fill:white; -fx-font-weight:700; -fx-font-size:14;"/>
+                    </StackPane>
+                    <StackPane>
+                        <Circle radius="4.0" fill="#10b981"/>
+                    </StackPane>
+                </HBox>
+            </HBox>
+
+            <!-- CONTENU CENTRAL EN GRID -->
+            <HBox spacing="20.0" style="-fx-padding:24;">
+                
+                <!-- COLONNE PRINCIPALE GAUCHE -->
+                <VBox spacing="20.0" HBox.hgrow="ALWAYS">
+                    
+                    <!-- RÉSUMÉ UTILISATEUR -->
+                    <HBox spacing="16.0">
+                        <VBox spacing="8.0" style="-fx-background-color:white; -fx-background-radius:12; -fx-padding:16; -fx-border-color:#e5e7eb; -fx-border-radius:12; -fx-min-width:120;">
+                            <Label text="XP" style="-fx-font-size:14; -fx-font-weight:700; -fx-text-fill:#64748b;"/>
+                            <Label fx:id="xpLabel" text="10" style="-fx-font-size:24; -fx-font-weight:800; -fx-text-fill:#0FB5A9;"/>
+                        </VBox>
+                        <VBox spacing="8.0" style="-fx-background-color:white; -fx-background-radius:12; -fx-padding:16; -fx-border-color:#e5e7eb; -fx-border-radius:12; -fx-min-width:120;">
+                            <Label text="Badges" style="-fx-font-size:14; -fx-font-weight:700; -fx-text-fill:#64748b;"/>
+                            <Label fx:id="badgesLabel" text="0" style="-fx-font-size:24; -fx-font-weight:800; -fx-text-fill:#f59e0b;"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- SECTION MON PARCOURS -->
+                    <VBox spacing="16.0" style="-fx-background-color:white; -fx-background-radius:16; -fx-padding:24; -fx-border-color:#e5e7eb; -fx-border-radius:16;">
+                        <HBox spacing="16.0" alignment="CENTER_LEFT">
+                            <VBox HBox.hgrow="ALWAYS">
+                                <Label text="Mon parcours" style="-fx-font-size:20; -fx-font-weight:700; -fx-text-fill:#1f2937;"/>
+                                <Label text="Glissez-déposez les modules pour réorganiser votre parcours" 
+                                       style="-fx-text-fill:#64748b; -fx-font-size:14;"/>
+                            </VBox>
+                            <Button fx:id="saveParcoursBtn" text="Sauvegarder" onAction="#handleSaveParcours"
+                                    style="-fx-background-color:#0FB5A9; -fx-text-fill:white; -fx-font-weight:700; -fx-background-radius:8; -fx-padding:10 20;"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- ZONE MODULES -->
+                    <VBox spacing="16.0">
+                        <HBox spacing="12.0" alignment="CENTER_LEFT">
+                            <Label text="Modules" style="-fx-font-size:18; -fx-font-weight:700; -fx-text-fill:#1f2937;"/>
+                            <Label text="Drag &amp; Drop" style="-fx-text-fill:#64748b; -fx-font-size:14; -fx-font-style:italic;"/>
+                        </HBox>
+                        
+                        <ScrollPane fx:id="modulesScrollPane" fitToWidth="true" prefHeight="500.0"
+                                    style="-fx-background-color:transparent; -fx-background:transparent;">
+                            <VBox fx:id="modulesContainer" spacing="16.0"/>
+                        </ScrollPane>
+                    </VBox>
+                </VBox>
+
+                <!-- COLONNE DROITE - ROADMAP -->
+                <VBox spacing="16.0" prefWidth="350.0">
+                    <Label text="Roadmap" style="-fx-font-size:18; -fx-font-weight:700; -fx-text-fill:#1f2937;"/>
+                    
+                    <ScrollPane fx:id="roadmapScrollPane" fitToWidth="true" prefHeight="600.0"
+                                style="-fx-background-color:transparent; -fx-background:transparent;">
+                        <VBox fx:id="roadmapContainer" spacing="16.0"/>
+                    </ScrollPane>
+                </VBox>
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>

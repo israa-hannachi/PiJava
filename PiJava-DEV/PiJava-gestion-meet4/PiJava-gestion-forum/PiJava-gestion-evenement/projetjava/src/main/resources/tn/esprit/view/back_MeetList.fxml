@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.Back.BackMeetController"
+            prefHeight="800.0" prefWidth="1200.0">
+
+    <!-- SIDEBAR -->
+    <left>
+        <VBox prefWidth="240" style="-fx-background-color: #1a202c;">
+            <VBox prefHeight="65" alignment="CENTER" style="-fx-background-color: #0f172a; -fx-padding: 15;">
+                <Label text="NAJA7NI ADMIN" style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:white;"/>
+            </VBox>
+            <ScrollPane fitToWidth="true" style="-fx-background-color:#1a202c;" hbarPolicy="NEVER">
+                <VBox spacing="4" style="-fx-padding:10; -fx-background-color:#1a202c;">
+                    <Label text="Navigation" style="-fx-text-fill:#94a3b8; -fx-font-size:11; -fx-font-weight:bold; -fx-padding:8 0 4 0;"/>
+                    <Button text="🏠 Dashboard" maxWidth="Infinity" onAction="#handleDashboard"
+                            style="-fx-background-color:#334155;-fx-text-fill:white;-fx-alignment:CENTER_LEFT;-fx-padding:10 15;-fx-background-radius:6;"/>
+                    <Button text="👤 Comptes" maxWidth="Infinity" onAction="#handleListeComptes"
+                            style="-fx-background-color:transparent;-fx-text-fill:#cbd5e1;-fx-alignment:CENTER_LEFT;-fx-padding:10 15;"/>
+                    <Button text="📚 Cours" maxWidth="Infinity" onAction="#handleCours"
+                            style="-fx-background-color:transparent;-fx-text-fill:#cbd5e1;-fx-alignment:CENTER_LEFT;-fx-padding:10 15;"/>
+                    <Button text="📅 Events" maxWidth="Infinity" onAction="#handleEventsList"
+                            style="-fx-background-color:transparent;-fx-text-fill:#cbd5e1;-fx-alignment:CENTER_LEFT;-fx-padding:10 15;"/>
+                    <Button text="🎮 Jeux" maxWidth="Infinity" onAction="#handleJeux"
+                            style="-fx-background-color:transparent;-fx-text-fill:#cbd5e1;-fx-alignment:CENTER_LEFT;-fx-padding:10 15;"/>
+                    <Button text="💬 Forums" maxWidth="Infinity" onAction="#handleForums"
+                            style="-fx-background-color:transparent;-fx-text-fill:#cbd5e1;-fx-alignment:CENTER_LEFT;-fx-padding:10 15;"/>
+                    <Label text="📹 Meet" style="-fx-text-fill:#0FB5A9;-fx-font-size:12;-fx-font-weight:bold;-fx-padding:10 15 2 15;"/>
+                    <Button text="   📋 Réunions" maxWidth="Infinity"
+                            style="-fx-background-color:#0FB5A9;-fx-text-fill:white;-fx-alignment:CENTER_LEFT;-fx-padding:8 25;-fx-background-radius:6;"/>
+                    <Button text="   👥 Participants" maxWidth="Infinity" onAction="#handleParticipants"
+                            style="-fx-background-color:transparent;-fx-text-fill:#94a3b8;-fx-alignment:CENTER_LEFT;-fx-padding:8 25;"/>
+                    <Region VBox.vgrow="ALWAYS"/>
+                    <Button text="🚪 Logout" maxWidth="Infinity" onAction="#handleLogout"
+                            style="-fx-background-color:transparent;-fx-text-fill:#f87171;-fx-alignment:CENTER_LEFT;-fx-padding:10 15;"/>
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </left>
+
+    <!-- TOP HEADER -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="12"
+              style="-fx-background-color:white;-fx-border-color:#e2e8f0;-fx-border-width:0 0 1 0;-fx-padding:12 20;">
+            <Label text="📋 Gestion des Réunions" style="-fx-font-size:20;-fx-font-weight:bold;-fx-text-fill:#0f172a;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <TextField fx:id="searchField" promptText="🔍 Rechercher une réunion..." prefWidth="230"
+                       style="-fx-background-radius:8;-fx-border-color:#e2e8f0;-fx-border-radius:8;-fx-padding:8 12;"
+                       onKeyReleased="#handleSearch"/>
+            <ComboBox fx:id="sortCombo" promptText="Trier par" prefWidth="150"
+                      style="-fx-background-radius:8;" onAction="#handleSort"/>
+            <ComboBox fx:id="filterOrganisateur" promptText="Organisateur" prefWidth="180"
+                      style="-fx-background-radius:8;" onAction="#handleFilter"/>
+            <Button text="➕ Ajouter" onAction="#handleAdd"
+                    style="-fx-background-color:#0FB5A9;-fx-text-fill:white;-fx-font-weight:700;-fx-background-radius:8;-fx-padding:8 16;"/>
+        </HBox>
+    </top>
+
+    <!-- CONTENT -->
+    <center>
+        <VBox spacing="12" style="-fx-padding:20;-fx-background-color:#f8fafc;">
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label fx:id="totalLabel" text="Total : 0 réunion(s)"
+                       style="-fx-font-size:13;-fx-text-fill:#64748b;"/>
+            </HBox>
+
+            <TableView fx:id="meetTable" VBox.vgrow="ALWAYS"
+                       style="-fx-background-radius:8;-fx-border-color:#e2e8f0;-fx-border-radius:8;">
+                <columns>
+                    <TableColumn fx:id="colId"           text="ID"           prefWidth="50"/>
+                    <TableColumn fx:id="colTitre"        text="Titre"        prefWidth="200"/>
+                    <TableColumn fx:id="colDescription"  text="Description"  prefWidth="180"/>
+                    <TableColumn fx:id="colDateDebut"    text="Début"        prefWidth="140"/>
+                    <TableColumn fx:id="colDateFin"      text="Fin"          prefWidth="140"/>
+                    <TableColumn fx:id="colLien"         text="Lien Meet"    prefWidth="150"/>
+                    <TableColumn fx:id="colOrganisateur" text="Organisateur" prefWidth="150"/>
+                    <TableColumn fx:id="colActions"      text="Actions"      prefWidth="170"/>
+                </columns>
+                <placeholder><Label text="Aucune réunion trouvée." style="-fx-text-fill:#94a3b8;"/></placeholder>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>

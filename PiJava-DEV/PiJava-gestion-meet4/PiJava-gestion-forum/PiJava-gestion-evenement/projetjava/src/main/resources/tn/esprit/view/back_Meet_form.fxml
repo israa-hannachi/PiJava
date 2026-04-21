@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="tn.esprit.controllers.Back.BackMeetFormController"
+      spacing="16" prefWidth="680" prefHeight="600"
+      style="-fx-background-color:#f8fafc;-fx-padding:28;">
+
+    <Label fx:id="titleLabel" text="➕ Ajouter une réunion"
+           style="-fx-font-size:20;-fx-font-weight:bold;-fx-text-fill:#0f172a;"/>
+
+    <Label fx:id="errorLabel" text=""
+           style="-fx-text-fill:#dc2626;-fx-font-size:12;-fx-background-color:#fee2e2;-fx-padding:8 12;-fx-background-radius:6;"
+           wrapText="true" maxWidth="Infinity"/>
+
+    <!-- Titre -->
+    <VBox spacing="4">
+        <Label text="Titre *" style="-fx-font-size:13;-fx-font-weight:bold;-fx-text-fill:#374151;"/>
+        <TextField fx:id="titreField" promptText="Nom de la réunion"
+                   style="-fx-background-radius:8;-fx-border-color:#d1d5db;-fx-border-radius:8;-fx-padding:9 12;"/>
+    </VBox>
+
+    <!-- Description -->
+    <VBox spacing="4">
+        <Label text="Description" style="-fx-font-size:13;-fx-font-weight:bold;-fx-text-fill:#374151;"/>
+        <TextArea fx:id="descriptionArea" promptText="Description de la réunion (optionnel)"
+                  prefRowCount="3"
+                  style="-fx-background-radius:8;-fx-border-color:#d1d5db;-fx-border-radius:8;-fx-padding:9 12;"/>
+    </VBox>
+
+    <!-- Dates et Heures -->
+    <HBox spacing="20">
+        <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="Date début *" style="-fx-font-size:13;-fx-font-weight:bold;-fx-text-fill:#374151;"/>
+            <DatePicker fx:id="dateDebutPicker" maxWidth="Infinity"
+                        style="-fx-background-radius:8;-fx-border-color:#d1d5db;"/>
+        </VBox>
+        <VBox spacing="4" prefWidth="110">
+            <Label text="Heure début *" style="-fx-font-size:13;-fx-font-weight:bold;-fx-text-fill:#374151;"/>
+            <TextField fx:id="heureDebutField" promptText="09:00"
+                       style="-fx-background-radius:8;-fx-border-color:#d1d5db;-fx-border-radius:8;-fx-padding:9 12;"/>
+        </VBox>
+        <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="Date fin *" style="-fx-font-size:13;-fx-font-weight:bold;-fx-text-fill:#374151;"/>
+            <DatePicker fx:id="dateFinPicker" maxWidth="Infinity"
+                        style="-fx-background-radius:8;-fx-border-color:#d1d5db;"/>
+        </VBox>
+        <VBox spacing="4" prefWidth="110">
+            <Label text="Heure fin *" style="-fx-font-size:13;-fx-font-weight:bold;-fx-text-fill:#374151;"/>
+            <TextField fx:id="heureFinField" promptText="11:00"
+                       style="-fx-background-radius:8;-fx-border-color:#d1d5db;-fx-border-radius:8;-fx-padding:9 12;"/>
+        </VBox>
+    </HBox>
+
+    <!-- Lien + Organisateur -->
+    <HBox spacing="20">
+        <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="Lien Meet" style="-fx-font-size:13;-fx-font-weight:bold;-fx-text-fill:#374151;"/>
+            <TextField fx:id="lienMeetField" promptText="https://meet.google.com/..."
+                       style="-fx-background-radius:8;-fx-border-color:#d1d5db;-fx-border-radius:8;-fx-padding:9 12;"/>
+        </VBox>
+        <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="Organisateur *" style="-fx-font-size:13;-fx-font-weight:bold;-fx-text-fill:#374151;"/>
+            <ComboBox fx:id="organisateurCombo" maxWidth="Infinity"
+                      style="-fx-background-radius:8;-fx-border-color:#d1d5db;"/>
+        </VBox>
+    </HBox>
+
+    <!-- Participants -->
+    <HBox spacing="12">
+        <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="Participants disponibles" style="-fx-font-size:13;-fx-font-weight:bold;-fx-text-fill:#374151;"/>
+            <ListView fx:id="participantsAvailable" prefHeight="130"
+                      style="-fx-border-color:#d1d5db;-fx-border-radius:8;-fx-background-radius:8;"/>
+        </VBox>
+        <VBox spacing="8" alignment="CENTER">
+            <Button text="→" onAction="#handleAddParticipant"
+                    style="-fx-background-color:#0FB5A9;-fx-text-fill:white;-fx-font-weight:bold;-fx-background-radius:8;-fx-padding:8 14;"/>
+            <Button text="←" onAction="#handleRemoveParticipant"
+                    style="-fx-background-color:#94a3b8;-fx-text-fill:white;-fx-font-weight:bold;-fx-background-radius:8;-fx-padding:8 14;"/>
+        </VBox>
+        <VBox spacing="4" HBox.hgrow="ALWAYS">
+            <Label text="Participants sélectionnés" style="-fx-font-size:13;-fx-font-weight:bold;-fx-text-fill:#374151;"/>
+            <ListView fx:id="participantsSelected" prefHeight="130"
+                      style="-fx-border-color:#0FB5A9;-fx-border-radius:8;-fx-background-radius:8;"/>
+        </VBox>
+    </HBox>
+
+    <!-- Buttons -->
+    <HBox spacing="12" alignment="CENTER_RIGHT" style="-fx-padding:8 0 0 0;">
+        <Button text="Annuler" onAction="#handleCancel"
+                style="-fx-background-color:#e2e8f0;-fx-text-fill:#374151;-fx-font-weight:600;-fx-background-radius:8;-fx-padding:10 20;"/>
+        <Button text="💾 Enregistrer" onAction="#handleSave"
+                style="-fx-background-color:#0FB5A9;-fx-text-fill:white;-fx-font-weight:700;-fx-background-radius:8;-fx-padding:10 20;"/>
+    </HBox>
+</VBox>
