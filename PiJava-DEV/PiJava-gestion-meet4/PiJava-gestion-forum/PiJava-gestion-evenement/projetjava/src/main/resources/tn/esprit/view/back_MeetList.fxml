@@ -29,7 +29,9 @@
                     <Button text="💬 Forums" maxWidth="Infinity" onAction="#handleForums"
                             style="-fx-background-color:transparent;-fx-text-fill:#cbd5e1;-fx-alignment:CENTER_LEFT;-fx-padding:10 15;"/>
                     <Label text="📹 Meet" style="-fx-text-fill:#0FB5A9;-fx-font-size:12;-fx-font-weight:bold;-fx-padding:10 15 2 15;"/>
-                    <Button text="   📋 Réunions" maxWidth="Infinity"
+                    <Button text="   � Dashboard" maxWidth="Infinity" onAction="#handleMeetDashboard"
+                            style="-fx-background-color:transparent;-fx-text-fill:#94a3b8;-fx-alignment:CENTER_LEFT;-fx-padding:8 25;"/>
+                    <Button text="   �📋 Réunions" maxWidth="Infinity"
                             style="-fx-background-color:#0FB5A9;-fx-text-fill:white;-fx-alignment:CENTER_LEFT;-fx-padding:8 25;-fx-background-radius:6;"/>
                     <Button text="   👥 Participants" maxWidth="Infinity" onAction="#handleParticipants"
                             style="-fx-background-color:transparent;-fx-text-fill:#94a3b8;-fx-alignment:CENTER_LEFT;-fx-padding:8 25;"/>

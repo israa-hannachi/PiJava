@@ -8,11 +8,11 @@
       spacing="16" prefWidth="680" prefHeight="600"
       style="-fx-background-color:#f8fafc;-fx-padding:28;">
 
-    <Label fx:id="titleLabel" text="➕ Ajouter une réunion"
-           style="-fx-font-size:20;-fx-font-weight:bold;-fx-text-fill:#0f172a;"/>
+    <Label fx:id="titleLabel" text="Ajouter une reunion"
+           style="-fx-font-size:18;-fx-font-weight:bold;-fx-text-fill:#334155;"/>
 
     <Label fx:id="errorLabel" text=""
-           style="-fx-text-fill:#dc2626;-fx-font-size:12;-fx-background-color:#fee2e2;-fx-padding:8 12;-fx-background-radius:6;"
+           style="-fx-text-fill:#dc2626;-fx-font-size:11;-fx-background-color:#fef2f2;-fx-padding:8 12;-fx-background-radius:4;"
            wrapText="true" maxWidth="Infinity"/>
 
     <!-- Titre -->
@@ -31,26 +31,30 @@
     </VBox>
 
     <!-- Dates et Heures -->
-    <HBox spacing="20">
+    <HBox spacing="20" alignment="CENTER_LEFT">
         <VBox spacing="4" HBox.hgrow="ALWAYS">
-            <Label text="Date début *" style="-fx-font-size:13;-fx-font-weight:bold;-fx-text-fill:#374151;"/>
+            <Label text="Date debut *" style="-fx-font-size:12;-fx-font-weight:600;-fx-text-fill:#475569;"/>
             <DatePicker fx:id="dateDebutPicker" maxWidth="Infinity"
-                        style="-fx-background-radius:8;-fx-border-color:#d1d5db;"/>
+                        style="-fx-background-radius:6;-fx-border-color:#e2e8f0;"/>
         </VBox>
-        <VBox spacing="4" prefWidth="110">
-            <Label text="Heure début *" style="-fx-font-size:13;-fx-font-weight:bold;-fx-text-fill:#374151;"/>
+        <VBox spacing="4" prefWidth="100">
+            <Label text="Heure debut *" style="-fx-font-size:12;-fx-font-weight:600;-fx-text-fill:#475569;"/>
             <TextField fx:id="heureDebutField" promptText="09:00"
-                       style="-fx-background-radius:8;-fx-border-color:#d1d5db;-fx-border-radius:8;-fx-padding:9 12;"/>
+                       style="-fx-background-radius:6;-fx-border-color:#e2e8f0;-fx-border-radius:6;-fx-padding:8 10;"/>
         </VBox>
         <VBox spacing="4" HBox.hgrow="ALWAYS">
-            <Label text="Date fin *" style="-fx-font-size:13;-fx-font-weight:bold;-fx-text-fill:#374151;"/>
+            <Label text="Date fin *" style="-fx-font-size:12;-fx-font-weight:600;-fx-text-fill:#475569;"/>
             <DatePicker fx:id="dateFinPicker" maxWidth="Infinity"
-                        style="-fx-background-radius:8;-fx-border-color:#d1d5db;"/>
+                        style="-fx-background-radius:6;-fx-border-color:#e2e8f0;"/>
         </VBox>
-        <VBox spacing="4" prefWidth="110">
-            <Label text="Heure fin *" style="-fx-font-size:13;-fx-font-weight:bold;-fx-text-fill:#374151;"/>
+        <VBox spacing="4" prefWidth="100">
+            <Label text="Heure fin *" style="-fx-font-size:12;-fx-font-weight:600;-fx-text-fill:#475569;"/>
             <TextField fx:id="heureFinField" promptText="11:00"
-                       style="-fx-background-radius:8;-fx-border-color:#d1d5db;-fx-border-radius:8;-fx-padding:9 12;"/>
+                       style="-fx-background-radius:6;-fx-border-color:#e2e8f0;-fx-border-radius:6;-fx-padding:8 10;"/>
+        </VBox>
+        <VBox spacing="4" alignment="BOTTOM_CENTER">
+            <Button fx:id="checkScheduleBtn" text="Verifier conflits" onAction="#checkScheduleConflicts"
+                    style="-fx-background-color:#f1f5f9;-fx-text-fill:#475569;-fx-font-weight:600;-fx-background-radius:6;-fx-padding:8 12;-fx-cursor:hand;"/>
         </VBox>
     </HBox>
 
@@ -82,17 +86,17 @@
                     style="-fx-background-color:#94a3b8;-fx-text-fill:white;-fx-font-weight:bold;-fx-background-radius:8;-fx-padding:8 14;"/>
         </VBox>
         <VBox spacing="4" HBox.hgrow="ALWAYS">
-            <Label text="Participants sélectionnés" style="-fx-font-size:13;-fx-font-weight:bold;-fx-text-fill:#374151;"/>
+            <Label text="Participants selectionnes" style="-fx-font-size:12;-fx-font-weight:600;-fx-text-fill:#475569;"/>
             <ListView fx:id="participantsSelected" prefHeight="130"
-                      style="-fx-border-color:#0FB5A9;-fx-border-radius:8;-fx-background-radius:8;"/>
+                      style="-fx-border-color:#64748b;-fx-border-radius:6;-fx-background-radius:6;"/>
         </VBox>
     </HBox>
 
     <!-- Buttons -->
     <HBox spacing="12" alignment="CENTER_RIGHT" style="-fx-padding:8 0 0 0;">
         <Button text="Annuler" onAction="#handleCancel"
-                style="-fx-background-color:#e2e8f0;-fx-text-fill:#374151;-fx-font-weight:600;-fx-background-radius:8;-fx-padding:10 20;"/>
-        <Button text="💾 Enregistrer" onAction="#handleSave"
-                style="-fx-background-color:#0FB5A9;-fx-text-fill:white;-fx-font-weight:700;-fx-background-radius:8;-fx-padding:10 20;"/>
+                style="-fx-background-color:#f1f5f9;-fx-text-fill:#475569;-fx-font-weight:600;-fx-background-radius:6;-fx-padding:10 20;"/>
+        <Button text="Enregistrer" onAction="#handleSave"
+                style="-fx-background-color:#475569;-fx-text-fill:white;-fx-font-weight:600;-fx-background-radius:6;-fx-padding:10 20;"/>
     </HBox>
 </VBox>

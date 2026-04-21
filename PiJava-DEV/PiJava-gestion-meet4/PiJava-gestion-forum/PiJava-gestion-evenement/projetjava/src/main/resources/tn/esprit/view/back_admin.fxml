@@ -101,10 +101,13 @@
                         <Button text="📹 Meet" onAction="#toggleMeetMenu" maxWidth="1.7976931348623157E308"
                                 style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #334155; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
                         <VBox fx:id="meetSubmenu" spacing="0" style="-fx-background-color: #1a202c;" visible="false" managed="false">
-                            <Button text="   Participants" maxWidth="1.7976931348623157E308"
+                            <Button text="   📊 Dashboard" maxWidth="1.7976931348623157E308"
+                                    onAction="#handleMeetDashboard"
+                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                            <Button text="   👥 Participants" maxWidth="1.7976931348623157E308"
                                     onAction="#handleParticipants"
                                     style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
-                            <Button text="   Réunions" maxWidth="1.7976931348623157E308"
+                            <Button text="   📋 Réunions" maxWidth="1.7976931348623157E308"
                                     onAction="#handleMeetList"
                                     style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
                         </VBox>

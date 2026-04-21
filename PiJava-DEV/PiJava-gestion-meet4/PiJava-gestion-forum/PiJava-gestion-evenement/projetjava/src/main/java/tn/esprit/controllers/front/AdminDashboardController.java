@@ -188,6 +188,13 @@ public class AdminDashboardController {
     }
 
     @FXML
+    public void handleMeetDashboard(ActionEvent event) {
+        navigateTo("/tn/esprit/view/back_MeetDashboard.fxml", event,
+                tn.esprit.controllers.Back.AdminMeetDashboardController.class,
+                (ctrl) -> ctrl.initAdmin(currentUser));
+    }
+
+    @FXML
     public void handleParticipants(ActionEvent event) {
         navigateTo("/tn/esprit/view/back_ParticipantList.fxml", event, BackParticipantController.class,
                 (ctrl) -> ctrl.initAdmin(currentUser));

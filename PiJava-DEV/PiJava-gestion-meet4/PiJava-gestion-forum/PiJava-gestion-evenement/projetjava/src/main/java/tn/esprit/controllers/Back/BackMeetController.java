@@ -136,7 +136,11 @@ public class BackMeetController implements Initializable {
     }
 
     private void updateTotal() {
-        totalLabel.setText("Total : " + meetList.size() + " réunion(s)");
+        totalLabel.setText("Total : " + meetList.size() + " reunion(s)");
+    }
+
+    public void refreshTable() {
+        loadAllMeets();
     }
 
     @FXML
@@ -234,10 +238,6 @@ public class BackMeetController implements Initializable {
         showAlert(Alert.AlertType.INFORMATION, "Participants", sb.toString());
     }
 
-    public void refreshTable() {
-        loadAllMeets();
-    }
-
     private void showAlert(Alert.AlertType type, String title, String msg) {
         Alert a = new Alert(type);
         a.setTitle(title);
@@ -254,6 +254,7 @@ public class BackMeetController implements Initializable {
     @FXML public void handleCours(ActionEvent e) { navigate("/tn/esprit/view/back_CoursList.fxml", e); }
     @FXML public void handleEventsList(ActionEvent e) { navigate("/tn/esprit/view/back_Event.fxml", e); }
     @FXML public void handleParticipants(ActionEvent e) { navigate("/tn/esprit/view/back_ParticipantList.fxml", e); }
+    @FXML public void handleMeetDashboard(ActionEvent e) { navigate("/tn/esprit/view/back_MeetDashboard.fxml", e); }
     @FXML public void handleJeux(ActionEvent e) { navigate("/tn/esprit/view/back_GameList.fxml", e); }
     @FXML public void handleForums(ActionEvent e) { navigate("/tn/esprit/view/back_forums_dashboard.fxml", e); }
     @FXML public void handleLogout(ActionEvent e) { navigate("/tn/esprit/view/front_login.fxml", e); }

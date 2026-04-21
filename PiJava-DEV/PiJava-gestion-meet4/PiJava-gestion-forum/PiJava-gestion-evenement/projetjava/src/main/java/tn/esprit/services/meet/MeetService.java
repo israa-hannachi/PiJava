@@ -158,4 +158,235 @@ public class MeetService implements IMeetService {
     public List<Meet> filtrerParOrganisateur(int participantId) throws SQLException {
         return findByParticipantId(participantId);
     }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // STATISTIQUES DASHBOARD
+    // ═══════════════════════════════════════════════════════════════════════
+
+    public int countMeets() throws SQLException {
+        String req = "SELECT COUNT(*) FROM meet";
+        Statement st = cnx.createStatement();
+        ResultSet rs = st.executeQuery(req);
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+        return 0;
+    }
+
+    public int countMeetsByPeriod(Timestamp from, Timestamp to) throws SQLException {
+        String req = "SELECT COUNT(*) FROM meet WHERE date_debut >= ? AND date_debut <= ?";
+        PreparedStatement ps = cnx.prepareStatement(req);
+        ps.setTimestamp(1, from);
+        ps.setTimestamp(2, to);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+        return 0;
+    }
+
+    public int countMeetsByStatus(String status) throws SQLException {
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        String req;
+        PreparedStatement ps;
+
+        switch (status) {
+            case "upcoming":
+                req = "SELECT COUNT(*) FROM meet WHERE date_debut > ?";
+                ps = cnx.prepareStatement(req);
+                ps.setTimestamp(1, now);
+                break;
+            case "current":
+                req = "SELECT COUNT(*) FROM meet WHERE date_debut <= ? AND date_fin >= ?";
+                ps = cnx.prepareStatement(req);
+                ps.setTimestamp(1, now);
+                ps.setTimestamp(2, now);
+                break;
+            case "completed":
+                req = "SELECT COUNT(*) FROM meet WHERE date_fin < ?";
+                ps = cnx.prepareStatement(req);
+                ps.setTimestamp(1, now);
+                break;
+            default:
+                return 0;
+        }
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+        return 0;
+    }
+
+    public double getAverageDurationMinutes() throws SQLException {
+        String req = "SELECT AVG(TIMESTAMPDIFF(MINUTE, date_debut, date_fin)) FROM meet WHERE date_fin > date_debut";
+        Statement st = cnx.createStatement();
+        ResultSet rs = st.executeQuery(req);
+        if (rs.next()) {
+            return rs.getDouble(1);
+        }
+        return 0.0;
+    }
+
+    public int getTotalDurationHours() throws SQLException {
+        String req = "SELECT SUM(TIMESTAMPDIFF(MINUTE, date_debut, date_fin)) FROM meet WHERE date_fin > date_debut";
+        Statement st = cnx.createStatement();
+        ResultSet rs = st.executeQuery(req);
+        if (rs.next()) {
+            return rs.getInt(1) / 60; // Convert to hours
+        }
+        return 0;
+    }
+
+    public List<Meet> getMeetsByPeriod(Timestamp from, Timestamp to) throws SQLException {
+        List<Meet> meets = new ArrayList<>();
+        String req = "SELECT * FROM meet WHERE date_debut >= ? AND date_debut <= ? ORDER BY date_debut";
+        PreparedStatement ps = cnx.prepareStatement(req);
+        ps.setTimestamp(1, from);
+        ps.setTimestamp(2, to);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            meets.add(mapRow(rs));
+        }
+        return meets;
+    }
+
+    public int countParticipantsTotal() throws SQLException {
+        String req = "SELECT COUNT(DISTINCT participant_id) FROM meet_participants";
+        Statement st = cnx.createStatement();
+        ResultSet rs = st.executeQuery(req);
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+        return 0;
+    }
+
+    public double getAverageParticipantsPerMeet() throws SQLException {
+        String req = "SELECT AVG(cnt) FROM (SELECT meet_id, COUNT(*) as cnt FROM meet_participants GROUP BY meet_id) as avg_table";
+        Statement st = cnx.createStatement();
+        ResultSet rs = st.executeQuery(req);
+        if (rs.next()) {
+            return rs.getDouble(1);
+        }
+        return 0.0;
+    }
+
+    public Meet getNextMeet() throws SQLException {
+        String req = "SELECT * FROM meet WHERE date_debut > ? ORDER BY date_debut LIMIT 1";
+        PreparedStatement ps = cnx.prepareStatement(req);
+        ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return mapRow(rs);
+        }
+        return null;
+    }
+
+    public List<TopTeacher> getTopTeachers(int limit) throws SQLException {
+        List<TopTeacher> teachers = new ArrayList<>();
+        String req = "SELECT p.id, p.nom, p.prenom, COUNT(m.id) as meet_count " +
+                     "FROM participant p JOIN meet m ON p.id = m.participant_id " +
+                     "GROUP BY p.id, p.nom, p.prenom " +
+                     "ORDER BY meet_count DESC LIMIT ?";
+        PreparedStatement ps = cnx.prepareStatement(req);
+        ps.setInt(1, limit);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            teachers.add(new TopTeacher(
+                rs.getInt("id"),
+                rs.getString("nom") + " " + rs.getString("prenom"),
+                rs.getInt("meet_count")
+            ));
+        }
+        return teachers;
+    }
+
+    public List<DailyStat> getDailyStats(Timestamp from, Timestamp to) throws SQLException {
+        List<DailyStat> stats = new ArrayList<>();
+        String req = "SELECT DATE(date_debut) as day, COUNT(*) as count " +
+                     "FROM meet WHERE date_debut >= ? AND date_debut <= ? " +
+                     "GROUP BY DATE(date_debut) ORDER BY day";
+        PreparedStatement ps = cnx.prepareStatement(req);
+        ps.setTimestamp(1, from);
+        ps.setTimestamp(2, to);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            stats.add(new DailyStat(rs.getDate("day").toString(), rs.getInt("count")));
+        }
+        return stats;
+    }
+
+    public List<HourlyStat> getHourlyStats() throws SQLException {
+        List<HourlyStat> stats = new ArrayList<>();
+        String req = "SELECT HOUR(date_debut) as hour, COUNT(*) as count " +
+                     "FROM meet GROUP BY HOUR(date_debut) ORDER BY hour";
+        Statement st = cnx.createStatement();
+        ResultSet rs = st.executeQuery(req);
+        while (rs.next()) {
+            stats.add(new HourlyStat(rs.getInt("hour"), rs.getInt("count")));
+        }
+        return stats;
+    }
+
+    // Classes utilitaires pour les statistiques
+    public static class TopTeacher {
+        private final int id;
+        private final String name;
+        private final int meetCount;
+
+        public TopTeacher(int id, String name, int meetCount) {
+            this.id = id;
+            this.name = name;
+            this.meetCount = meetCount;
+        }
+
+        public int getId() { return id; }
+        public String getName() { return name; }
+        public int getMeetCount() { return meetCount; }
+    }
+
+    public static class DailyStat {
+        private final String date;
+        private final int count;
+
+        public DailyStat(String date, int count) {
+            this.date = date;
+            this.count = count;
+        }
+
+        public String getDate() { return date; }
+        public int getCount() { return count; }
+    }
+
+    public static class HourlyStat {
+        private final int hour;
+        private final int count;
+
+        public HourlyStat(int hour, int count) {
+            this.hour = hour;
+            this.count = count;
+        }
+
+        public int getHour() { return hour; }
+        public int getCount() { return count; }
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // AI SCHEDULING INTEGRATION
+    // ═══════════════════════════════════════════════════════════════════════
+
+    private AISchedulingService aiSchedulingService;
+
+    /**
+     * Verifie les conflits et suggere des creneaux alternatifs
+     */
+    public AISchedulingService.SchedulingSuggestion checkConflictsAndSuggest(
+            Timestamp proposedStart, Timestamp proposedEnd,
+            List<Integer> participantIds, Integer excludeMeetId) throws SQLException {
+        if (aiSchedulingService == null) {
+            aiSchedulingService = new AISchedulingService();
+        }
+        int durationMinutes = (int)((proposedEnd.getTime() - proposedStart.getTime()) / (60 * 1000));
+        return aiSchedulingService.generateSmartSuggestion(proposedStart, proposedEnd,
+                                                            participantIds, durationMinutes, excludeMeetId);
+    }
 }

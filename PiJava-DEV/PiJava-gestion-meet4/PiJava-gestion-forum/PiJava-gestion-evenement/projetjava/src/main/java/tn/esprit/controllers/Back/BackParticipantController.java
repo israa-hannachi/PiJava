@@ -167,6 +167,7 @@ public class BackParticipantController implements Initializable {
     @FXML public void handleCours(ActionEvent e)       { navigate("/tn/esprit/view/back_CoursList.fxml", e); }
     @FXML public void handleEventsList(ActionEvent e)  { navigate("/tn/esprit/view/back_Event.fxml", e); }
     @FXML public void handleMeetList(ActionEvent e)    { navigate("/tn/esprit/view/back_MeetList.fxml", e); }
+    @FXML public void handleMeetDashboard(ActionEvent e) { navigate("/tn/esprit/view/back_MeetDashboard.fxml", e); }
     @FXML public void handleJeux(ActionEvent e)        { navigate("/tn/esprit/view/back_GameList.fxml", e); }
     @FXML public void handleForums(ActionEvent e)      { navigate("/tn/esprit/view/back_forums_dashboard.fxml", e); }
     @FXML public void handleLogout(ActionEvent e)      { navigate("/tn/esprit/view/front_login.fxml", e); }

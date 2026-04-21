@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -210,18 +211,18 @@ public class FrontMeetListController implements Initializable {
             } else {
                 // Etudiant Logic or other Teacher logic
                 if (isJoined) {
-                    Label joinedLbl = new Label("✓ Inscrit");
-                    joinedLbl.setStyle("-fx-text-fill:#0FB5A9; -fx-font-weight:800; -fx-background-color: rgba(15,181,169,0.1); -fx-padding: 8 16; -fx-background-radius: 12;");
+                    Label joinedLbl = new Label("Inscrit");
+                    joinedLbl.setStyle("-fx-text-fill:#475569; -fx-font-weight:600; -fx-background-color: #f1f5f9; -fx-padding: 6 12; -fx-background-radius: 4;");
 
-                    Button linkBtn = new Button("📹 Rejoindre");
-                    linkBtn.setStyle("-fx-background-color:#0FB5A9; -fx-text-fill:white; -fx-background-radius:12; -fx-padding:8 16; -fx-font-weight:800; -fx-cursor:hand; -fx-effect: dropshadow(gaussian, rgba(15,181,169,0.3), 10, 0, 0, 4);");
+                    Button linkBtn = new Button("Rejoindre");
+                    linkBtn.setStyle("-fx-background-color:#475569; -fx-text-fill:white; -fx-background-radius:6; -fx-padding:6 12; -fx-font-weight:600; -fx-cursor:hand;");
                     linkBtn.setOnAction(e -> openJitsiRoom(m));
                     Region spacer = new Region();
                     HBox.setHgrow(spacer, Priority.ALWAYS);
                     footer.getChildren().addAll(joinedLbl, spacer, linkBtn);
                 } else {
-                    Button joinBtn = new Button("✨ Participer");
-                    joinBtn.setStyle("-fx-background-color:#0FB5A9; -fx-text-fill:white; -fx-background-radius:12; -fx-padding:8 18; -fx-font-weight:800; -fx-cursor:hand; -fx-effect: dropshadow(gaussian, rgba(15,181,169,0.3), 10, 0, 0, 4);");
+                    Button joinBtn = new Button("Participer");
+                    joinBtn.setStyle("-fx-background-color:#475569; -fx-text-fill:white; -fx-background-radius:6; -fx-padding:6 14; -fx-font-weight:600; -fx-cursor:hand;");
                     joinBtn.setOnAction(e -> handleJoinMeet(m));
                     footer.getChildren().add(joinBtn);
                 }
@@ -283,52 +284,74 @@ public class FrontMeetListController implements Initializable {
         Dialog<ButtonType> dlg = new Dialog<>();
         dlg.setTitle(mToEdit == null ? "Ajouter une Réunion" : "Modifier la Réunion");
         dlg.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        dlg.getDialogPane().setPrefWidth(640);
+        dlg.getDialogPane().setStyle("-fx-background-color:#F0FFFE; -fx-font-family:'Segoe UI';");
 
         GridPane form = new GridPane();
-        form.setHgap(12); form.setVgap(12);
-        form.setPrefWidth(500);
+        form.setHgap(12);
+        form.setVgap(10);
+        form.setPadding(new Insets(18, 18, 18, 18));
+        form.setStyle("-fx-background-color:white; -fx-background-radius:18; -fx-border-color:rgba(15,181,169,0.15); -fx-border-radius:18; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 18, 0, 0, 8);");
 
         TextField titreField = new TextField(mToEdit != null ? mToEdit.getTitre() : "");
         titreField.setPromptText("Titre de la réunion");
+        titreField.setStyle("-fx-background-color:#F8FAFC; -fx-background-radius:12; -fx-border-color:#E2E8F0; -fx-border-radius:12; -fx-padding:10 12; -fx-font-weight:700;");
 
         TextArea descField = new TextArea(mToEdit != null && mToEdit.getDescription() != null ? mToEdit.getDescription() : "");
         descField.setPromptText("Description ou ordre du jour");
         descField.setPrefRowCount(2);
+        descField.setStyle("-fx-background-color:#F8FAFC; -fx-background-radius:12; -fx-border-color:#E2E8F0; -fx-border-radius:12; -fx-padding:10 12;");
 
         // Date selection
         DatePicker datePickDebut = new DatePicker();
+        datePickDebut.setStyle("-fx-background-radius:12; -fx-border-radius:12; -fx-border-color:#E2E8F0;");
         TextField timeDebut = new TextField(mToEdit != null && mToEdit.getDateDebut() != null
             ? mToEdit.getDateDebut().toLocalDateTime().format(DateTimeFormatter.ofPattern("HH:mm")) : "10:00");
         timeDebut.setPromptText("HH:mm");
+        timeDebut.setPrefWidth(90);
+        timeDebut.setStyle("-fx-background-color:#F8FAFC; -fx-background-radius:12; -fx-border-color:#E2E8F0; -fx-border-radius:12; -fx-padding:10 12; -fx-font-weight:700;");
         if(mToEdit != null && mToEdit.getDateDebut() != null) datePickDebut.setValue(mToEdit.getDateDebut().toLocalDateTime().toLocalDate());
 
         DatePicker datePickFin = new DatePicker();
+        datePickFin.setStyle("-fx-background-radius:12; -fx-border-radius:12; -fx-border-color:#E2E8F0;");
         TextField timeFin = new TextField(mToEdit != null && mToEdit.getDateFin() != null
             ? mToEdit.getDateFin().toLocalDateTime().format(DateTimeFormatter.ofPattern("HH:mm")) : "11:00");
         timeFin.setPromptText("HH:mm");
+        timeFin.setPrefWidth(90);
+        timeFin.setStyle("-fx-background-color:#F8FAFC; -fx-background-radius:12; -fx-border-color:#E2E8F0; -fx-border-radius:12; -fx-padding:10 12; -fx-font-weight:700;");
         if(mToEdit != null && mToEdit.getDateFin() != null) datePickFin.setValue(mToEdit.getDateFin().toLocalDateTime().toLocalDate());
 
         HBox debBox = new HBox(8, datePickDebut, timeDebut);
         HBox finBox = new HBox(8, datePickFin, timeFin);
 
         TextField lienField = new TextField(mToEdit != null && mToEdit.getLienMeet() != null ? mToEdit.getLienMeet() : "");
-        lienField.setPromptText("URL : Meet.google.com/xyz");
+        lienField.setPromptText("Lien (optionnel)");
+        lienField.setStyle("-fx-background-color:#F8FAFC; -fx-background-radius:12; -fx-border-color:#E2E8F0; -fx-border-radius:12; -fx-padding:10 12;");
 
-        Label titreErr = new Label(); titreErr.setStyle("-fx-text-fill:#dc2626; -fx-font-size:11;");
-        Label dateErr = new Label(); dateErr.setStyle("-fx-text-fill:#dc2626; -fx-font-size:11;");
+        Label titreErr = new Label(); titreErr.setStyle("-fx-text-fill:#dc2626; -fx-font-size:11; -fx-font-weight:700;");
+        Label dateErr = new Label(); dateErr.setStyle("-fx-text-fill:#dc2626; -fx-font-size:11; -fx-font-weight:700;");
 
         ScrollPane sp = new ScrollPane();
         VBox participantBox = new VBox(5);
         sp.setContent(participantBox);
         sp.setPrefViewportHeight(100);
-        sp.setStyle("-fx-background-color: transparent;");
+        sp.setFitToWidth(true);
+        sp.setStyle("-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;");
 
         List<participant> allParticipants = participantController.recupererParticipants();
         Map<CheckBox, participant> cbMap = new HashMap<>();
 
         for(participant p : allParticipants) {
             if(currentParticipant == null || p.getId() != currentParticipant.getId()) {
-                CheckBox cb = new CheckBox(p.getNom() + " " + p.getPrenom() + " (" + p.getEmail() + ")");
+                String displayName = ((p.getNom() == null ? "" : p.getNom().trim()) + " " + (p.getPrenom() == null ? "" : p.getPrenom().trim())).trim();
+                if (displayName.isEmpty()) {
+                    displayName = p.getEmail() != null ? p.getEmail().trim() : ("Participant #" + p.getId());
+                }
+                String displayEmail = p.getEmail() != null && !p.getEmail().trim().isEmpty() ? p.getEmail().trim() : "";
+                CheckBox cb = new CheckBox(displayEmail.isEmpty() ? displayName : (displayName + " (" + displayEmail + ")"));
+                cb.setWrapText(true);
+                cb.setMaxWidth(Double.MAX_VALUE);
+                cb.setStyle("-fx-text-fill:#334155; -fx-font-weight:700;");
                 cbMap.put(cb, p);
                 participantBox.getChildren().add(cb);
 
@@ -344,14 +367,32 @@ public class FrontMeetListController implements Initializable {
         form.add(new Label("Date Début *"), 0, 3); form.add(debBox, 1, 3);
         form.add(new Label("Date Fin *"), 0, 4); form.add(finBox, 1, 4);
         form.add(dateErr, 1, 5);
-        form.add(new Label("Lien *"), 0, 6); form.add(lienField, 1, 6);
+        form.add(new Label("Lien"), 0, 6); form.add(lienField, 1, 6);
         form.add(new Label("Participants"), 0, 7); form.add(sp, 1, 7);
 
-        dlg.getDialogPane().setContent(form);
+        GridPane.setHgrow(titreField, Priority.ALWAYS);
+        GridPane.setHgrow(descField, Priority.ALWAYS);
+        GridPane.setHgrow(lienField, Priority.ALWAYS);
+
+        VBox header = new VBox(6);
+        header.setPadding(new Insets(18, 18, 14, 18));
+        header.setStyle("-fx-background-color:linear-gradient(to right, #0FB5A9, #04B6D5); -fx-background-radius:18 18 0 0;");
+        Label hTitle = new Label(mToEdit == null ? "✨ Nouvelle Réunion" : "✏️ Modifier la Réunion");
+        hTitle.setStyle("-fx-font-size:18px; -fx-font-weight:900; -fx-text-fill:white;");
+        Label hSub = new Label("Planifiez une session et invitez vos participants");
+        hSub.setStyle("-fx-font-size:12px; -fx-text-fill:rgba(255,255,255,0.9); -fx-font-weight:600;");
+        header.getChildren().addAll(hTitle, hSub);
+
+        VBox content = new VBox(12, header, form);
+        content.setPadding(new Insets(0, 0, 0, 0));
+        dlg.getDialogPane().setContent(content);
 
         // Validation - Contrôle de Saisie
         Button okButton = (Button) dlg.getDialogPane().lookupButton(ButtonType.OK);
         okButton.setText("Enregistrer");
+        okButton.setStyle("-fx-background-color:#0FB5A9; -fx-text-fill:white; -fx-font-weight:900; -fx-background-radius:12; -fx-padding:10 20; -fx-cursor:hand; -fx-effect: dropshadow(gaussian, rgba(15,181,169,0.25), 12, 0, 0, 6);");
+        Button cancelButton = (Button) dlg.getDialogPane().lookupButton(ButtonType.CANCEL);
+        cancelButton.setStyle("-fx-background-color:white; -fx-text-fill:#64748b; -fx-font-weight:800; -fx-background-radius:12; -fx-padding:10 20; -fx-border-color:#E2E8F0; -fx-border-radius:12; -fx-cursor:hand;");
         okButton.addEventFilter(javafx.event.ActionEvent.ACTION, e -> {
             boolean valid = true;
             titreErr.setText("");
@@ -370,22 +411,20 @@ public class FrontMeetListController implements Initializable {
                 valid = false;
             } else {
                 try {
-                    String[] td = timeDebut.getText().split(":");
-                    String[] tf = timeFin.getText().split(":");
+                    String tdRaw = timeDebut.getText() == null ? "" : timeDebut.getText().trim();
+                    String tfRaw = timeFin.getText() == null ? "" : timeFin.getText().trim();
+                    String[] td = tdRaw.split(":");
+                    String[] tf = tfRaw.split(":");
                     LocalDateTime dtD = datePickDebut.getValue().atTime(Integer.parseInt(td[0]), Integer.parseInt(td[1]));
                     LocalDateTime dtF = datePickFin.getValue().atTime(Integer.parseInt(tf[0]), Integer.parseInt(tf[1]));
                     if (!dtD.isBefore(dtF)) {
-                        dateErr.setText("⚠️ Date de fin doit être après.");
+                        dateErr.setText("⚠️ La date/heure de fin doit être après la date/heure de début.");
                         valid = false;
                     }
                 } catch(Exception ex) {
-                    dateErr.setText("⚠️ Format heure (HH:mm).");
+                    dateErr.setText("⚠️ Format heure invalide (HH:mm attendu). Exemple: 09:30");
                     valid = false;
                 }
-            }
-            if(lienField.getText().trim().isEmpty()) {
-                new Alert(Alert.AlertType.WARNING, "Mettez un lien !").show();
-                valid = false;
             }
 
             if (!valid) e.consume();
@@ -393,8 +432,8 @@ public class FrontMeetListController implements Initializable {
 
         dlg.showAndWait().ifPresent(res -> {
             if (res == ButtonType.OK) {
-                String[] td = timeDebut.getText().split(":");
-                String[] tf = timeFin.getText().split(":");
+                String[] td = timeDebut.getText().trim().split(":");
+                String[] tf = timeFin.getText().trim().split(":");
                 LocalDateTime dtD = datePickDebut.getValue().atTime(Integer.parseInt(td[0]), Integer.parseInt(td[1]));
                 LocalDateTime dtF = datePickFin.getValue().atTime(Integer.parseInt(tf[0]), Integer.parseInt(tf[1]));
 
@@ -409,7 +448,9 @@ public class FrontMeetListController implements Initializable {
                 }
 
                 if (mToEdit == null) {
-                    Meet nM = new Meet(titreField.getText(), descField.getText(), tsD, tsF, lienField.getText(), currentParticipant.getId());
+                    String lien = lienField.getText() == null ? "" : lienField.getText().trim();
+                    if (!lien.isEmpty() && !lien.startsWith("http")) lien = "https://" + lien;
+                    Meet nM = new Meet(titreField.getText(), descField.getText(), tsD, tsF, lien.isEmpty() ? null : lien, currentParticipant.getId());
                     meetController.ajouterMeet(nM);
 
                     for (participant p : selectedParticipants) {
@@ -422,7 +463,9 @@ public class FrontMeetListController implements Initializable {
                     mToEdit.setDescription(descField.getText());
                     mToEdit.setDateDebut(tsD);
                     mToEdit.setDateFin(tsF);
-                    mToEdit.setLienMeet(lienField.getText());
+                    String lien = lienField.getText() == null ? "" : lienField.getText().trim();
+                    if (!lien.isEmpty() && !lien.startsWith("http")) lien = "https://" + lien;
+                    mToEdit.setLienMeet(lien.isEmpty() ? null : lien);
                     meetController.modifierMeet(mToEdit);
 
                     List<Meet_Participants> existing = mpController.getParticipantsDuMeet(mToEdit.getId());
