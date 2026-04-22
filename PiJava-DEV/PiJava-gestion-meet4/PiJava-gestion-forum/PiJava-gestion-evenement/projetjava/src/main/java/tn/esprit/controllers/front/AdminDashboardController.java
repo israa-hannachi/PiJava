@@ -29,7 +29,6 @@ public class AdminDashboardController {
     @FXML private VBox forumSubmenu;
     @FXML private VBox eventsSubmenu;
     @FXML private VBox meetSubmenu;
-    @FXML private VBox mailingSubmenu;
 
     @FXML private Label adminNameLabel;
     @FXML private Label totalUsersLabel;
@@ -58,7 +57,6 @@ public class AdminDashboardController {
     @FXML public void toggleForumMenu(ActionEvent event)   { toggleMenu(forumSubmenu); }
     @FXML public void toggleEventsMenu(ActionEvent event)  { toggleMenu(eventsSubmenu); }
     @FXML public void toggleMeetMenu(ActionEvent event)    { toggleMenu(meetSubmenu); }
-    @FXML public void toggleMailingMenu(ActionEvent event) { toggleMenu(mailingSubmenu); }
 
     private void toggleMenu(VBox submenu) {
         boolean showing = submenu.isVisible();
@@ -197,6 +195,13 @@ public class AdminDashboardController {
     @FXML
     public void handleParticipants(ActionEvent event) {
         navigateTo("/tn/esprit/view/back_ParticipantList.fxml", event, BackParticipantController.class,
+                (ctrl) -> ctrl.initAdmin(currentUser));
+    }
+
+    @FXML
+    public void handleSentEmails(ActionEvent event) {
+        // Navigate to sent emails view - using meet list as placeholder until dedicated view is created
+        navigateTo("/tn/esprit/view/back_MeetList.fxml", event, BackMeetController.class,
                 (ctrl) -> ctrl.initAdmin(currentUser));
     }
 

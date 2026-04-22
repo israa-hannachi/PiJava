@@ -20,7 +20,7 @@ import tn.esprit.entities.users.Users;
 import tn.esprit.services.meet.MeetService;
 import tn.esprit.services.mail.EmailService;
 import tn.esprit.services.mail.SmtpConfig;
-import tn.esprit.views.JitsiMeetRoom;
+
 import jakarta.mail.MessagingException;
 
 import java.io.IOException;
@@ -209,20 +209,21 @@ public class FrontMeetListController implements Initializable {
                 footer.getChildren().addAll(linkBtn, spacer, editBtn, delBtn);
 
             } else {
-                // Etudiant Logic or other Teacher logic
+                // Etudiant Logic or other Teacher logic (Uniformized colors with Prof mode)
                 if (isJoined) {
                     Label joinedLbl = new Label("Inscrit");
-                    joinedLbl.setStyle("-fx-text-fill:#475569; -fx-font-weight:600; -fx-background-color: #f1f5f9; -fx-padding: 6 12; -fx-background-radius: 4;");
+                    joinedLbl.setStyle("-fx-text-fill:#0FB5A9; -fx-font-weight:800; -fx-background-color: rgba(15,181,169,0.1); -fx-padding: 8 16; -fx-background-radius: 12;");
 
-                    Button linkBtn = new Button("Rejoindre");
-                    linkBtn.setStyle("-fx-background-color:#475569; -fx-text-fill:white; -fx-background-radius:6; -fx-padding:6 12; -fx-font-weight:600; -fx-cursor:hand;");
+                    Button linkBtn = new Button("📹 Rejoindre");
+                    linkBtn.setStyle("-fx-background-color:#0FB5A9; -fx-text-fill:white; -fx-background-radius:12; -fx-padding:8 18; -fx-font-weight:800; -fx-cursor:hand; -fx-effect: dropshadow(gaussian, rgba(15,181,169,0.3), 10, 0, 0, 4);");
                     linkBtn.setOnAction(e -> openJitsiRoom(m));
+                    
                     Region spacer = new Region();
                     HBox.setHgrow(spacer, Priority.ALWAYS);
                     footer.getChildren().addAll(joinedLbl, spacer, linkBtn);
                 } else {
-                    Button joinBtn = new Button("Participer");
-                    joinBtn.setStyle("-fx-background-color:#475569; -fx-text-fill:white; -fx-background-radius:6; -fx-padding:6 14; -fx-font-weight:600; -fx-cursor:hand;");
+                    Button joinBtn = new Button("✨ Participer");
+                    joinBtn.setStyle("-fx-background-color:#0FB5A9; -fx-text-fill:white; -fx-background-radius:12; -fx-padding:8 18; -fx-font-weight:800; -fx-cursor:hand; -fx-effect: dropshadow(gaussian, rgba(15,181,169,0.3), 10, 0, 0, 4);");
                     joinBtn.setOnAction(e -> handleJoinMeet(m));
                     footer.getChildren().add(joinBtn);
                 }
@@ -254,8 +255,32 @@ public class FrontMeetListController implements Initializable {
     }
 
     private void openJitsiRoom(Meet meet) {
-        JitsiMeetRoom room = new JitsiMeetRoom(meet);
-        room.show();
+        // Vérifier que la réunion a commencé
+        java.sql.Timestamp now = java.sql.Timestamp.valueOf(LocalDateTime.now());
+        if (meet.getDateDebut() != null && meet.getDateDebut().after(now)) {
+            new Alert(Alert.AlertType.WARNING, "Cette réunion n'a pas encore commencé.\n\nDébut prévu : " + meet.getDateDebut()).show();
+            return;
+        }
+        // Vérifier que la réunion n'est pas terminée
+        if (meet.getDateFin() != null && meet.getDateFin().before(now)) {
+            new Alert(Alert.AlertType.WARNING, "Cette réunion est terminée.\n\nFin : " + meet.getDateFin()).show();
+            return;
+        }
+
+        // Naviguer vers la page Meet Room intégrée
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/view/front_MeetRoom.fxml"));
+            Parent root = loader.load();
+            FrontMeetRoomController ctrl = loader.getController();
+            ctrl.initData(currentUser, meet, currentParticipant);
+
+            Stage stage = (Stage) meetContainer.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Impossible d'ouvrir la salle : " + e.getMessage()).show();
+        }
     }
 
     // ─── CRUD (PROF ONLY) ────────────────────────────────────────────────────────
@@ -369,6 +394,41 @@ public class FrontMeetListController implements Initializable {
         form.add(dateErr, 1, 5);
         form.add(new Label("Lien"), 0, 6); form.add(lienField, 1, 6);
         form.add(new Label("Participants"), 0, 7); form.add(sp, 1, 7);
+
+        // --- AI SCHEDULING BUTTON ---
+        Button checkScheduleBtn = new Button("🔍 Vérifier Disponibilité");
+        checkScheduleBtn.setStyle("-fx-background-color:white; -fx-text-fill:#0FB5A9; -fx-font-weight:800; -fx-background-radius:12; -fx-padding:8 16; -fx-border-color:#0FB5A9; -fx-border-radius:12; -fx-cursor:hand;");
+        form.add(checkScheduleBtn, 1, 8);
+
+        checkScheduleBtn.setOnAction(ev -> {
+            try {
+                String tdRaw = timeDebut.getText() == null ? "" : timeDebut.getText().trim();
+                String tfRaw = timeFin.getText() == null ? "" : timeFin.getText().trim();
+                String[] td = tdRaw.split(":");
+                String[] tf = tfRaw.split(":");
+                LocalDateTime dtD = datePickDebut.getValue().atTime(Integer.parseInt(td[0]), Integer.parseInt(td[1]));
+                LocalDateTime dtF = datePickFin.getValue().atTime(Integer.parseInt(tf[0]), Integer.parseInt(tf[1]));
+
+                List<Integer> selectedIds = new ArrayList<>();
+                cbMap.forEach((cb, p) -> { if(cb.isSelected()) selectedIds.add(p.getId()); });
+                if(currentParticipant != null) selectedIds.add(currentParticipant.getId());
+
+                if(selectedIds.isEmpty()) {
+                    new Alert(Alert.AlertType.WARNING, "Veuillez sélectionner au moins un participant.").show();
+                    return;
+                }
+
+                tn.esprit.services.meet.AISchedulingService.SchedulingSuggestion suggestion = meetService.checkConflictsAndSuggest(
+                    java.sql.Timestamp.valueOf(dtD), java.sql.Timestamp.valueOf(dtF),
+                    selectedIds, mToEdit != null ? mToEdit.getId() : null
+                );
+
+                showSchedulingDialog(suggestion, datePickDebut, timeDebut, datePickFin, timeFin);
+
+            } catch(Exception ex) {
+                new Alert(Alert.AlertType.ERROR, "Erreur de vérification : Vérifiez le format de l'heure (HH:mm)").show();
+            }
+        });
 
         GridPane.setHgrow(titreField, Priority.ALWAYS);
         GridPane.setHgrow(descField, Priority.ALWAYS);
@@ -587,5 +647,69 @@ public class FrontMeetListController implements Initializable {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) { e.printStackTrace(); }
+    }
+    private void showSchedulingDialog(tn.esprit.services.meet.AISchedulingService.SchedulingSuggestion suggestion, DatePicker dpD, TextField tD, DatePicker dpF, TextField tF) {
+        if (!suggestion.hasConflicts()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Planification");
+            alert.setHeaderText("✨ Créneau Optimal !");
+            alert.setContentText("Aucun conflit détecté pour ce créneau.\n\n" + suggestion.getReasoning());
+            alert.showAndWait();
+            return;
+        }
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Planification Intelligente");
+        alert.setHeaderText(suggestion.getConflicts().size() + " conflit(s) détecté(s)");
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== CONFLITS ===\n\n");
+        java.util.Map<Integer, List<tn.esprit.services.meet.AISchedulingService.ConflictInfo>> byMeet = new java.util.HashMap<>();
+        for (tn.esprit.services.meet.AISchedulingService.ConflictInfo c : suggestion.getConflicts()) {
+            byMeet.computeIfAbsent(c.getMeetId(), k -> new ArrayList<>()).add(c);
+        }
+
+        for (List<tn.esprit.services.meet.AISchedulingService.ConflictInfo> conflicts : byMeet.values()) {
+            tn.esprit.services.meet.AISchedulingService.ConflictInfo first = conflicts.get(0);
+            sb.append("\"").append(first.getMeetTitle()).append("\"\n");
+            sb.append("  📅 Date: ").append(first.getMeetStart().toString().substring(0, 16)).append("\n");
+            sb.append("  ❌ Participants en conflit:\n");
+            for (tn.esprit.services.meet.AISchedulingService.ConflictInfo c : conflicts) {
+                sb.append("    - ").append(c.getParticipantName()).append("\n");
+            }
+            sb.append("\n");
+        }
+
+        if (suggestion.hasAlternatives()) {
+            sb.append("=== SUGGESTIONS ===\n\n");
+            for (int i = 0; i < Math.min(3, suggestion.getAlternatives().size()); i++) {
+                tn.esprit.services.meet.AISchedulingService.TimeSlot slot = suggestion.getAlternatives().get(i);
+                sb.append((i+1)).append(". ").append(slot.formatRange()).append("\n");
+                sb.append("   💡 ").append(slot.getExplanation()).append("\n\n");
+            }
+        }
+
+        sb.append("=== ANALYSE ===\n").append(suggestion.getReasoning());
+        alert.getDialogPane().setPrefWidth(500);
+        alert.setContentText(sb.toString());
+
+        if (suggestion.hasAlternatives()) {
+            ButtonType btnApply = new ButtonType("Appliquer suggestion", ButtonBar.ButtonData.APPLY);
+            ButtonType btnClose = new ButtonType("Fermer", ButtonBar.ButtonData.CANCEL_CLOSE);
+            alert.getButtonTypes().setAll(btnApply, btnClose);
+
+            Optional<ButtonType> res = alert.showAndWait();
+            if (res.isPresent() && res.get() == btnApply) {
+                tn.esprit.services.meet.AISchedulingService.TimeSlot best = suggestion.getBestAlternative();
+                LocalDateTime start = best.getStart().toLocalDateTime();
+                LocalDateTime end = best.getEnd().toLocalDateTime();
+                dpD.setValue(start.toLocalDate());
+                tD.setText(String.format("%02d:%02d", start.getHour(), start.getMinute()));
+                dpF.setValue(end.toLocalDate());
+                tF.setText(String.format("%02d:%02d", end.getHour(), end.getMinute()));
+            }
+        } else {
+            alert.showAndWait();
+        }
     }
 }

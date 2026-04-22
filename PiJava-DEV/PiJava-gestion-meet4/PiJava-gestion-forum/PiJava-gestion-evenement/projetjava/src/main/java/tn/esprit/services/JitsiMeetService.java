@@ -4,11 +4,11 @@ import tn.esprit.entities.meet.Meet;
 
 public class JitsiMeetService {
 
-    private static final String DEFAULT_JITSI_DOMAIN = "meet.jit.si";
+    private static final String DEFAULT_JITSI_DOMAIN = "8x8.vc"; // Plus stable et moderne que meet.jit.si
     private String jitsiDomain;
 
     public JitsiMeetService() {
-        this.jitsiDomain = DEFAULT_JITSI_DOMAIN;
+        this.jitsiDomain = "jitsi.belnet.be"; // Serveur éducatif sans restrictions de login
     }
 
     public JitsiMeetService(String jitsiDomain) {

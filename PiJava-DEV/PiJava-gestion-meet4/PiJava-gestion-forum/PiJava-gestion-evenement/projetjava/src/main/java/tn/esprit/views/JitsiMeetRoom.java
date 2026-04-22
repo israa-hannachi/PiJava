@@ -19,6 +19,7 @@ import tn.esprit.services.meet.MeetParticipantsService;
 import tn.esprit.services.meet.ParticipantService;
 
 import java.awt.Desktop;
+import java.io.File;
 import java.net.URI;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -80,11 +81,11 @@ public class JitsiMeetRoom {
         alert.setTitle("Rejoindre la réunion");
         alert.setHeaderText(meet.getTitre());
         alert.setContentText("Bienvenue " + authorizedParticipant.getPrenom() + " " + authorizedParticipant.getNom() + " !\n\n" +
-                "La réunion va s'ouvrir dans votre navigateur par défaut.\n\n" +
+                "La réunion va s'ouvrir dans une fenêtre dédiée.\n\n" +
                 "Room: " + roomName + "\n" +
                 "URL: " + roomUrl);
 
-        ButtonType openBtn = new ButtonType("Ouvrir dans le navigateur");
+        ButtonType openBtn = new ButtonType("Rejoindre le Meet");
         ButtonType copyBtn = new ButtonType("Copier le lien");
         ButtonType cancelBtn = new ButtonType("Annuler", ButtonType.CANCEL.getButtonData());
 
@@ -92,7 +93,7 @@ public class JitsiMeetRoom {
 
         alert.showAndWait().ifPresent(result -> {
             if (result == openBtn) {
-                openInBrowser(roomUrl);
+                openAsApp(roomUrl);
             } else if (result == copyBtn) {
                 copyRoomLink(roomUrl);
             }
@@ -363,15 +364,51 @@ public class JitsiMeetRoom {
         alert.showAndWait();
     }
 
-    private void openInBrowser(String url) {
+    /**
+     * Ouvre Jitsi Meet en mode application (sans barre d'adresse ni onglets).
+     * Cherche Chrome puis Edge ; si aucun n'est trouvé, ouvre le navigateur par défaut.
+     */
+    private void openAsApp(String url) {
+        // Chemins classiques Chrome / Edge sur Windows
+        String[] chromePaths = {
+            System.getenv("LOCALAPPDATA") + "\\Google\\Chrome\\Application\\chrome.exe",
+            "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+            "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+        };
+        String[] edgePaths = {
+            "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+            "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe",
+            System.getenv("LOCALAPPDATA") + "\\Microsoft\\Edge\\Application\\msedge.exe"
+        };
+
         try {
+            // 1. Essayer Chrome en mode --app
+            for (String path : chromePaths) {
+                if (path != null && new File(path).exists()) {
+                    Runtime.getRuntime().exec(new String[]{path, "--app=" + url});
+                    return;
+                }
+            }
+            // 2. Essayer Edge en mode --app
+            for (String path : edgePaths) {
+                if (path != null && new File(path).exists()) {
+                    Runtime.getRuntime().exec(new String[]{path, "--app=" + url});
+                    return;
+                }
+            }
+            // 3. Fallback : navigateur par défaut
             if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
                 Desktop.getDesktop().browse(new URI(url));
             } else {
-                showError("Impossible d'ouvrir le navigateur. Veuillez copier le lien manuellement.");
+                showError("Aucun navigateur trouvé. Veuillez copier le lien manuellement.");
             }
         } catch (Exception e) {
-            showError("Erreur lors de l'ouverture du navigateur: " + e.getMessage());
+            // Fallback ultime
+            try {
+                Desktop.getDesktop().browse(new URI(url));
+            } catch (Exception ex) {
+                showError("Erreur lors de l'ouverture : " + e.getMessage());
+            }
         }
     }
 

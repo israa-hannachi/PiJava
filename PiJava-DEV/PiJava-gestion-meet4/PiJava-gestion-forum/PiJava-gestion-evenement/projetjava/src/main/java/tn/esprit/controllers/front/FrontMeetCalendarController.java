@@ -19,7 +19,7 @@ import tn.esprit.entities.meet.participant;
 import tn.esprit.entities.users.Users;
 import tn.esprit.services.mail.EmailService;
 import tn.esprit.services.mail.SmtpConfig;
-import tn.esprit.views.JitsiMeetRoom;
+
 import jakarta.mail.MessagingException;
 
 import java.io.IOException;
@@ -651,8 +651,31 @@ public class FrontMeetCalendarController implements Initializable {
     }
 
     private void openJitsiRoom(Meet meet) {
-        JitsiMeetRoom room = new JitsiMeetRoom(meet);
-        room.show();
+        // Vérifier que la réunion a commencé
+        java.sql.Timestamp now = java.sql.Timestamp.valueOf(java.time.LocalDateTime.now());
+        if (meet.getDateDebut() != null && meet.getDateDebut().after(now)) {
+            new Alert(Alert.AlertType.WARNING, "Cette réunion n'a pas encore commencé.\n\nDébut prévu : " + meet.getDateDebut()).show();
+            return;
+        }
+        // Vérifier que la réunion n'est pas terminée
+        if (meet.getDateFin() != null && meet.getDateFin().before(now)) {
+            new Alert(Alert.AlertType.WARNING, "Cette réunion est terminée.\n\nFin : " + meet.getDateFin()).show();
+            return;
+        }
+
+        // Naviguer vers la page Meet Room intégrée
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/view/front_MeetRoom.fxml"));
+            Parent root = loader.load();
+            FrontMeetRoomController ctrl = loader.getController();
+            ctrl.initData(currentUser, meet, currentParticipant);
+
+            Stage stage = (Stage) monthYearLabel.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            new Alert(Alert.AlertType.ERROR, "Impossible d'ouvrir la salle : " + e.getMessage()).show();
+        }
     }
 
     private void reload() {

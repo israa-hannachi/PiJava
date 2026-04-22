@@ -34,7 +34,6 @@ public class BackMeetController implements Initializable {
     @FXML private ComboBox<String> sortCombo;
     @FXML private ComboBox<String> filterOrganisateur;
     @FXML private TableView<Meet> meetTable;
-    @FXML private TableColumn<Meet, Integer> colId;
     @FXML private TableColumn<Meet, String> colTitre;
     @FXML private TableColumn<Meet, String> colDescription;
     @FXML private TableColumn<Meet, String> colDateDebut;
@@ -64,7 +63,6 @@ public class BackMeetController implements Initializable {
     }
 
     private void setupTable() {
-        colId.setCellValueFactory(c -> new SimpleIntegerProperty(c.getValue().getId()).asObject());
         colTitre.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getTitre()));
         colDescription.setCellValueFactory(c -> new SimpleStringProperty(
             c.getValue().getDescription() != null ? c.getValue().getDescription() : "—"));

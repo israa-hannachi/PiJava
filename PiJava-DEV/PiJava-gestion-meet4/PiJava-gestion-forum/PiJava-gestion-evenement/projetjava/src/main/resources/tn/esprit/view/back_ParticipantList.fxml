@@ -44,20 +44,29 @@
 
     <!-- TOP HEADER -->
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="12"
-              style="-fx-background-color:white;-fx-border-color:#e2e8f0;-fx-border-width:0 0 1 0;-fx-padding:12 20;">
-            <Label text="👥 Gestion des Participants" style="-fx-font-size:20;-fx-font-weight:bold;-fx-text-fill:#0f172a;"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <TextField fx:id="searchField" promptText="🔍 Rechercher..." prefWidth="200"
-                       style="-fx-background-radius:8;-fx-border-color:#e2e8f0;-fx-border-radius:8;-fx-padding:8 12;"
-                       onKeyReleased="#handleSearch"/>
-            <ComboBox fx:id="filterRoleCombo" promptText="Rôle" prefWidth="130"
-                      style="-fx-background-radius:8;" onAction="#handleFilter"/>
-            <ComboBox fx:id="sortCombo" promptText="Trier" prefWidth="130"
-                      style="-fx-background-radius:8;" onAction="#handleSort"/>
-            <Button text="➕ Ajouter" onAction="#handleAdd"
-                    style="-fx-background-color:#0FB5A9;-fx-text-fill:white;-fx-font-weight:700;-fx-background-radius:8;-fx-padding:8 16;"/>
-        </HBox>
+        <VBox spacing="0">
+            <!-- Breadcrumbs / Top Nav -->
+            <HBox alignment="CENTER_LEFT" spacing="12"
+                  style="-fx-background-color:white;-fx-border-color:#e2e8f0;-fx-border-width:0 0 1 0;-fx-padding:12 20;">
+                <HBox spacing="8" alignment="CENTER_LEFT">
+                    <Label text="🏠 Admin" style="-fx-text-fill:#64748b; -fx-font-size:13;"/>
+                    <Label text="›" style="-fx-text-fill:#94a3b8; -fx-font-size:14;"/>
+                    <Label text="📹 Meet" style="-fx-text-fill:#64748b; -fx-font-size:13;"/>
+                    <Label text="›" style="-fx-text-fill:#94a3b8; -fx-font-size:14;"/>
+                    <Label text="👥 Participants" style="-fx-text-fill:#0FB5A9; -fx-font-size:13; -fx-font-weight:bold;"/>
+                </HBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <TextField fx:id="searchField" promptText="🔍 Rechercher..." prefWidth="200"
+                           style="-fx-background-radius:8;-fx-border-color:#e2e8f0;-fx-border-radius:8;-fx-padding:8 12;"
+                           onKeyReleased="#handleSearch"/>
+                <ComboBox fx:id="filterRoleCombo" promptText="Rôle" prefWidth="130"
+                          style="-fx-background-radius:8;" onAction="#handleFilter"/>
+                <ComboBox fx:id="sortCombo" promptText="Trier" prefWidth="130"
+                          style="-fx-background-radius:8;" onAction="#handleSort"/>
+                <Button text="➕ Ajouter un Participant" onAction="#handleAdd"
+                        style="-fx-background-color:#0FB5A9;-fx-text-fill:white;-fx-font-weight:700;-fx-background-radius:8;-fx-padding:8 16;"/>
+            </HBox>
+        </VBox>
     </top>
 
     <!-- CONTENT -->
@@ -68,7 +77,7 @@
             <TableView fx:id="participantTable" VBox.vgrow="ALWAYS"
                        style="-fx-background-radius:8;-fx-border-color:#e2e8f0;-fx-border-radius:8;">
                 <columns>
-                    <TableColumn fx:id="colId"      text="ID"        prefWidth="50"/>
+
                     <TableColumn fx:id="colNom"     text="Nom"       prefWidth="150"/>
                     <TableColumn fx:id="colPrenom"  text="Prénom"    prefWidth="150"/>
                     <TableColumn fx:id="colEmail"   text="Email"     prefWidth="220"/>

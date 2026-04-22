@@ -33,8 +33,8 @@
                         <Button text="📹 Meet" onAction="#toggleMeetMenu" maxWidth="1.7976931348623157E308"
                                 style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #334155; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
                         <VBox fx:id="meetSubmenu" spacing="0" style="-fx-background-color: #1a202c;" visible="true" managed="true">
-                            <Button text="   Dashboard Meet" maxWidth="1.7976931348623157E308"
-                                    style="-fx-text-fill: #94a3b8; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent; -fx-font-weight: bold;" />
+                            <Button text="   📊 Dashboard Meet" maxWidth="1.7976931348623157E308"
+                                    style="-fx-text-fill: white; -fx-font-size: 12; -fx-padding: 10 15; -fx-background-color: #0FB5A9; -fx-font-weight: bold; -fx-background-radius: 6;" />
                             <Button text="   👥 Participants" maxWidth="1.7976931348623157E308"
                                     onAction="#handleParticipants"
                                     style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
@@ -60,10 +60,16 @@
               style="-fx-background-color: #ffffff; -fx-border-color: #e2e8f0; -fx-border-width: 0 0 1 0; -fx-padding: 15;">
             <Label text="NAJA7NI" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
             <Separator orientation="VERTICAL" />
-            <Label text="Dashboard Meet / Analytics" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #64748b;" />
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Label text="🏠 Admin" style="-fx-text-fill:#64748b; -fx-font-size:13;"/>
+                <Label text="›" style="-fx-text-fill:#94a3b8; -fx-font-size:14;"/>
+                <Label text="📹 Meet" style="-fx-text-fill:#64748b; -fx-font-size:13;"/>
+                <Label text="›" style="-fx-text-fill:#94a3b8; -fx-font-size:14;"/>
+                <Label text="📊 Analytics" style="-fx-text-fill:#0FB5A9; -fx-font-size:13; -fx-font-weight:bold;"/>
+            </HBox>
             <Region HBox.hgrow="ALWAYS" />
             <Label fx:id="adminNameLabel" text="Admin"
-                   style="-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #64748b;" />
+                   style="-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #0FB5A9;" />
         </HBox>
     </top>
 
@@ -72,19 +78,20 @@
         <ScrollPane fitToWidth="true" style="-fx-background-color: #f8fafc;">
             <VBox spacing="20" style="-fx-padding: 25; -fx-background-color: #f8fafc;">
 
-                <!-- Page Header with Title & Actions -->
-                <HBox spacing="15" alignment="CENTER_LEFT">
-                    <VBox spacing="5">
-                        <Label text="Dashboard Statistiques Meet" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
-                        <HBox spacing="10">
-                            <Label text="Admin >" style="-fx-text-fill: #64748b; -fx-font-size: 13;" />
-                            <Label text="Meet >" style="-fx-text-fill: #64748b; -fx-font-size: 13;" />
-                            <Label text="Analytics" style="-fx-text-fill: #475569; -fx-font-size: 13; -fx-font-weight: bold;" />
-                        </HBox>
+                <!-- Page Header with Quick Actions -->
+                <HBox spacing="20" alignment="CENTER_LEFT">
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Meet Intelligence Dashboard" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+                        <Label text="Suivez l'engagement et la performance de vos sessions en temps réel." style="-fx-text-fill: #64748b; -fx-font-size: 14;" />
                     </VBox>
-                    <Region HBox.hgrow="ALWAYS" />
-                    <Button fx:id="exportCsvBtn" text="Export CSV" onAction="#exportToCsv"
-                            style="-fx-background-color: #475569; -fx-text-fill: white; -fx-font-size: 13; -fx-padding: 10 20; -fx-background-radius: 6;" />
+                    <HBox spacing="10">
+                        <Button text="👥 Gérer Participants" onAction="#handleParticipants"
+                                style="-fx-background-color: white; -fx-text-fill: #475569; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 10 20; -fx-font-weight: bold; -fx-cursor: hand;"/>
+                        <Button text="📋 Gérer Réunions" onAction="#handleMeetList"
+                                style="-fx-background-color: white; -fx-text-fill: #475569; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 10 20; -fx-font-weight: bold; -fx-cursor: hand;"/>
+                        <Button fx:id="exportCsvBtn" text="📥 Export CSV" onAction="#exportToCsv"
+                                style="-fx-background-color: #0FB5A9; -fx-text-fill: white; -fx-font-size: 13; -fx-padding: 10 25; -fx-background-radius: 8; -fx-font-weight: bold; -fx-cursor: hand;" />
+                    </HBox>
                 </HBox>
 
                 <!-- Filters Card -->

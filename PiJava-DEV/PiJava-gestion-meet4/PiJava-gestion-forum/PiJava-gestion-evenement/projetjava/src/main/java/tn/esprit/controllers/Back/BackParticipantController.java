@@ -31,7 +31,6 @@ public class BackParticipantController implements Initializable {
     @FXML private ComboBox<String> filterRoleCombo;
     @FXML private ComboBox<String> sortCombo;
     @FXML private TableView<participant> participantTable;
-    @FXML private TableColumn<participant, Integer> colId;
     @FXML private TableColumn<participant, String> colNom;
     @FXML private TableColumn<participant, String> colPrenom;
     @FXML private TableColumn<participant, String> colEmail;
@@ -55,7 +54,6 @@ public class BackParticipantController implements Initializable {
     public void initAdmin(Users user) { this.currentUser = user; }
 
     private void setupTable() {
-        colId.setCellValueFactory(c -> new SimpleIntegerProperty(c.getValue().getId()).asObject());
         colNom.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getNom()));
         colPrenom.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getPrenom()));
         colEmail.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEmail()));

@@ -101,26 +101,14 @@
                         <Button text="📹 Meet" onAction="#toggleMeetMenu" maxWidth="1.7976931348623157E308"
                                 style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #334155; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
                         <VBox fx:id="meetSubmenu" spacing="0" style="-fx-background-color: #1a202c;" visible="false" managed="false">
-                            <Button text="   📊 Dashboard" maxWidth="1.7976931348623157E308"
+                            <Button text="   Dashboard" maxWidth="1.7976931348623157E308"
                                     onAction="#handleMeetDashboard"
                                     style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
-                            <Button text="   👥 Participants" maxWidth="1.7976931348623157E308"
+                            <Button text="   Participants" maxWidth="1.7976931348623157E308"
                                     onAction="#handleParticipants"
                                     style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
-                            <Button text="   📋 Réunions" maxWidth="1.7976931348623157E308"
+                            <Button text="   Reunions" maxWidth="1.7976931348623157E308"
                                     onAction="#handleMeetList"
-                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
-                        </VBox>
-                    </VBox>
-
-                    <!-- Mailing Menu -->
-                    <VBox spacing="0" style="-fx-background-radius: 8; -fx-background-color: #334155;">
-                        <Button text="📧 Mailing" onAction="#toggleMailingMenu" maxWidth="1.7976931348623157E308"
-                                style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #334155; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
-                        <VBox fx:id="mailingSubmenu" spacing="0" style="-fx-background-color: #1a202c;" visible="false" managed="false">
-                            <Button text="   Dashboard" maxWidth="1.7976931348623157E308"
-                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
-                            <Button text="   Email Templates" maxWidth="1.7976931348623157E308"
                                     style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
                         </VBox>
                     </VBox>
@@ -225,8 +213,8 @@
 
                 <!-- Welcome Banner -->
                 <VBox spacing="10" style="-fx-border-color: #0284c7; -fx-border-width: 2; -fx-background-color: #f0f9ff; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 20;">
-                    <Label text="✨ Bienvenue dans le Back Office NAJA7NI" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #0c4a6e;" />
-                    <Label text="Vous avez accès à tous les outils de gestion : Comptes, Cours, Jeux, Forums, Events, Meet et Mailing."
+                    <Label text="Bienvenue dans le Back Office NAJA7NI" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #0c4a6e;" />
+                    <Label text="Vous avez acces a tous les outils de gestion : Comptes, Cours, Jeux, Forums, Events et Meet."
                            style="-fx-font-size: 12; -fx-text-fill: #155e75; -fx-wrap-text: true;" />
                 </VBox>
 
