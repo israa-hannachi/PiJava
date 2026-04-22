@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.web.WebView?>
+<?import javafx.scene.web.HTMLEditor?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="tn.esprit.controllers.Back.BackCoursFormController"
@@ -74,11 +75,14 @@
                         </VBox>
                     </HBox>
 
-                    <!-- ── Contenu texte ─────────────────────────────────────────── -->
+                    <!-- ── Contenu texte avec TinyMCE ────────────────────────────────── -->
                     <VBox spacing="6">
-                        <Label text="Contenu (texte)" style="-fx-font-weight: bold; -fx-text-fill: #374151; -fx-font-size: 13;"/>
-                        <TextArea fx:id="contenuField" promptText="Contenu du cours en texte..." prefRowCount="5"
-                                  style="-fx-border-color: #d1d5db; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 12; -fx-font-size: 13;"/>
+                        <Label text="Contenu du cours *" style="-fx-font-weight: bold; -fx-text-fill: #374151; -fx-font-size: 13;"/>
+                        <WebView fx:id="contenuWebView" prefHeight="350"
+                                 style="-fx-border-color: #d1d5db; -fx-border-radius: 8; -fx-background-radius: 8;"/>
+                        <Label fx:id="contenuError" text="" style="-fx-text-fill: #dc2626; -fx-font-size: 11;" visible="false" managed="false"/>
+                        <Label text="Utilisez l'editeur ci-dessus pour formater le contenu du cours"
+                               style="-fx-text-fill: #64748b; -fx-font-size: 11;"/>
                     </VBox>
 
                     <!-- ── Fichier PDF ──────────────────────────────────────────── -->

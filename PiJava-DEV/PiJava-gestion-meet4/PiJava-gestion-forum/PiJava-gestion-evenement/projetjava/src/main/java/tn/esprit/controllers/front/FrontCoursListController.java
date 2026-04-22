@@ -9,6 +9,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.web.WebView;
+import javafx.scene.web.WebEngine;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import tn.esprit.controllers.cours.CoursController;
@@ -74,6 +76,11 @@ public class FrontCoursListController implements Initializable {
     private List<Cours>     allCours   = new ArrayList<>();
     private boolean         isProf     = false;
     private int             userId     = -1;
+    
+    // TinyMCE configuration
+    private static final String TINYMCE_CDN_URL =
+        "https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.3/tinymce.min.js";
+    private WebEngine dialogWebEngine = null;
 
     // ─────────────────────────────────────────────────────────────────────────────
 
@@ -461,9 +468,18 @@ public class FrontCoursListController implements Initializable {
                 ? coursToEdit.getDescription() : "");
         descField.setPromptText("Description"); descField.setPrefRowCount(2);
 
-        TextArea contenuField = new TextArea(coursToEdit != null && coursToEdit.getContenu() != null
-                ? coursToEdit.getContenu() : "");
-        contenuField.setPromptText("Contenu texte"); contenuField.setPrefRowCount(3);
+        WebView contenuWebView = new WebView();
+        contenuWebView.setPrefHeight(300);
+        String initialContent = coursToEdit != null && coursToEdit.getContenu() != null
+                ? coursToEdit.getContenu() : "";
+        
+        // Initialize TinyMCE after the dialog is shown
+        javafx.application.Platform.runLater(() -> {
+            initDialogTinyMCE(contenuWebView, initialContent);
+            if (coursToEdit != null && coursToEdit.getContenu() != null) {
+                setDialogTinyMCEContent(coursToEdit.getContenu());
+            }
+        });
 
         TextField dureeField  = new TextField(coursToEdit != null ? String.valueOf(coursToEdit.getDuree()) : "");
         dureeField.setPromptText("Durée (minutes)");
@@ -503,7 +519,7 @@ public class FrontCoursListController implements Initializable {
         form.add(new Label("Titre *"),       0, 0); form.add(titreField,  1, 0);
         form.add(titreErr,                   1, 1);
         form.add(new Label("Description"),   0, 2); form.add(descField,   1, 2);
-        form.add(new Label("Contenu"),        0, 3); form.add(contenuField,1, 3);
+        form.add(new Label("Contenu *"),     0, 3); form.add(contenuWebView, 1, 3);
         form.add(new Label("Durée (min) *"), 0, 4); form.add(dureeField,  1, 4);
         form.add(dureeErr,                   1, 5);
         form.add(new Label("Ordre"),          0, 6); form.add(ordreField,  1, 6);
@@ -531,7 +547,7 @@ public class FrontCoursListController implements Initializable {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             String titre  = titreField.getText().trim();
             String desc   = descField.getText().trim();
-            String contenu = contenuField.getText().trim();
+            String contenu = getDialogTinyMCEContent().trim();
             int duree     = Integer.parseInt(dureeField.getText().trim());
             int ordre;
             try { ordre = Integer.parseInt(ordreField.getText().trim()); } catch (NumberFormatException ex) { ordre = 1; }
@@ -967,5 +983,172 @@ public class FrontCoursListController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    
+    // ── TinyMCE Helper Methods ─────────────────────────────────────────────────────
+    private String buildTinyMCEHtml(String initialContent) {
+        return "<!DOCTYPE html>" +
+            "<html lang='fr'>" +
+            "<head>" +
+            "<meta charset='UTF-8'>" +
+            "<script src='" + TINYMCE_CDN_URL + "' referrerpolicy='origin'></script>" +
+            "<style>" +
+            "  body { font-family: Arial, sans-serif; font-size: 14px; margin: 10px; }" +
+            "  table { border-collapse: collapse; width: 100%; }" +
+            "  table, th, td { border: 1px solid #ddd; padding: 8px; }" +
+            "</style>" +
+            "</head>" +
+            "<body>" +
+            "<textarea id='tinyMCEEditor'>" + (initialContent != null ? initialContent : "") + "</textarea>" +
+            "<script>" +
+            "tinymce.init({" +
+            "  selector: '#tinyMCEEditor'," +
+            "  height: 280," +
+            "  menubar: false," +
+            "  statusbar: true," +
+            "  plugins: [" +
+            "    'advlist autolink lists link image charmap print preview anchor'," +
+            "    'searchreplace visualblocks code fullscreen'," +
+            "    'insertdatetime media table paste code help wordcount'" +
+            "  ]," +
+            "  toolbar1: 'undo redo | formatselect | bold italic underline strikethrough | " +
+            "            alignleft aligncenter alignright alignjustify | " +
+            "            bullist numlist outdent indent | " +
+            "            forecolor backcolor removeformat | " +
+            "            fontsizeselect fontselect | " +
+            "            link image media table | code fullscreen help'," +
+            "  font_formats: " +
+            "    'Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; " +
+            "    Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; " +
+            "    Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; " +
+            "    Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; " +
+            "    Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; " +
+            "    Terminal=terminal,monaco; Times New Roman=times new roman,times; " +
+            "    Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; " +
+            "    Webdings=webdings; Wingdings=wingdings,zapf dingbats'," +
+            "  fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'," +
+            "  color_cols: 8," +
+            "  color_map: [" +
+            "    '#000000', 'Black'," +
+            "    '#FF0000', 'Red'," +
+            "    '#00FF00', 'Green'," +
+            "    '#0000FF', 'Blue'," +
+            "    '#FFFF00', 'Yellow'," +
+            "    '#FF00FF', 'Magenta'," +
+            "    '#00FFFF', 'Cyan'," +
+            "    '#FFFFFF', 'White'," +
+            "    '#808080', 'Gray'," +
+            "    '#FFA500', 'Orange'," +
+            "    '#800080', 'Purple'," +
+            "    '#FFC0CB', 'Pink'," +
+            "    '#A52A2A', 'Brown'," +
+            "    '#808000', 'Olive'," +
+            "    '#008080', 'Teal'," +
+            "    '#000080', 'Navy'" +
+            "  ]," +
+            "  image_advtab: true," +
+            "  image_uploadtab: true," +
+            "  images_upload_url: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='," +
+            "  images_upload_handler: function (blobInfo, success, failure) {" +
+            "    setTimeout(function() {" +
+            "      var reader = new FileReader();" +
+            "      reader.onload = function() {" +
+            "        success(this.result);" +
+            "      };" +
+            "      reader.readAsDataURL(blobInfo.blob());" +
+            "    }, 1000);" +
+            "  }," +
+            "  content_style: 'body { font-family: Arial, sans-serif; font-size: 14px; margin: 10px; }'," +
+            "  branding: false," +
+            "  relative_urls: false," +
+            "  remove_script_host: false," +
+            "  convert_urls: false" +
+            "});" +
+            "</script>" +
+            "</body>" +
+            "</html>";
+    }
+    
+    private void initDialogTinyMCE(WebView webView, String initialContent) {
+        if (webView == null) {
+            System.err.println("WebView is null - TinyMCE cannot be initialized");
+            return;
+        }
+        dialogWebEngine = webView.getEngine();
+        dialogWebEngine.setJavaScriptEnabled(true);
+        
+        String html = buildTinyMCEHtml(initialContent);
+        dialogWebEngine.loadContent(html);
+        
+        dialogWebEngine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+            if (newState == javafx.concurrent.Worker.State.SUCCEEDED) {
+                System.out.println("Dialog TinyMCE loaded successfully");
+            } else if (newState == javafx.concurrent.Worker.State.FAILED) {
+                System.err.println("Dialog TinyMCE load failed: " + dialogWebEngine.getLoadWorker().getException());
+            }
+        });
+    }
+    
+    private String getDialogTinyMCEContent() {
+        if (dialogWebEngine == null) {
+            System.err.println("Dialog WebEngine is null - cannot get TinyMCE content");
+            return "";
+        }
+        try {
+            Object value = dialogWebEngine.executeScript(
+                "(function(){" +
+                    "try{" +
+                        "if(typeof tinymce!=='undefined'){" +
+                            "var ed = tinymce.get('tinyMCEEditor') || tinymce.activeEditor || (tinymce.editors && tinymce.editors[0] ? tinymce.editors[0] : null);" +
+                            "if(ed){ return ed.getContent(); }" +
+                        "}" +
+                    "}catch(e){}" +
+                    "var ta=document.getElementById('tinyMCEEditor');" +
+                    "return ta ? ta.value : '';" +
+                "})()"
+            );
+            return value != null ? value.toString() : "";
+        } catch (Exception e) {
+            System.err.println("getDialogTinyMCEContent error: " + e.getMessage());
+            return "";
+        }
+    }
+    
+    private void setDialogTinyMCEContent(String htmlContent) {
+        if (dialogWebEngine == null) {
+            System.err.println("Dialog WebEngine is null - cannot set TinyMCE content");
+            return;
+        }
+        
+        javafx.application.Platform.runLater(() -> {
+            try {
+                Thread.sleep(500); // Attendre l'initialisation
+                
+                String escaped = htmlContent
+                    .replace("\\", "\\\\")
+                    .replace("'", "\\'")
+                    .replace("\n", "\\n")
+                    .replace("\r", "")
+                    .replace("\"", "\\\"");
+                
+                Object checkResult = dialogWebEngine.executeScript(
+                    "typeof tinymce !== 'undefined' && tinymce.editors && tinymce.editors.length > 0"
+                );
+                
+                if (Boolean.TRUE.equals(checkResult)) {
+                    dialogWebEngine.executeScript(
+                        "tinymce.editors[0].setContent('" + escaped + "');"
+                    );
+                    System.out.println("Dialog TinyMCE content set successfully");
+                } else {
+                    dialogWebEngine.executeScript(
+                        "var textarea = document.getElementById('tinyMCEEditor'); if (textarea) { textarea.value = '" + escaped + "'; }"
+                    );
+                    System.out.println("Dialog fallback: TinyMCE textarea content set");
+                }
+            } catch (Exception e) {
+                System.err.println("setDialogTinyMCEContent error: " + e.getMessage());
+            }
+        });
     }
 }
