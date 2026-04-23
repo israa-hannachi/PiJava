@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 import tn.esprit.utils.StageUtils;
-
 public class Main {
 
     public static class MainApp extends Application {
@@ -18,7 +17,7 @@ public class Main {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/view/front_login.fxml"));
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
-                
+
                 primaryStage.setTitle("Naja7ni - Apprentissage & Gaming");
                 primaryStage.setScene(scene);
                 StageUtils.applyUniformSize(primaryStage);

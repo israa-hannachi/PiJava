@@ -10,11 +10,15 @@ import javafx.scene.layout.*;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import tn.esprit.controllers.cours.CoursController;
 import tn.esprit.entities.cours.Cours;
 import tn.esprit.entities.cours.Cours_Categorie;
 import tn.esprit.entities.cours.Cours_Module;
 import tn.esprit.entities.users.Users;
 import tn.esprit.services.cours.FavorisCours;
+import tn.esprit.services.cours.GeminiService;
 
 import java.io.IOException;
 import java.net.URL;
@@ -52,6 +56,10 @@ public class FrontCoursParcoursController implements Initializable {
     @FXML private VBox     courseNavContainer;  // mini-sommaire lateral
     @FXML private ScrollPane navScrollPane;
 
+    @FXML private Button   aiSummaryBtn;
+    @FXML private VBox     aiSummarySection;
+    @FXML private Label    aiSummaryLabel;
+
     // ── État ─────────────────────────────────────────────────────────────────────
     private Users           currentUser;
     private Cours_Categorie currentCategorie;
@@ -61,6 +69,8 @@ public class FrontCoursParcoursController implements Initializable {
     private int             userId       = -1;
 
     private final FavorisCours favoris = FavorisCours.getInstance();
+    private final GeminiService geminiService = GeminiService.getInstance();
+    private final CoursController coursController = new CoursController();
 
     // ─────────────────────────────────────────────────────────────────────────────
 
@@ -111,7 +121,7 @@ public class FrontCoursParcoursController implements Initializable {
 
         // Description
         descriptionLabel.setText(c.getDescription() != null && !c.getDescription().isEmpty()
-                ? c.getDescription() : "");
+            ? c.getDescription() : "");
 
         // Barre de progression
         double progress = coursList.isEmpty() ? 0 : (double)(index + 1) / coursList.size();
@@ -122,17 +132,17 @@ public class FrontCoursParcoursController implements Initializable {
         WebEngine engine = contenuWebView.getEngine();
         if (c.getContenu() != null && !c.getContenu().isEmpty()) {
             String html = "<html><head><style>" +
-                    "body { font-family: 'Segoe UI', sans-serif; font-size:14px; " +
-                    "color:#1f2937; background:#fff; padding:16px; line-height:1.6; }" +
-                    "h1,h2,h3 { color:#0FB5A9; }" +
-                    "table { border-collapse:collapse; width:100%; }" +
-                    "td,th { border:1px solid #e2e8f0; padding:8px; }" +
-                    "img { max-width:100%; border-radius:8px; }" +
-                    "</style></head><body>" + c.getContenu() + "</body></html>";
+                "body { font-family: 'Segoe UI', sans-serif; font-size:14px; " +
+                "color:#1f2937; background:#fff; padding:16px; line-height:1.6; }" +
+                "h1,h2,h3 { color:#0FB5A9; }" +
+                "table { border-collapse:collapse; width:100%; }" +
+                "td,th { border:1px solid #e2e8f0; padding:8px; }" +
+                "img { max-width:100%; border-radius:8px; }" +
+                "</style></head><body>" + c.getContenu() + "</body></html>";
             engine.loadContent(html);
         } else {
             engine.loadContent("<html><body style='color:#94a3b8; font-family:Segoe UI; padding:20px;'>" +
-                    "<p>Aucun contenu texte pour ce cours.</p></body></html>");
+                "<p>Aucun contenu texte pour ce cours.</p></body></html>");
         }
 
         // Section PDF
@@ -143,17 +153,28 @@ public class FrontCoursParcoursController implements Initializable {
         if (hasPdf) {
             // Afficher l'URL ou le nom du fichier
             String displayPath = fichier.startsWith("https://res.cloudinary.com")
-                    ? "☁️ Fichier Cloudinary" : "📄 " + new java.io.File(fichier).getName();
+                ? "☁️ Fichier Cloudinary" : "📄 " + new java.io.File(fichier).getName();
             pdfUrlLabel.setText(displayPath);
+        }
+
+        // Reset AI summary view
+        aiSummarySection.setVisible(false);
+        aiSummarySection.setManaged(false);
+        aiSummaryBtn.setDisable(false);
+        aiSummaryBtn.setText("✨ Résumé IA");
+
+        // Si le résumé existe déjà, on peut l'indiquer (ou l'afficher directement)
+        if (c.getResumeAi() != null && !c.getResumeAi().isEmpty()) {
+            aiSummaryBtn.setText("✨ Voir le Résumé IA");
         }
 
         // Bouton favori
         boolean isFav = favoris.estFavori(userId, c.getId());
         favBtn.setText(isFav ? "⭐ En favori" : "☆ Ajouter aux favoris");
         favBtn.setStyle("-fx-background-color:" + (isFav ? "#fef9c3" : "white") +
-                "; -fx-text-fill:" + (isFav ? "#92400e" : "#64748b") +
-                "; -fx-border-color:#e2e8f0; -fx-border-radius:8; -fx-background-radius:8; " +
-                "-fx-padding:7 16; -fx-cursor:hand;");
+            "; -fx-text-fill:" + (isFav ? "#92400e" : "#64748b") +
+            "; -fx-border-color:#e2e8f0; -fx-border-radius:8; -fx-background-radius:8; " +
+            "-fx-padding:7 16; -fx-cursor:hand;");
 
         // Navigation Prev/Next
         prevBtn.setDisable(index == 0);
@@ -202,9 +223,9 @@ public class FrontCoursParcoursController implements Initializable {
         boolean nowFav = favoris.toggle(userId, c);
         favBtn.setText(nowFav ? "⭐ En favori" : "☆ Ajouter aux favoris");
         favBtn.setStyle("-fx-background-color:" + (nowFav ? "#fef9c3" : "white") +
-                "; -fx-text-fill:" + (nowFav ? "#92400e" : "#64748b") +
-                "; -fx-border-color:#e2e8f0; -fx-border-radius:8; -fx-background-radius:8; " +
-                "-fx-padding:7 16; -fx-cursor:hand;");
+            "; -fx-text-fill:" + (nowFav ? "#92400e" : "#64748b") +
+            "; -fx-border-color:#e2e8f0; -fx-border-radius:8; -fx-background-radius:8; " +
+            "-fx-padding:7 16; -fx-cursor:hand;");
     }
 
     // ── Voir PDF ──────────────────────────────────────────────────────────────────
@@ -224,14 +245,76 @@ public class FrontCoursParcoursController implements Initializable {
             e.printStackTrace(); }
     }
 
+    // ── Résumé IA ─────────────────────────────────────────────────────────────────
+    @FXML
+    public void handleAiSummary(ActionEvent event) {
+        Cours c = coursList.get(currentIndex);
+
+        // Si le résumé existe déjà, on l'affiche simplement
+        if (c.getResumeAi() != null && !c.getResumeAi().isEmpty()) {
+            aiSummaryLabel.setText(c.getResumeAi());
+            aiSummarySection.setVisible(true);
+            aiSummarySection.setManaged(true);
+            return;
+        }
+
+        // Sinon, on le génère
+        String contenu = c.getContenu();
+        String pdf = c.getFichierContenu();
+        
+        if ((contenu == null || contenu.trim().isEmpty()) && (pdf == null || pdf.trim().isEmpty())) {
+            new Alert(Alert.AlertType.WARNING, "Ce cours n'a aucun contenu (ni texte, ni PDF) à résumer.").showAndWait();
+            return;
+        }
+
+        aiSummaryBtn.setDisable(true);
+        aiSummaryBtn.setText("⌛ Analyse en cours...");
+
+        Task<String> task = new Task<>() {
+            @Override
+            protected String call() {
+                return geminiService.generateSummary(contenu, c.getFichierContenu());
+            }
+        };
+
+        task.setOnSucceeded(e -> {
+            String result = task.getValue();
+            c.setResumeAi(result);
+            aiSummaryLabel.setText(result);
+            aiSummarySection.setVisible(true);
+            aiSummarySection.setManaged(true);
+            aiSummaryBtn.setDisable(false);
+            aiSummaryBtn.setText("✨ Voir le Résumé IA");
+
+            // Sauvegarder en base de données pour les autres
+            new Thread(() -> {
+                coursController.modifierCours(c);
+            }).start();
+        });
+
+        task.setOnFailed(e -> {
+            new Alert(Alert.AlertType.ERROR, "Erreur lors de la génération du résumé.").showAndWait();
+            aiSummaryBtn.setDisable(false);
+            aiSummaryBtn.setText("✨ Résumé IA");
+        });
+
+        new Thread(task).start();
+    }
+
+    @FXML
+    public void handleCloseSummary() {
+        aiSummarySection.setVisible(false);
+        aiSummarySection.setManaged(false);
+    }
+
     // ── Fin du parcours ──────────────────────────────────────────────────────────
     private void showEndDialog() {
         Alert dlg = new Alert(Alert.AlertType.INFORMATION);
         dlg.setTitle("🎉 Parcours terminé !");
         dlg.setHeaderText("Félicitations !");
         dlg.setContentText("Vous avez terminé tous les cours du module \"" +
-                currentModule.getTitre() + "\".\n" +
-                "Total : " + coursList.size() + " cours parcourus.");
+            currentModule.getTitre() + "\".\n" +
+            "Total : " + coursList.size() + " cours parcourus.");
         dlg.showAndWait();
         retourListe();
     }
@@ -252,7 +335,7 @@ public class FrontCoursParcoursController implements Initializable {
             Label num = new Label(String.valueOf(i + 1));
             num.setMinWidth(22);
             num.setStyle("-fx-background-color:#e2e8f0; -fx-background-radius:99; " +
-                    "-fx-text-fill:#475569; -fx-font-size:11; -fx-font-weight:700; -fx-padding:2 6;");
+                "-fx-text-fill:#475569; -fx-font-size:11; -fx-font-weight:700; -fx-padding:2 6;");
 
             Label titre = new Label(truncate(c.getTitre(), 26));
             titre.setStyle("-fx-text-fill:#475569; -fx-font-size:12;");
@@ -264,13 +347,13 @@ public class FrontCoursParcoursController implements Initializable {
                 displayCours(currentIndex);
             });
             item.setOnMouseEntered(e ->
-                    item.setStyle("-fx-padding:8 12; -fx-cursor:hand; " +
-                            "-fx-background-radius:8; -fx-background-color:#f0fffe;"));
+                item.setStyle("-fx-padding:8 12; -fx-cursor:hand; " +
+                    "-fx-background-radius:8; -fx-background-color:#f0fffe;"));
             item.setOnMouseExited(e -> {
                 boolean current = (idx == currentIndex);
                 item.setStyle("-fx-padding:8 12; -fx-cursor:hand; " +
-                        "-fx-background-radius:8;" +
-                        (current ? "-fx-background-color:#e0fefe;" : ""));
+                    "-fx-background-radius:8;" +
+                    (current ? "-fx-background-color:#e0fefe;" : ""));
             });
 
             courseNavContainer.getChildren().add(item);
@@ -283,20 +366,20 @@ public class FrontCoursParcoursController implements Initializable {
             HBox item = (HBox) courseNavContainer.getChildren().get(i);
             if (i == activeIndex) {
                 item.setStyle("-fx-padding:8 12; -fx-cursor:hand; " +
-                        "-fx-background-radius:8; -fx-background-color:#e0fefe; " +
-                        "-fx-border-color:#0FB5A9; -fx-border-width:0 0 0 3; -fx-border-radius:0;");
+                    "-fx-background-radius:8; -fx-background-color:#e0fefe; " +
+                    "-fx-border-color:#0FB5A9; -fx-border-width:0 0 0 3; -fx-border-radius:0;");
                 // Numéro en surbrillance
                 if (!item.getChildren().isEmpty()) {
                     Label num = (Label) item.getChildren().get(0);
                     num.setStyle("-fx-background-color:#0FB5A9; -fx-background-radius:99; " +
-                            "-fx-text-fill:white; -fx-font-size:11; -fx-font-weight:700; -fx-padding:2 6;");
+                        "-fx-text-fill:white; -fx-font-size:11; -fx-font-weight:700; -fx-padding:2 6;");
                 }
             } else {
                 item.setStyle("-fx-padding:8 12; -fx-cursor:hand; -fx-background-radius:8;");
                 if (!item.getChildren().isEmpty()) {
                     Label num = (Label) item.getChildren().get(0);
                     num.setStyle("-fx-background-color:#e2e8f0; -fx-background-radius:99; " +
-                            "-fx-text-fill:#475569; -fx-font-size:11; -fx-font-weight:700; -fx-padding:2 6;");
+                        "-fx-text-fill:#475569; -fx-font-size:11; -fx-font-weight:700; -fx-padding:2 6;");
                 }
             }
         }
@@ -309,7 +392,7 @@ public class FrontCoursParcoursController implements Initializable {
     private void retourListe() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/tn/esprit/view/front_CoursList.fxml"));
+                getClass().getResource("/tn/esprit/view/front_CoursList.fxml"));
             Parent root = loader.load();
             FrontCoursListController ctrl = loader.getController();
             ctrl.initData(currentUser, currentCategorie, currentModule);
@@ -324,7 +407,7 @@ public class FrontCoursParcoursController implements Initializable {
     public void handleCoursCategories() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/tn/esprit/view/front_CoursCategories.fxml"));
+                getClass().getResource("/tn/esprit/view/front_CoursCategories.fxml"));
             Parent root = loader.load();
             ((FrontCoursCategorieController) loader.getController()).initUser(currentUser);
             Stage stage = (Stage) titreCoursLabel.getScene().getWindow();
@@ -337,7 +420,7 @@ public class FrontCoursParcoursController implements Initializable {
     @FXML public void handleHome() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/tn/esprit/view/front_user_dashboard.fxml"));
+                getClass().getResource("/tn/esprit/view/front_user_dashboard.fxml"));
             Parent root = loader.load();
             ((FrontUserDashboardController) loader.getController()).initUser(currentUser);
             Stage stage = (Stage) titreCoursLabel.getScene().getWindow();

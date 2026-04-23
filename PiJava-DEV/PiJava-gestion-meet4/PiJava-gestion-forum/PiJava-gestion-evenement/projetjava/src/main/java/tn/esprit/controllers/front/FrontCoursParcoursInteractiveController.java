@@ -42,11 +42,11 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
     @FXML private ScrollPane modulesScrollPane;
     @FXML private VBox roadmapContainer;
     @FXML private ScrollPane roadmapScrollPane;
-    
+
     // Avatar et profil
     @FXML private Circle userAvatar;
     @FXML private Label userInitial;
-    
+
     // Anciens composants (conservés pour compatibilité)
     @FXML private Label moduleLabel;
     @FXML private Label moduleTitleLabel;
@@ -128,10 +128,10 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
 
             // Create draggable course card
             VBox courseCard = createRoadmapCourseCard(cours, index);
-            
+
             // Setup drag and drop
             setupDragAndDrop(courseCard, index);
-            
+
             roadmapContainer.getChildren().add(courseCard);
         }
     }
@@ -140,8 +140,8 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
         VBox card = new VBox(12);
         card.setPrefWidth(200);
         card.setStyle("-fx-background-color:white; -fx-background-radius:12; -fx-padding:16; " +
-                "-fx-border-color:#e5e7eb; -fx-border-radius:12; -fx-cursor:hand; " +
-                "-fx-effect:dropshadow(three-pass-box,rgba(0,0,0,0.06),6,0,0,2);");
+            "-fx-border-color:#e5e7eb; -fx-border-radius:12; -fx-cursor:hand; " +
+            "-fx-effect:dropshadow(three-pass-box,rgba(0,0,0,0.06),6,0,0,2);");
 
         // Header with order number
         HBox header = new HBox(8);
@@ -149,7 +149,7 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
 
         Label orderLabel = new Label(String.valueOf(index + 1));
         orderLabel.setStyle("-fx-background-color:#0FB5A9; -fx-text-fill:white; " +
-                "-fx-background-radius:99; -fx-font-weight:700; -fx-font-size:12; -fx-padding:4 8;");
+            "-fx-background-radius:99; -fx-font-weight:700; -fx-font-size:12; -fx-padding:4 8;");
         orderLabel.setMinWidth(30);
         orderLabel.setAlignment(javafx.geometry.Pos.CENTER);
 
@@ -172,20 +172,20 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
         // Status indicator
         boolean isCompleted = index < currentIndex;
         boolean isCurrent = index == currentIndex;
-        
+
         Label statusLabel = new Label();
         if (isCompleted) {
             statusLabel.setText("Completed");
             statusLabel.setStyle("-fx-background-color:#dcfce7; -fx-text-fill:#166534; " +
-                    "-fx-background-radius:6; -fx-padding:2 8; -fx-font-size:11; -fx-font-weight:700;");
+                "-fx-background-radius:6; -fx-padding:2 8; -fx-font-size:11; -fx-font-weight:700;");
         } else if (isCurrent) {
             statusLabel.setText("Current");
             statusLabel.setStyle("-fx-background-color:#fef3c7; -fx-text-fill:#92400e; " +
-                    "-fx-background-radius:6; -fx-padding:2 8; -fx-font-size:11; -fx-font-weight:700;");
+                "-fx-background-radius:6; -fx-padding:2 8; -fx-font-size:11; -fx-font-weight:700;");
         } else {
             statusLabel.setText("Locked");
             statusLabel.setStyle("-fx-background-color:#f3f4f6; -fx-text-fill:#6b7280; " +
-                    "-fx-background-radius:6; -fx-padding:2 8; -fx-font-size:11; -fx-font-weight:700;");
+                "-fx-background-radius:6; -fx-padding:2 8; -fx-font-size:11; -fx-font-weight:700;");
         }
 
         info.getChildren().addAll(durationLabel, spacer, statusLabel);
@@ -194,7 +194,7 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
         if (cours.getDescription() != null && !cours.getDescription().isEmpty()) {
             String desc = cours.getDescription();
             if (desc.length() > 80) desc = desc.substring(0, 77) + "...";
-            
+
             Label descLabel = new Label(desc);
             descLabel.setStyle("-fx-text-fill:#64748b; -fx-font-size:11; -fx-wrap-text:true;");
             card.getChildren().add(descLabel);
@@ -203,39 +203,39 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
         // Notes section
         VBox notesSection = new VBox(4);
         notesSection.setStyle("-fx-background-color:#f8fafc; -fx-background-radius:8; -fx-padding:8; -fx-margin-top:8;");
-        
+
         Label notesTitle = new Label("Notes:");
         notesTitle.setStyle("-fx-font-size:12; -fx-font-weight:700; -fx-text-fill:#374151;");
-        
+
         TextArea notesArea = new TextArea();
         notesArea.setPromptText("Ajoutez vos notes ici...");
         notesArea.setStyle("-fx-background-color:white; -fx-border-color:#e5e7eb; -fx-border-radius:4; -fx-font-size:11; -fx-wrap-text:true;");
         notesArea.setPrefRowCount(3);
         notesArea.setMaxWidth(Double.MAX_VALUE);
-        
+
         // Charger les notes existantes si disponibles
         String courseNotes = loadCourseNotes(cours.getId());
         notesArea.setText(courseNotes != null ? courseNotes : "");
-        
+
         // Sauvegarder les notes lors du changement
         notesArea.textProperty().addListener((obs, oldVal, newVal) -> {
             saveCourseNotes(cours.getId(), newVal);
         });
-        
+
         notesSection.getChildren().addAll(notesTitle, notesArea);
-        
+
         // Export PDF button for each course
         Button exportPdfBtn = new Button("Export PDF");
         exportPdfBtn.setStyle("-fx-background-color:#2563eb; -fx-text-fill:white; -fx-font-size:11; -fx-font-weight:700; -fx-background-radius:6; -fx-padding:6 12; -fx-cursor:hand;");
         exportPdfBtn.setOnAction(e -> exportCurrentCoursePdf(cours));
-        
+
         card.getChildren().addAll(header, info, notesSection, exportPdfBtn);
 
         // Highlight current course
         if (isCurrent) {
             card.setStyle("-fx-background-color:white; -fx-background-radius:12; -fx-padding:16; " +
-                    "-fx-border-color:#0FB5A9; -fx-border-width:2; -fx-border-radius:12; " +
-                    "-fx-cursor:hand; -fx-effect:dropshadow(three-pass-box,rgba(15,181,169,0.25),12,0,0,4);");
+                "-fx-border-color:#0FB5A9; -fx-border-width:2; -fx-border-radius:12; " +
+                "-fx-cursor:hand; -fx-effect:dropshadow(three-pass-box,rgba(15,181,169,0.25),12,0,0,4);");
         }
 
         // Click to navigate
@@ -321,7 +321,7 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
             } else {
                 contentTextArea.setText("No content available.");
             }
-            
+
             boolean hasPdf = cours.getFichierContenu() != null && !cours.getFichierContenu().isEmpty();
             pdfSection.setVisible(hasPdf);
             pdfSection.setManaged(hasPdf);
@@ -380,18 +380,18 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
 
     private void exportCurrentCoursePdf(Cours cours) {
         try {
-            String fileName = "cours_" + cours.getTitre().replaceAll("[^a-zA-Z0-9]", "_") + "_" + 
-                             System.currentTimeMillis() + ".pdf";
+            String fileName = "cours_" + cours.getTitre().replaceAll("[^a-zA-Z0-9]", "_") + "_" +
+                System.currentTimeMillis() + ".pdf";
             java.io.File destFile = new java.io.File(System.getProperty("user.home"), fileName);
-            
+
             exportSingleCoursePdf(destFile, cours);
-            
+
             Alert success = new Alert(Alert.AlertType.INFORMATION);
             success.setTitle("Export réussi");
             success.setHeaderText("PDF du cours généré");
             success.setContentText("Le cours \"" + cours.getTitre() + "\" a été exporté vers : " + destFile.getAbsolutePath());
             success.showAndWait();
-            
+
             try {
                 if (destFile.exists()) {
                     java.awt.Desktop.getDesktop().open(destFile);
@@ -399,7 +399,7 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
             } catch (Exception e) {
                 System.err.println("Impossible d'ouvrir le PDF : " + e.getMessage());
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Erreur lors de l'export PDF du cours : " + e.getMessage()).showAndWait();
@@ -409,80 +409,80 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
     private void exportSingleCoursePdf(java.io.File destFile, Cours cours) throws Exception {
         com.itextpdf.text.Document doc = new com.itextpdf.text.Document(com.itextpdf.text.PageSize.A4);
         com.itextpdf.text.pdf.PdfWriter writer = com.itextpdf.text.pdf.PdfWriter.getInstance(doc, new java.io.FileOutputStream(destFile));
-        
+
         writer.setPageEvent(new SimpleHeaderFooterEvent());
         doc.open();
-        
+
         com.itextpdf.text.Font titleFont = new com.itextpdf.text.Font(
-                com.itextpdf.text.Font.FontFamily.HELVETICA, 20, com.itextpdf.text.Font.BOLD, 
-                new com.itextpdf.text.BaseColor(15, 181, 169));
+            com.itextpdf.text.Font.FontFamily.HELVETICA, 20, com.itextpdf.text.Font.BOLD,
+            new com.itextpdf.text.BaseColor(15, 181, 169));
         com.itextpdf.text.Paragraph title = new com.itextpdf.text.Paragraph(cours.getTitre(), titleFont);
         title.setAlignment(com.itextpdf.text.Element.ALIGN_CENTER);
         title.setSpacingAfter(20);
         doc.add(title);
-        
+
         com.itextpdf.text.Font infoFont = new com.itextpdf.text.Font(
-                com.itextpdf.text.Font.FontFamily.HELVETICA, 12, com.itextpdf.text.Font.NORMAL);
-        
+            com.itextpdf.text.Font.FontFamily.HELVETICA, 12, com.itextpdf.text.Font.NORMAL);
+
         com.itextpdf.text.Paragraph info = new com.itextpdf.text.Paragraph();
         info.add(new com.itextpdf.text.Chunk("Module : ", new com.itextpdf.text.Font(
-                com.itextpdf.text.Font.FontFamily.HELVETICA, 12, com.itextpdf.text.Font.BOLD)));
+            com.itextpdf.text.Font.FontFamily.HELVETICA, 12, com.itextpdf.text.Font.BOLD)));
         info.add(new com.itextpdf.text.Chunk(currentModule.getTitre() + "\n", infoFont));
         info.add(new com.itextpdf.text.Chunk("Durée : ", new com.itextpdf.text.Font(
-                com.itextpdf.text.Font.FontFamily.HELVETICA, 12, com.itextpdf.text.Font.BOLD)));
+            com.itextpdf.text.Font.FontFamily.HELVETICA, 12, com.itextpdf.text.Font.BOLD)));
         info.add(new com.itextpdf.text.Chunk(cours.getDuree() + " minutes\n", infoFont));
         info.add(new com.itextpdf.text.Chunk("Ordre : ", new com.itextpdf.text.Font(
-                com.itextpdf.text.Font.FontFamily.HELVETICA, 12, com.itextpdf.text.Font.BOLD)));
+            com.itextpdf.text.Font.FontFamily.HELVETICA, 12, com.itextpdf.text.Font.BOLD)));
         info.add(new com.itextpdf.text.Chunk("#" + cours.getOrdre(), infoFont));
         info.setSpacingAfter(20);
         doc.add(info);
-        
+
         if (cours.getDescription() != null && !cours.getDescription().isEmpty()) {
             com.itextpdf.text.Font descTitleFont = new com.itextpdf.text.Font(
-                    com.itextpdf.text.Font.FontFamily.HELVETICA, 14, com.itextpdf.text.Font.BOLD);
+                com.itextpdf.text.Font.FontFamily.HELVETICA, 14, com.itextpdf.text.Font.BOLD);
             com.itextpdf.text.Paragraph descTitle = new com.itextpdf.text.Paragraph("Description", descTitleFont);
             descTitle.setSpacingAfter(10);
             doc.add(descTitle);
-            
+
             com.itextpdf.text.Font descFont = new com.itextpdf.text.Font(
-                    com.itextpdf.text.Font.FontFamily.HELVETICA, 11, com.itextpdf.text.Font.NORMAL);
+                com.itextpdf.text.Font.FontFamily.HELVETICA, 11, com.itextpdf.text.Font.NORMAL);
             com.itextpdf.text.Paragraph desc = new com.itextpdf.text.Paragraph(cours.getDescription(), descFont);
             desc.setSpacingAfter(20);
             doc.add(desc);
         }
-        
+
         if (cours.getContenu() != null && !cours.getContenu().isEmpty()) {
             com.itextpdf.text.Font contentTitleFont = new com.itextpdf.text.Font(
-                    com.itextpdf.text.Font.FontFamily.HELVETICA, 14, com.itextpdf.text.Font.BOLD);
+                com.itextpdf.text.Font.FontFamily.HELVETICA, 14, com.itextpdf.text.Font.BOLD);
             com.itextpdf.text.Paragraph contentTitle = new com.itextpdf.text.Paragraph("Contenu du cours", contentTitleFont);
             contentTitle.setSpacingAfter(10);
             doc.add(contentTitle);
-            
+
             String cleanContent = cours.getContenu().replaceAll("<[^>]+>", " ");
             com.itextpdf.text.Font contentFont = new com.itextpdf.text.Font(
-                    com.itextpdf.text.Font.FontFamily.HELVETICA, 11, com.itextpdf.text.Font.NORMAL);
+                com.itextpdf.text.Font.FontFamily.HELVETICA, 11, com.itextpdf.text.Font.NORMAL);
             com.itextpdf.text.Paragraph content = new com.itextpdf.text.Paragraph(cleanContent, contentFont);
             content.setSpacingAfter(20);
             doc.add(content);
         }
-        
+
         if (cours.getFichierContenu() != null && !cours.getFichierContenu().isEmpty()) {
             com.itextpdf.text.Font pdfTitleFont = new com.itextpdf.text.Font(
-                    com.itextpdf.text.Font.FontFamily.HELVETICA, 14, com.itextpdf.text.Font.BOLD);
+                com.itextpdf.text.Font.FontFamily.HELVETICA, 14, com.itextpdf.text.Font.BOLD);
             com.itextpdf.text.Paragraph pdfTitle = new com.itextpdf.text.Paragraph("Ressource PDF", pdfTitleFont);
             pdfTitle.setSpacingAfter(10);
             doc.add(pdfTitle);
-            
+
             com.itextpdf.text.Font pdfFont = new com.itextpdf.text.Font(
-                    com.itextpdf.text.Font.FontFamily.HELVETICA, 11, com.itextpdf.text.Font.NORMAL,
-                    new com.itextpdf.text.BaseColor(37, 99, 235));
-            String pdfInfo = cours.getFichierContenu().startsWith("http") ? 
-                    "Disponible sur Cloudinary" : "Fichier local disponible";
+                com.itextpdf.text.Font.FontFamily.HELVETICA, 11, com.itextpdf.text.Font.NORMAL,
+                new com.itextpdf.text.BaseColor(37, 99, 235));
+            String pdfInfo = cours.getFichierContenu().startsWith("http") ?
+                "Disponible sur Cloudinary" : "Fichier local disponible";
             com.itextpdf.text.Paragraph pdf = new com.itextpdf.text.Paragraph(pdfInfo, pdfFont);
             pdf.setSpacingAfter(20);
             doc.add(pdf);
         }
-        
+
         doc.close();
     }
 
@@ -555,18 +555,18 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
     private void exportCoursContentPdf(Cours cours) {
         // Implementation similar to FrontCoursListController
         try {
-            String fileName = "cours_" + cours.getTitre().replaceAll("[^a-zA-Z0-9]", "_") + "_" + 
-                             System.currentTimeMillis() + ".pdf";
+            String fileName = "cours_" + cours.getTitre().replaceAll("[^a-zA-Z0-9]", "_") + "_" +
+                System.currentTimeMillis() + ".pdf";
             java.io.File destFile = new java.io.File(System.getProperty("user.home"), fileName);
-            
+
             exportSingleCoursePdf(destFile, cours);
-            
+
             Alert success = new Alert(Alert.AlertType.INFORMATION);
             success.setTitle("Export Successful");
             success.setHeaderText("Course PDF Generated");
             success.setContentText("The course \"" + cours.getTitre() + "\" has been exported to: " + destFile.getAbsolutePath());
             success.showAndWait();
-            
+
             try {
                 if (destFile.exists()) {
                     java.awt.Desktop.getDesktop().open(destFile);
@@ -574,7 +574,7 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
             } catch (Exception e) {
                 System.err.println("Cannot open PDF: " + e.getMessage());
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Error exporting course PDF: " + e.getMessage()).showAndWait();
@@ -585,24 +585,24 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
         @Override
         public void onEndPage(com.itextpdf.text.pdf.PdfWriter writer, com.itextpdf.text.Document document) {
             com.itextpdf.text.pdf.PdfContentByte cb = writer.getDirectContent();
-            
+
             cb.setColorStroke(new com.itextpdf.text.BaseColor(226, 232, 240));
             cb.setLineWidth(0.5f);
             cb.moveTo(document.leftMargin(), document.bottomMargin() - 5);
             cb.lineTo(document.right(), document.bottomMargin() - 5);
             cb.stroke();
-            
+
             try {
                 com.itextpdf.text.pdf.BaseFont baseFont = com.itextpdf.text.pdf.BaseFont.createFont(
-                        com.itextpdf.text.pdf.BaseFont.HELVETICA, com.itextpdf.text.pdf.BaseFont.WINANSI, 
-                        com.itextpdf.text.pdf.BaseFont.EMBEDDED);
-                
+                    com.itextpdf.text.pdf.BaseFont.HELVETICA, com.itextpdf.text.pdf.BaseFont.WINANSI,
+                    com.itextpdf.text.pdf.BaseFont.EMBEDDED);
+
                 cb.beginText();
                 cb.setFontAndSize(baseFont, 8);
                 cb.showTextAligned(com.itextpdf.text.Element.ALIGN_LEFT, "Naja7ni - Course",
-                        document.leftMargin(), document.bottomMargin() - 18, 0);
+                    document.leftMargin(), document.bottomMargin() - 18, 0);
                 cb.showTextAligned(com.itextpdf.text.Element.ALIGN_RIGHT, "Page " + writer.getPageNumber(),
-                        document.right(), document.bottomMargin() - 18, 0);
+                    document.right(), document.bottomMargin() - 18, 0);
                 cb.endText();
             } catch (Exception e) {
                 // Si le BaseFont échoue, on saute le footer
@@ -615,8 +615,8 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
         Alert dlg = new Alert(Alert.AlertType.INFORMATION);
         dlg.setTitle("Learning Path Complete!");
         dlg.setHeaderText("Congratulations! ");
-        dlg.setContentText("You have completed all " + coursList.size() + " courses in the \"" + 
-                currentModule.getTitre() + "\" module.");
+        dlg.setContentText("You have completed all " + coursList.size() + " courses in the \"" +
+            currentModule.getTitre() + "\" module.");
         dlg.showAndWait();
     }
 
@@ -645,7 +645,7 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
     }
 
     // ===== NOUVELLES MÉTHODES POUR LA NOUVELLE STRUCTURE =====
-    
+
     @FXML
     private void handleSort(ActionEvent event) {
         // Implémentation du tri par date
@@ -660,7 +660,7 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
             saveParcoursState();
         }
     }
-    
+
     @FXML
     private void handleSaveParcours(ActionEvent event) {
         saveParcoursState();
@@ -672,26 +672,26 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
         alert.setContentText("Votre parcours d'apprentissage a été sauvegardé avec succès.");
         alert.showAndWait();
     }
-    
+
     // Méthode pour créer les cartes de modules
     private VBox createModuleCard(Cours_Module module) {
         VBox card = new VBox(12);
         card.setStyle("-fx-background-color:white; -fx-background-radius:12; -fx-padding:16; -fx-border-color:#e5e7eb; -fx-border-radius:12;");
         card.setPrefWidth(280);
-        
+
         // Titre du module
         Label titleLabel = new Label(module.getTitre());
         titleLabel.setStyle("-fx-font-size:16; -fx-font-weight:700; -fx-text-fill:#1f2937;");
-        
+
         // Nombre de cours
         int coursCount = this.coursList.stream().filter(c -> c.getModuleId() == module.getId()).collect(Collectors.toList()).size();
         Label countLabel = new Label(coursCount + " cours");
         countLabel.setStyle("-fx-text-fill:#64748b; -fx-font-size:14;");
-        
+
         // Bouton Voir
         Button viewBtn = new Button("Voir");
         viewBtn.setStyle("-fx-background-color:#0FB5A9; -fx-text-fill:white; -fx-font-weight:700; -fx-background-radius:6; -fx-padding:6 12;");
-        
+
         // Liste des cours dans le module
         VBox coursListBox = new VBox(8);
         coursListBox.setStyle("-fx-padding-top:8;");
@@ -714,24 +714,24 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
             setupCourseDragAndDrop(courseCard, cours.getId(), module.getId());
             coursListBox.getChildren().add(courseCard);
         }
-        
+
         card.getChildren().addAll(titleLabel, countLabel, viewBtn, coursListBox);
-        
+
         // Configuration du drag & drop
         setupModuleDragAndDrop(card, module);
-        
+
         return card;
     }
-    
+
     // Méthode pour créer les cartes de cours éditables
     private VBox createCourseCard(Cours cours) {
         VBox card = new VBox(8);
         card.setStyle("-fx-background-color:#f8fafc; -fx-background-radius:8; -fx-padding:12; -fx-border-color:#e2e8f0; -fx-border-radius:8;");
-        
+
         // Titre
         Label titleLabel = new Label(cours.getTitre());
         titleLabel.setStyle("-fx-font-size:14; -fx-font-weight:600; -fx-text-fill:#1f2937;");
-        
+
         // Statut (dropdown)
         ComboBox<String> statusCombo = new ComboBox<>();
         statusCombo.getItems().addAll("À faire", "En cours", "Terminé");
@@ -755,23 +755,23 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
             refreshRoadmap();
             saveParcoursState();
         });
-        
+
         // Objectif (input)
         TextField objectifField = new TextField();
         objectifField.setPromptText("Objectif...");
         objectifField.setStyle("-fx-background-color:white; -fx-border-color:#e2e8f0; -fx-border-radius:4; -fx-padding:6;");
-        
+
         // Notes (textarea)
         TextArea notesArea = new TextArea();
         notesArea.setPromptText("Notes...");
         notesArea.setStyle("-fx-background-color:white; -fx-border-color:#e2e8f0; -fx-border-radius:4; -fx-padding:6; -fx-font-size:12;");
         notesArea.setPrefRowCount(3);
-        
+
         card.getChildren().addAll(titleLabel, statusCombo, objectifField, notesArea);
-        
+
         return card;
     }
-    
+
     // Configuration du drag & drop pour les modules
     private void setupModuleDragAndDrop(VBox card, Cours_Module module) {
         card.setOnDragDetected(event -> {
@@ -781,18 +781,18 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
             db.setContent(content);
             event.consume();
         });
-        
+
         card.setOnDragOver(event -> {
             if (event.getGestureSource() != card && event.getDragboard().hasString()) {
                 event.acceptTransferModes(TransferMode.MOVE);
             }
             event.consume();
         });
-        
+
         card.setOnDragDropped(event -> {
             Dragboard db = event.getDragboard();
             boolean success = false;
-            
+
             if (db.hasString()) {
                 String data = db.getString();
                 if (data.startsWith("MODULE_")) {
@@ -819,30 +819,30 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
             event.setDropCompleted(success);
         });
     }
-    
+
     // Méthode pour créer les cartes de roadmap
     private VBox createRoadmapCard(Cours_Module module) {
         VBox card = new VBox(12);
         card.setStyle("-fx-background-color:white; -fx-background-radius:12; -fx-padding:16; -fx-border-color:#e5e7eb; -fx-border-radius:12;");
-        
+
         // Titre du module
         Label titleLabel = new Label(module.getTitre());
         titleLabel.setStyle("-fx-font-size:16; -fx-font-weight:700; -fx-text-fill:#1f2937;");
-        
+
         // Progression
         List<Cours> moduleCourses = getOrderedCoursesForModule(module.getId());
         long completedCount = moduleCourses.stream().filter(c -> "Terminé".equals(courseStatus.getOrDefault(c.getId(), "À faire"))).count();
-        String progressText = completedCount + "/" + moduleCourses.size() + " (" + 
-                (moduleCourses.isEmpty() ? 0 : (int)((completedCount * 100) / moduleCourses.size())) + "%)";
-        
+        String progressText = completedCount + "/" + moduleCourses.size() + " (" +
+            (moduleCourses.isEmpty() ? 0 : (int)((completedCount * 100) / moduleCourses.size())) + "%)";
+
         Label progressLabel = new Label(progressText);
         progressLabel.setStyle("-fx-text-fill:#64748b; -fx-font-size:14;");
-        
+
         // Barre de progression
         ProgressBar progressBar = new ProgressBar();
         progressBar.setProgress(moduleCourses.isEmpty() ? 0 : (double)completedCount / moduleCourses.size());
         progressBar.setStyle("-fx-accent:#0FB5A9; -fx-background-radius:99;");
-        
+
         // Liste des cours avec statut
         VBox coursListBox = new VBox(4);
         for (Cours cours : moduleCourses) {
@@ -851,12 +851,12 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
             courseLabel.setStyle("-fx-text-fill:#64748b; -fx-font-size:12;");
             coursListBox.getChildren().add(courseLabel);
         }
-        
+
         card.getChildren().addAll(titleLabel, progressLabel, progressBar, coursListBox);
-        
+
         return card;
     }
-    
+
     // Initialisation de la nouvelle structure
     private void initializeNewStructure() {
         if (modulesContainer == null || roadmapContainer == null) {
@@ -877,7 +877,7 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
                 badgesLabel.setText("0");
             }
         }
-        
+
         if (coursList == null || coursList.isEmpty()) {
             modulesContainer.getChildren().clear();
             roadmapContainer.getChildren().clear();
@@ -893,12 +893,12 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
         // Init course order per module (based on cours.ordre)
         if (courseOrderByModule.isEmpty()) {
             Map<Integer, List<Cours>> grouped = coursList.stream()
-                    .collect(Collectors.groupingBy(Cours::getModuleId));
+                .collect(Collectors.groupingBy(Cours::getModuleId));
             for (Map.Entry<Integer, List<Cours>> e : grouped.entrySet()) {
                 List<Integer> ids = e.getValue().stream()
-                        .sorted(Comparator.comparingInt(Cours::getOrdre))
-                        .map(Cours::getId)
-                        .collect(Collectors.toList());
+                    .sorted(Comparator.comparingInt(Cours::getOrdre))
+                    .map(Cours::getId)
+                    .collect(Collectors.toList());
                 courseOrderByModule.put(e.getKey(), new ArrayList<>(ids));
             }
         }
@@ -1046,9 +1046,9 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
         List<Integer> order = courseOrderByModule.get(moduleId);
         if (order == null || order.isEmpty()) {
             return coursList.stream()
-                    .filter(c -> c.getModuleId() == moduleId)
-                    .sorted(Comparator.comparingInt(Cours::getOrdre))
-                    .collect(Collectors.toList());
+                .filter(c -> c.getModuleId() == moduleId)
+                .sorted(Comparator.comparingInt(Cours::getOrdre))
+                .collect(Collectors.toList());
         }
 
         List<Cours> out = new ArrayList<>();
@@ -1059,9 +1059,9 @@ public class FrontCoursParcoursInteractiveController implements Initializable {
         // Ajouter des cours non présents dans la liste d'ordre
         Set<Integer> seen = out.stream().map(Cours::getId).collect(Collectors.toSet());
         coursList.stream()
-                .filter(c -> c.getModuleId() == moduleId && !seen.contains(c.getId()))
-                .sorted(Comparator.comparingInt(Cours::getOrdre))
-                .forEach(out::add);
+            .filter(c -> c.getModuleId() == moduleId && !seen.contains(c.getId()))
+            .sorted(Comparator.comparingInt(Cours::getOrdre))
+            .forEach(out::add);
         return out;
     }
 

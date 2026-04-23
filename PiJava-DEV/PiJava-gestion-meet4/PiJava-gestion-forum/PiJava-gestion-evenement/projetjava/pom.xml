@@ -93,11 +93,17 @@
             <version>2.15.2</version>
         </dependency>
 
-        <!-- Apache HttpClient — appels HTTP multipart vers Cloudinary (fallback) -->
         <dependency>
             <groupId>org.apache.httpcomponents.client5</groupId>
             <artifactId>httpclient5</artifactId>
             <version>5.2.1</version>
+        </dependency>
+
+        <!-- Apache PDFBox — Extraction de texte depuis PDF -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>2.0.29</version>
         </dependency>
 
         <!-- ============================================================ -->

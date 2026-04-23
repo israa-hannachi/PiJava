@@ -16,7 +16,7 @@ public class CoursService implements ICoursService {
 
     @Override
     public void ajouter(Cours c) throws SQLException {
-        String req = "INSERT INTO cours (titre, description, contenu, duree, ordre, date_creation, actif, module_id, fichier_contenu, cree_par_admin, visible) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String req = "INSERT INTO cours (titre, description, contenu, duree, ordre, date_creation, actif, module_id, fichier_contenu, cree_par_admin, visible, resume_ai) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setString(1, c.getTitre());
         ps.setString(2, c.getDescription());
@@ -29,6 +29,7 @@ public class CoursService implements ICoursService {
         ps.setString(9, c.getFichierContenu());
         ps.setInt(10, c.getCreeParAdmin());
         ps.setInt(11, c.getVisible());
+        ps.setString(12, c.getResumeAi());
         ps.executeUpdate();
     }
 
@@ -46,7 +47,7 @@ public class CoursService implements ICoursService {
 
     @Override
     public void modifier(Cours c) throws SQLException {
-        String req = "UPDATE cours SET titre=?, description=?, contenu=?, duree=?, ordre=?, actif=?, module_id=?, fichier_contenu=?, visible=? WHERE id=?";
+        String req = "UPDATE cours SET titre=?, description=?, contenu=?, duree=?, ordre=?, actif=?, module_id=?, fichier_contenu=?, visible=?, resume_ai=? WHERE id=?";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setString(1, c.getTitre());
         ps.setString(2, c.getDescription());
@@ -57,7 +58,8 @@ public class CoursService implements ICoursService {
         ps.setInt(7, c.getModuleId());
         ps.setString(8, c.getFichierContenu());
         ps.setInt(9, c.getVisible());
-        ps.setInt(10, c.getId());
+        ps.setString(10, c.getResumeAi());
+        ps.setInt(11, c.getId());
         ps.executeUpdate();
     }
 
