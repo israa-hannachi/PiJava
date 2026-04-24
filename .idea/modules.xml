@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/PiJava-DEV.iml" filepath="$PROJECT_DIR$/.idea/PiJava-DEV.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PiJava-DEV/PiJava-DEV/PiJava-gestion-meet4/PiJava-gestion-forum/PiJava-gestion-evenement/projetjava/src/main/main.iml" filepath="$PROJECT_DIR$/PiJava-DEV/PiJava-DEV/PiJava-gestion-meet4/PiJava-gestion-forum/PiJava-gestion-evenement/projetjava/src/main/main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PiJava-DEV/PiJava-DEV/PiJava-gestion-meet4/PiJava-gestion-forum/PiJava-gestion-evenement/projetjava/src/test/test.iml" filepath="$PROJECT_DIR$/PiJava-DEV/PiJava-DEV/PiJava-gestion-meet4/PiJava-gestion-forum/PiJava-gestion-evenement/projetjava/src/test/test.iml" />
+    </modules>
+  </component>
+</project>

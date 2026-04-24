@@ -1,0 +1,31 @@
+# Configuration Gemini AI
+# Remplacez cette clé par votre nouvelle clé API valide de Google AI Studio
+# Obtenez une clé gratuite sur: https://aistudio.google.com/apikey
+GEMINI_API_KEY=VOTRE_CLÉ_GEMINI_ICI
+
+# Configuration OpenAI (alternative)
+# Obtenez une clé API sur: https://platform.openai.com/api-keys
+OPENAI_API_KEY=VOTRE_CLÉ_OPENAI_ICI
+
+# Configuration Hugging Face (gratuit et illimité)
+# Optionnel: obtenez une clé sur https://huggingface.co/settings/tokens (pas obligatoire)
+HUGGINGFACE_API_KEY=
+
+# Configuration Groq (gratuit et rapide)
+# Obtenez une clé API gratuite sur: https://console.groq.com/keys
+GROQ_API_KEY=VOTRE_CLÉ_GROQ_ICI
+
+# Ordre de priorité des providers IA (séparés par des virgules)
+# Groq mis en premier (gratuit et rapide), puis Hugging Face
+AI_PROVIDERS_PRIORITY=groq,huggingface,gemini,openai
+
+# Configuration du fallback automatique
+GEMINI_ENABLE_FALLBACK=true
+GEMINI_MAX_RETRIES=2
+GEMINI_RETRY_DELAY_MS=5000
+
+# Activer/Désactiver les providers
+ENABLE_GEMINI=true
+ENABLE_OPENAI=true
+ENABLE_HUGGINGFACE=true
+ENABLE_GROQ=true

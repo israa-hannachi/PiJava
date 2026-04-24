@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.front.FrontMeetListController"
+            prefWidth="1440.0" prefHeight="980.0"
+            style="-fx-background-color:#FFFFFF; -fx-font-family:'Segoe UI';">
+
+    <!-- SIDEBAR -->
+    <left>
+        <VBox prefWidth="120.0" spacing="8.0"
+              style="-fx-background-color:#F7FFFE; -fx-border-color:rgba(15,181,169,0.10); -fx-border-width:0 1 0 0;">
+            <padding><Insets top="14.0" right="8.0" bottom="14.0" left="8.0"/></padding>
+            <ImageView fitHeight="62.0" preserveRatio="true" pickOnBounds="true">
+                <image><Image url="@/assets/images/logo.png"/></image>
+            </ImageView>
+            <Button text="🏠 Accueil" maxWidth="Infinity" onAction="#handleHome"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="👤 Profil" maxWidth="Infinity" onAction="#handleProfile"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="📚 Cours" maxWidth="Infinity" onAction="#handleCours"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="🎮 Jeux" maxWidth="Infinity" onAction="#handleJeux"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="📅 Events" maxWidth="Infinity" onAction="#handleEvents"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <!-- Active Menu Item for Meets -->
+            <Button text="📹 Meets" maxWidth="Infinity"
+                    style="-fx-background-color:rgba(15,181,169,0.14); -fx-text-fill:#0FB5A9; -fx-font-weight:700; -fx-background-radius:10;"/>
+
+            <Button text="💬 Forums" maxWidth="Infinity" onAction="#handleForums"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Region VBox.vgrow="ALWAYS"/>
+            <Button text="🚪 Logout" maxWidth="Infinity" onAction="#handleLogout"
+                    style="-fx-background-color:transparent; -fx-text-fill:#f87171; -fx-background-radius:10;"/>
+        </VBox>
+    </left>
+
+    <!-- TOP BAR -->
+    <top>
+        <HBox spacing="12.0" alignment="CENTER_LEFT"
+              style="-fx-background-color:#FFFFFF; -fx-border-color:rgba(15,181,169,0.12); -fx-border-width:0 0 1 0;">
+            <padding><Insets top="10.0" right="20.0" bottom="10.0" left="20.0"/></padding>
+            <Label text="Naja7ni Meets" style="-fx-font-size:24px; -fx-font-weight:800; -fx-text-fill:#0FB5A9;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <TextField fx:id="searchField" promptText="🔍 Rechercher une session..." prefWidth="320.0"
+                       style="-fx-background-color:#F8FAFC; -fx-background-radius:20; -fx-border-color:#E2E8F0; -fx-border-radius:20; -fx-padding:10 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.02), 5, 0, 0, 2);"
+                       onKeyReleased="#handleSearch"/>
+            <ComboBox fx:id="filterCombo" promptText="Affichage" prefWidth="130.0"
+                      style="-fx-background-radius:12; -fx-background-color: white; -fx-border-color: #E2E8F0; -fx-border-radius:12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.02), 5, 0, 0, 2);" onAction="#handleFilter"/>
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Button text="🗓️" onAction="#handleCalendar"
+                    style="-fx-background-color:white; -fx-border-color:#e2e8f0; -fx-border-radius:12; -fx-background-radius:12; -fx-padding:10 14; -fx-font-weight:900; -fx-text-fill:#334155; -fx-cursor:hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.03), 5, 0, 0, 2);"/>
+            <!-- Prof-only add button -->
+            <Button fx:id="addMeetBtn" text="✨ Nouveau Meet" onAction="#handleAddMeet"
+                    visible="false" managed="false"
+                    style="-fx-background-color: #0FB5A9; -fx-text-fill:white; -fx-font-weight:800; -fx-background-radius:12; -fx-padding:10 20; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(15,181,169,0.3), 10, 0, 0, 4);"/>
+            <Button fx:id="profileButton" text="Profile" onAction="#handleProfile"
+                    style="-fx-background-color:linear-gradient(to bottom right, #0FB5A9, #04B6D5); -fx-text-fill:white; -fx-font-weight:800; -fx-background-radius:999; -fx-padding:10 20; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(15,181,169,0.3), 10, 0, 0, 4);"/>
+        </HBox>
+    </top>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background:#F0FFFE;">
+            <VBox spacing="20.0" style="-fx-background-color:#F0FFFE;">
+                <padding><Insets top="24.0" right="28.0" bottom="24.0" left="28.0"/></padding>
+
+                <!-- Page banner -->
+                <VBox spacing="8.0"
+                      style="-fx-background-color:linear-gradient(to right, #0FB5A9, #04B6D5); -fx-background-radius:24; -fx-padding:28 40; -fx-effect: dropshadow(gaussian, rgba(15,181,169,0.25), 20, 0, 0, 10);">
+                    <HBox alignment="CENTER_LEFT" spacing="20.0">
+                        <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                            <Label text="✨ Sessions Interactives &amp; Réunions"
+                                   style="-fx-font-size:28px; -fx-font-weight:900; -fx-text-fill:white; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 4, 0, 0, 2);"/>
+                            <Label text="Rejoignez vos enseignants et collègues pour échanger en direct avec fluidité."
+                                   style="-fx-font-size:14px; -fx-text-fill:rgba(255,255,255,0.9); -fx-font-weight: 500;"/>
+                        </VBox>
+                        <!-- Prof-only role badge -->
+                        <Label fx:id="profBadge" text="👨‍🏫 Mode Enseignant"
+                               visible="false" managed="false"
+                               style="-fx-background-color:rgba(255,255,255,0.2); -fx-text-fill:white; -fx-font-weight:800; -fx-background-radius:12; -fx-padding:8 16; -fx-font-size:13; -fx-border-color: rgba(255,255,255,0.4); -fx-border-radius: 12;"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Sort bar -->
+                <HBox spacing="12.0" alignment="CENTER_LEFT" style="-fx-padding: 10 0;">
+                    <Label text="Trier par:" style="-fx-text-fill:#64748b; -fx-font-size:14; -fx-font-weight: 600;"/>
+                    <Button text="🔥 Plus récent" onAction="#sortByDateAsc"
+                            style="-fx-background-color:white; -fx-border-color:#e2e8f0; -fx-border-radius:12; -fx-background-radius:12; -fx-padding:8 18; -fx-font-size:13; -fx-font-weight:700; -fx-text-fill: #334155; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.03), 4, 0, 0, 2);"/>
+                    <Button text="⏳ Plus ancien" onAction="#sortByDateDesc"
+                            style="-fx-background-color:white; -fx-border-color:#e2e8f0; -fx-border-radius:12; -fx-background-radius:12; -fx-padding:8 18; -fx-font-size:13; -fx-font-weight:700; -fx-text-fill: #334155; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.03), 4, 0, 0, 2);"/>
+                    <Button text="🔤 Titre A→Z" onAction="#sortAZ"
+                            style="-fx-background-color:white; -fx-border-color:#e2e8f0; -fx-border-radius:12; -fx-background-radius:12; -fx-padding:8 18; -fx-font-size:13; -fx-font-weight:700; -fx-text-fill: #334155; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.03), 4, 0, 0, 2);"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="countLabel" text="0 meet(s)" style="-fx-text-fill:#0FB5A9; -fx-font-size:14; -fx-font-weight: 800; -fx-background-color: rgba(15,181,169,0.1); -fx-padding: 6 14; -fx-background-radius: 20;"/>
+                </HBox>
+
+                <!-- Container for Cards -->
+                <FlowPane fx:id="meetContainer" hgap="16.0" vgap="16.0" prefWrapLength="1200.0"/>
+
+                <!-- Empty state -->
+                <VBox fx:id="emptyState" alignment="CENTER" spacing="12.0" visible="false" managed="false"
+                      style="-fx-padding:60 0;">
+                    <Label text="📹" style="-fx-font-size:48px;"/>
+                    <Label text="Aucune session de réunion n'a été trouvée." style="-fx-font-size:18px; -fx-font-weight:700; -fx-text-fill:#64748b;"/>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>
