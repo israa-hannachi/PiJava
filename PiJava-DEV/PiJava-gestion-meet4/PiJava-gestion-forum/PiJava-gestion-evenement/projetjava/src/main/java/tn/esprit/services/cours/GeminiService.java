@@ -2,19 +2,22 @@ package tn.esprit.services.cours;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.core5.http.ContentType;
-import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.io.IOUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,8 +32,9 @@ public class GeminiService {
     private static GeminiService instance;
     private final ObjectMapper objectMapper;
 
-    private static final String API_KEY = "AIzaSyA0d-Ui9XjSruuwGeKRnexj_fA1vOindwk";
-    private static final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + API_KEY;
+    // Utilisation de la clé fournie par l'utilisateur
+    private static final String API_KEY = "AIzaSyCQIwAdfnLMP_VROWtNhPUoumgMsfvI5Wo";
+    private static final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + API_KEY;
 
     private GeminiService() {
         this.objectMapper = new ObjectMapper();
@@ -46,63 +50,70 @@ public class GeminiService {
     /**
      * Génère un résumé en combinant le contenu HTML et le contenu du fichier PDF si présent.
      */
-    public String generateSummary(String htmlContent, String pdfPathOrUrl) {
-        StringBuilder combinedContent = new StringBuilder();
+    public String generateSummary(String htmlContent, String pdfUrl) {
+        StringBuilder combinedText = new StringBuilder();
 
-        // 1. Ajouter le contenu texte (HTML)
+        // 1. Nettoyer et ajouter le contenu HTML
         if (htmlContent != null && !htmlContent.trim().isEmpty()) {
-            String cleanText = htmlContent.replaceAll("<[^>]*>", " ").replaceAll("\\s+", " ").trim();
-            combinedContent.append("CONTENU TEXTUEL DU COURS :\n").append(cleanText).append("\n\n");
-        }
-
-        // 2. Extraire et ajouter le contenu du PDF
-        if (pdfPathOrUrl != null && !pdfPathOrUrl.trim().isEmpty()) {
-            String pdfText = extractTextFromPdf(pdfPathOrUrl);
-            if (pdfText != null && !pdfText.isEmpty()) {
-                combinedContent.append("CONTENU DU FICHIER PDF ASSOCIÉ :\n").append(pdfText).append("\n\n");
+            String plainText = htmlContent.replaceAll("<[^>]*>", " ").trim();
+            if (!plainText.isEmpty()) {
+                combinedText.append("CONTENU TEXTUEL DU COURS :\n").append(plainText).append("\n\n");
             }
         }
 
-        if (combinedContent.length() == 0) {
-            return "Aucun contenu (texte ou PDF) trouvé pour générer un résumé.";
+        // 2. Extraire et ajouter le contenu PDF
+        if (pdfUrl != null && !pdfUrl.trim().isEmpty()) {
+            try {
+                System.out.println("🚀 [INFO] Tentative d'extraction PDF depuis : " + pdfUrl);
+                String pdfText = extractTextFromPdf(pdfUrl);
+                if (pdfText != null && !pdfText.trim().isEmpty()) {
+                    combinedText.append("CONTENU DU FICHIER PDF ASSOCIÉ :\n").append(pdfText);
+                }
+            } catch (Exception e) {
+                System.err.println("❌ [ERREUR] Extraction PDF échouée : " + e.getMessage());
+            }
         }
 
-        String prompt = "Tu es un assistant pédagogique expert. " +
-                "Voici les différentes sources de contenu d'un cours (texte et/ou PDF). " +
-                "Peux-tu en faire un résumé GLOBAL, structuré et cohérent ? " +
-                "Synthétise les informations importantes de toutes les sources fournies.\n\n" +
-                combinedContent.toString();
+        String finalPromptContent = combinedText.toString().trim();
+        if (finalPromptContent.isEmpty()) {
+            return "Aucun contenu (texte ou PDF) trouvé pour générer un résumé. Veuillez remplir le contenu du cours ou ajouter un fichier PDF.";
+        }
 
-        return callGeminiApi(prompt);
+        String fullPrompt = "Tu es un assistant pédagogique expert. " +
+                "Voici les sources de contenu d'un cours. " +
+                "Peux-tu en faire un résumé structuré, clair et pédagogique ?\n\n" +
+                finalPromptContent;
+
+        System.out.println("📤 [INFO] Envoi de la requête à Gemini (" + finalPromptContent.length() + " caractères)");
+        return callGeminiApi(fullPrompt);
     }
 
     /**
-     * Extrait le texte d'un PDF, qu'il soit local ou distant (Cloudinary).
+     * Extrait le texte d'un PDF depuis une URL (Cloudinary) ou un chemin local.
      */
-    private String extractTextFromPdf(String pathOrUrl) {
-        try {
-            if (pathOrUrl.startsWith("http")) {
-                // Cas URL (Cloudinary)
-                try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-                    HttpGet httpGet = new HttpGet(pathOrUrl);
-                    try (CloseableHttpResponse response = httpClient.execute(httpGet)) {
-                        try (InputStream is = response.getEntity().getContent();
-                             PDDocument document = PDDocument.load(is)) {
-                            return new PDFTextStripper().getText(document);
-                        }
-                    }
-                }
-            } else {
-                // Cas Fichier Local
-                File file = new File(pathOrUrl);
-                if (file.exists()) {
-                    try (PDDocument document = PDDocument.load(file)) {
-                        return new PDFTextStripper().getText(document);
-                    }
+    private String extractTextFromPdf(String pathOrUrl) throws IOException {
+        if (pathOrUrl.startsWith("http")) {
+            // Cas URL Distante (Cloudinary)
+            URL url = new URL(pathOrUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+            connection.setConnectTimeout(15000);
+            connection.setReadTimeout(15000);
+
+            try (InputStream is = connection.getInputStream();
+                 PDDocument document = Loader.loadPDF(IOUtils.toByteArray(is))) {
+                return new PDFTextStripper().getText(document);
+            } finally {
+                connection.disconnect();
+            }
+        } else {
+            // Cas Fichier Local
+            File file = new File(pathOrUrl);
+            if (file.exists()) {
+                try (PDDocument document = Loader.loadPDF(file)) {
+                    return new PDFTextStripper().getText(document);
                 }
             }
-        } catch (Exception e) {
-            System.err.println("Erreur lors de l'extraction PDF (" + pathOrUrl + ") : " + e.getMessage());
         }
         return null;
     }
@@ -135,14 +146,13 @@ public class GeminiService {
                 }
 
                 if (rootNode.has("error")) {
-                    return "Erreur API Gemini (URL: " + API_URL + ") : " + rootNode.get("error").get("message").asText();
+                    return "Erreur API Gemini : " + rootNode.get("error").get("message").asText();
                 }
 
-                return "Réponse inattendue de l'IA (URL: " + API_URL + ") : " + responseBody;
+                return "Réponse inattendue de l'IA : " + responseBody;
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            return "Erreur lors de la communication avec l'IA : " + e.getMessage();
+            return "Erreur de communication avec l'IA : " + e.getMessage();
         }
     }
 }

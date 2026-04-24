@@ -1,6 +1,7 @@
 package tn.esprit.controllers.front;
 
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -285,6 +286,12 @@ public class FrontCoursListController implements Initializable {
                 "-fx-background-radius:6; -fx-padding:2 8; -fx-font-size:11;");
             badges.getChildren().add(visBadge);
         }
+        if (c.getResumeAi() != null && !c.getResumeAi().isEmpty()) {
+            Label aiBadge = new Label("✨ Résumé IA");
+            aiBadge.setStyle("-fx-background-color:#f5f3ff; -fx-text-fill:#7c3aed; " +
+                "-fx-background-radius:6; -fx-padding:2 8; -fx-font-size:11; -fx-font-weight:bold;");
+            badges.getChildren().add(aiBadge);
+        }
 
         // ── Footer actions ───────────────────────────────────────────────────────
         HBox footer = new HBox(6);
@@ -305,6 +312,14 @@ public class FrontCoursListController implements Initializable {
                 "-fx-background-radius:8; -fx-padding:5 12; -fx-font-size:12; -fx-cursor:hand;");
             viewContentBtn.setOnAction(e -> showContent(c));
             footer.getChildren().add(viewContentBtn);
+
+            if (c.getResumeAi() != null && !c.getResumeAi().isEmpty()) {
+                Button viewAiBtn = new Button("✨ Résumé");
+                viewAiBtn.setStyle("-fx-background-color:#f5f3ff; -fx-text-fill:#7c3aed; " +
+                    "-fx-background-radius:8; -fx-padding:5 12; -fx-font-size:12; -fx-cursor:hand; -fx-font-weight:bold;");
+                viewAiBtn.setOnAction(e -> showContent(c)); // Cela ouvrira le dialogue qui affiche le résumé
+                footer.getChildren().add(viewAiBtn);
+            }
 
             // Bouton d'export PDF individuel
             Button exportContentBtn = new Button("Export PDF");
@@ -429,56 +444,68 @@ public class FrontCoursListController implements Initializable {
         Dialog<Void> dlg = new Dialog<>();
         dlg.setTitle("Lecture : " + c.getTitre());
         dlg.getDialogPane().getButtonTypes().add(ButtonType.CLOSE);
-        dlg.getDialogPane().setPrefWidth(600);
-        dlg.getDialogPane().setPrefHeight(500);
+        dlg.getDialogPane().setPrefWidth(700);
+        dlg.getDialogPane().setPrefHeight(650);
+        dlg.getDialogPane().getStylesheets().add("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap");
 
-        VBox root = new VBox(15);
-        root.setPadding(new javafx.geometry.Insets(20));
+        VBox root = new VBox(20);
+        root.setPadding(new javafx.geometry.Insets(25));
+        root.setStyle("-fx-background-color: white;");
 
-        // Contenu
-        Label contentLabel = new Label("Contenu du cours");
-        contentLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14;");
+        // En-tête du dialogue
+        VBox header = new VBox(5);
+        Label title = new Label(c.getTitre());
+        title.setStyle("-fx-font-size: 22; -fx-font-weight: 800; -fx-text-fill: #1f2937;");
+        Label subtitle = new Label("Durée estimée : " + c.getDuree() + " minutes");
+        subtitle.setStyle("-fx-text-fill: #6b7280; -fx-font-size: 13;");
+        header.getChildren().addAll(title, subtitle);
+
+        // Section Contenu avec WebView pour le texte riche
+        VBox contentSection = new VBox(10);
+        Label contentTitle = new Label("📖 Contenu du cours");
+        contentTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 15; -fx-text-fill: #374151;");
         
-        String text = c.getContenu() != null ? c.getContenu().replaceAll("<[^>]+>", " ").replaceAll("\\s+", " ").trim() : "Aucun contenu.";
-        TextArea ta = new TextArea(text);
-        ta.setWrapText(true);
-        ta.setEditable(false);
-        ta.setPrefHeight(250);
-        
+        WebView wv = new WebView();
+        wv.setPrefHeight(300);
+        String html = "<html><body style='font-family:Inter, sans-serif; line-height:1.6; color:#374151;'>" + 
+                     (c.getContenu() != null ? c.getContenu() : "<p style='color:#9ca3af;'>Aucun contenu texte.</p>") + 
+                     "</body></html>";
+        wv.getEngine().loadContent(html);
+        contentSection.getChildren().addAll(contentTitle, wv);
+
         // Section Résumé IA
-        VBox summaryBox = new VBox(10);
-        summaryBox.setStyle("-fx-background-color: #f5f3ff; -fx-padding: 15; -fx-background-radius: 10; -fx-border-color: #ddd6fe; -fx-border-radius: 10;");
+        VBox summaryBox = new VBox(12);
+        summaryBox.setStyle("-fx-background-color: #f5f3ff; -fx-padding: 20; -fx-background-radius: 15; -fx-border-color: #ddd6fe; -fx-border-width: 1;");
         summaryBox.setVisible(c.getResumeAi() != null && !c.getResumeAi().isEmpty());
         summaryBox.setManaged(c.getResumeAi() != null && !c.getResumeAi().isEmpty());
 
-        Label summaryTitle = new Label("✨ Résumé IA");
-        summaryTitle.setStyle("-fx-font-weight: bold; -fx-text-fill: #7c3aed;");
+        HBox summaryHeader = new HBox(8);
+        summaryHeader.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        Label spark = new Label("✨"); spark.setStyle("-fx-font-size: 18;");
+        Label summaryTitle = new Label("Résumé Intelligent par IA");
+        summaryTitle.setStyle("-fx-font-weight: 800; -fx-text-fill: #6d28d9; -fx-font-size: 15;");
+        summaryHeader.getChildren().addAll(spark, summaryTitle);
         
         Label summaryText = new Label(c.getResumeAi());
         summaryText.setWrapText(true);
-        summaryText.setStyle("-fx-text-fill: #4c1d95;");
+        summaryText.setStyle("-fx-text-fill: #4c1d95; -fx-font-size: 13.5; -fx-line-spacing: 1.5;");
         
-        summaryBox.getChildren().addAll(summaryTitle, summaryText);
+        summaryBox.getChildren().addAll(summaryHeader, summaryText);
 
-        Button genSummaryBtn = new Button("✨ Générer Résumé IA");
-        genSummaryBtn.setStyle("-fx-background-color: #8b5cf6; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;");
+        // Bouton de génération
+        Button genSummaryBtn = new Button("✨ Générer un résumé magique");
+        genSummaryBtn.setStyle("-fx-background-color: #8b5cf6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 10 20; -fx-cursor: hand;");
         
-        // Si le résumé existe déjà, on change le texte du bouton pour "Recréer" ou on le cache
         if (c.getResumeAi() != null && !c.getResumeAi().isEmpty()) {
-            genSummaryBtn.setText("✨ Actualiser le Résumé IA");
+            genSummaryBtn.setText("🔄 Actualiser le résumé IA");
+            genSummaryBtn.setStyle("-fx-background-color: white; -fx-text-fill: #8b5cf6; -fx-border-color: #8b5cf6; -fx-border-radius: 10; -fx-font-weight: bold; -fx-padding: 10 20; -fx-cursor: hand;");
         }
 
         genSummaryBtn.setOnAction(e -> {
-            if ((c.getContenu() == null || c.getContenu().trim().isEmpty()) && 
-                (c.getFichierContenu() == null || c.getFichierContenu().trim().isEmpty())) {
-                new Alert(Alert.AlertType.WARNING, "Aucun contenu (texte ou PDF) à résumer.").showAndWait();
-                return;
-            }
-
             genSummaryBtn.setDisable(true);
-            genSummaryBtn.setText("⌛ Analyse en cours...");
+            genSummaryBtn.setText("⌛ L'IA analyse le cours...");
             
-            javafx.concurrent.Task<String> task = new javafx.concurrent.Task<>() {
+            Task<String> task = new Task<>() {
                 @Override
                 protected String call() {
                     return GeminiService.getInstance().generateSummary(c.getContenu(), c.getFichierContenu());
@@ -492,22 +519,20 @@ public class FrontCoursListController implements Initializable {
                 summaryBox.setVisible(true);
                 summaryBox.setManaged(true);
                 genSummaryBtn.setDisable(false);
-                genSummaryBtn.setText("✨ Actualiser le Résumé IA");
-                
-                // Sauvegarde asynchrone
+                genSummaryBtn.setText("🔄 Actualiser le résumé IA");
                 new Thread(() -> coursController.modifierCours(c)).start();
             });
 
             task.setOnFailed(ev -> {
                 genSummaryBtn.setDisable(false);
-                genSummaryBtn.setText("✨ Générer Résumé IA");
-                new Alert(Alert.AlertType.ERROR, "Erreur lors de la génération du résumé.").showAndWait();
+                genSummaryBtn.setText("✨ Réessayer la génération");
+                new Alert(Alert.AlertType.ERROR, "Oups ! L'IA a rencontré un problème.").showAndWait();
             });
 
             new Thread(task).start();
         });
 
-        root.getChildren().addAll(contentLabel, ta, genSummaryBtn, summaryBox);
+        root.getChildren().addAll(header, contentSection, summaryBox, genSummaryBtn);
         dlg.getDialogPane().setContent(root);
         dlg.showAndWait();
     }
