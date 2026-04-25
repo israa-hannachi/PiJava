@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.Back.BackCoursFormController"
+            style="-fx-background-color: #f8fafc;">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="12"
+              style="-fx-background-color: white; -fx-border-color: #e2e8f0; -fx-border-width: 0 0 1 0; -fx-padding: 12 20;">
+            <Button text="← Retour" onAction="#handleRetour"
+                    style="-fx-background-color: transparent; -fx-text-fill: #64748b; -fx-font-size: 13; -fx-cursor: hand;"/>
+            <Label fx:id="titleLabel" text="Ajouter un Cours"
+                   style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: #f8fafc;">
+            <VBox spacing="20" style="-fx-padding: 30; -fx-max-width: 720; -fx-alignment: TOP_CENTER;">
+                <VBox spacing="16"
+                      style="-fx-background-color: white; -fx-background-radius: 12; -fx-border-color: #e2e8f0; -fx-border-radius: 12; -fx-padding: 28; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.06), 8, 0, 0, 2);">
+
+                    <!-- ── Titre ────────────────────────────────────────────────── -->
+                    <VBox spacing="6">
+                        <Label text="Titre *" style="-fx-font-weight: bold; -fx-text-fill: #374151; -fx-font-size: 13;"/>
+                        <TextField fx:id="titreField" promptText="Titre du cours"
+                                   style="-fx-border-color: #d1d5db; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 12; -fx-font-size: 13;"/>
+                        <Label fx:id="titreError" text="" style="-fx-text-fill: #dc2626; -fx-font-size: 11;" visible="false" managed="false"/>
+                    </VBox>
+
+                    <!-- ── Description ──────────────────────────────────────────── -->
+                    <VBox spacing="6">
+                        <Label text="Description" style="-fx-font-weight: bold; -fx-text-fill: #374151; -fx-font-size: 13;"/>
+                        <TextArea fx:id="descriptionField" promptText="Description du cours" prefRowCount="3"
+                                  style="-fx-border-color: #d1d5db; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 12; -fx-font-size: 13;"/>
+                    </VBox>
+
+                    <!-- ── Durée + Ordre ─────────────────────────────────────────── -->
+                    <HBox spacing="16">
+                        <VBox spacing="6" HBox.hgrow="ALWAYS">
+                            <Label text="Durée (minutes) *" style="-fx-font-weight: bold; -fx-text-fill: #374151; -fx-font-size: 13;"/>
+                            <TextField fx:id="dureeField" promptText="ex: 45"
+                                       style="-fx-border-color: #d1d5db; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 12; -fx-font-size: 13;"/>
+                            <Label fx:id="dureeError" text="" style="-fx-text-fill: #dc2626; -fx-font-size: 11;" visible="false" managed="false"/>
+                        </VBox>
+                        <VBox spacing="6" HBox.hgrow="ALWAYS">
+                            <Label text="Ordre *" style="-fx-font-weight: bold; -fx-text-fill: #374151; -fx-font-size: 13;"/>
+                            <TextField fx:id="ordreField" promptText="ex: 1"
+                                       style="-fx-border-color: #d1d5db; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 12; -fx-font-size: 13;"/>
+                            <Label fx:id="ordreError" text="" style="-fx-text-fill: #dc2626; -fx-font-size: 11;" visible="false" managed="false"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- ── Module + Statut + Visible ────────────────────────────── -->
+                    <HBox spacing="16">
+                        <VBox spacing="6" HBox.hgrow="ALWAYS">
+                            <Label text="Module *" style="-fx-font-weight: bold; -fx-text-fill: #374151; -fx-font-size: 13;"/>
+                            <ComboBox fx:id="moduleCombo" prefWidth="1e6"
+                                      style="-fx-border-color: #d1d5db; -fx-border-radius: 8; -fx-background-radius: 8;"/>
+                            <Label fx:id="moduleError" text="" style="-fx-text-fill: #dc2626; -fx-font-size: 11;" visible="false" managed="false"/>
+                        </VBox>
+                        <VBox spacing="6" HBox.hgrow="ALWAYS">
+                            <Label text="Statut" style="-fx-font-weight: bold; -fx-text-fill: #374151; -fx-font-size: 13;"/>
+                            <ComboBox fx:id="actifCombo" prefWidth="1e6"
+                                      style="-fx-border-color: #d1d5db; -fx-border-radius: 8; -fx-background-radius: 8;"/>
+                        </VBox>
+                        <VBox spacing="6" HBox.hgrow="ALWAYS">
+                            <Label text="Visible" style="-fx-font-weight: bold; -fx-text-fill: #374151; -fx-font-size: 13;"/>
+                            <ComboBox fx:id="visibleCombo" prefWidth="1e6"
+                                      style="-fx-border-color: #d1d5db; -fx-border-radius: 8; -fx-background-radius: 8;"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- ── Contenu texte riche (TinyMCE) ────────────────────────── -->
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Label text="Contenu du Cours (Éditeur Riche) *" style="-fx-font-weight: bold; -fx-text-fill: #374151; -fx-font-size: 13;"/>
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Button fx:id="generateAiBtn" text="✨ Générer Résumé IA" onAction="#handleGenerateSummary"
+                                    style="-fx-background-color: #8b5cf6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 5 15; -fx-font-size: 11; -fx-cursor: hand;"/>
+                        </HBox>
+                        <javafx.scene.web.WebView fx:id="contenuWebView" prefHeight="400"
+                                                  style="-fx-border-color: #d1d5db; -fx-border-radius: 8;"/>
+                        <Label fx:id="contenuError" text="" style="-fx-text-fill: #dc2626; -fx-font-size: 11;" visible="false" managed="false"/>
+
+
+                    <!-- ── Résumé IA ────────────────────────────────────────────── -->
+                    <VBox spacing="6">
+                        <Label text="Résumé IA" style="-fx-font-weight: bold; -fx-text-fill: #374151; -fx-font-size: 13;"/>
+                        <TextArea fx:id="resumeAiField" promptText="Le résumé généré par l'IA apparaîtra ici..."
+                                  prefRowCount="4" wrapText="true"
+                                  style="-fx-border-color: #d1d5db; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 12; -fx-font-size: 13; -fx-background-color: #f5f3ff;"/>
+                        <Label fx:id="aiStatusLabel" text="" style="-fx-text-fill: #7c3aed; -fx-font-size: 11;" visible="false" managed="false"/>
+                    </VBox>
+
+                    <!-- ── Fichier PDF ──────────────────────────────────────────── -->
+                    <VBox spacing="6"
+                          style="-fx-background-color: #f8fafc; -fx-background-radius: 10; -fx-border-color: #e2e8f0; -fx-border-radius: 10; -fx-padding: 14;">
+
+                        <Label text="📄 Fichier PDF (contenu)"
+                               style="-fx-font-weight: bold; -fx-text-fill: #374151; -fx-font-size: 13;"/>
+
+                        <!-- Sélection locale -->
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <TextField fx:id="fichierField" promptText="Aucun fichier sélectionné"
+                                       HBox.hgrow="ALWAYS" editable="false"
+                                       style="-fx-border-color: #d1d5db; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 12; -fx-font-size: 12;"/>
+                            <Button text="📂 Parcourir…" onAction="#handleChoisirPdf"
+                                    style="-fx-background-color: #e2e8f0; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 14; -fx-font-size: 12; -fx-cursor: hand;"/>
+                            <Button fx:id="voirPdfBtn" text="👁 Voir" onAction="#handleVoirPdf"
+                                    visible="false" managed="false"
+                                    style="-fx-background-color: #2563eb; -fx-text-fill: white; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 14; -fx-font-size: 12; -fx-cursor: hand;"/>
+                        </HBox>
+
+                        <!-- Upload Cloudinary -->
+                        <HBox spacing="10" alignment="CENTER_LEFT">
+                            <Button fx:id="uploadCloudBtn" text="☁️ Uploader sur Cloudinary"
+                                    onAction="#handleUploadCloud"
+                                    visible="false" managed="false"
+                                    style="-fx-background-color: #0FB5A9; -fx-text-fill: white; -fx-font-weight: 700; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 9 18; -fx-font-size: 12; -fx-cursor: hand;"/>
+                            <Label text="Recommandé pour accès multi-appareils"
+                                   style="-fx-text-fill: #64748b; -fx-font-size: 11;"/>
+                        </HBox>
+
+                        <!-- Barre progression upload -->
+                        <VBox fx:id="uploadProgressBox" spacing="6" visible="false" managed="false"
+                              style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 10; -fx-border-color: #bfdbfe; -fx-border-radius: 8;">
+                            <Label fx:id="uploadStatusLabel" text="Upload en cours…"
+                                   style="-fx-text-fill: #1d4ed8; -fx-font-size: 12; -fx-font-weight: bold;"/>
+                            <ProgressBar fx:id="uploadProgressBar" prefWidth="1e6" prefHeight="10"
+                                         style="-fx-accent: #0FB5A9;"/>
+                        </VBox>
+
+                        <Label text="Formats acceptés : PDF uniquement (max 10 MB)"
+                               style="-fx-text-fill: #94a3b8; -fx-font-size: 11;"/>
+                        <Label fx:id="pdfError" text="" style="-fx-text-fill: #dc2626; -fx-font-size: 11;" visible="false" managed="false"/>
+                    </VBox>
+
+                    <!-- ── Boutons ─────────────────────────────────────────────── -->
+                    <HBox spacing="12" alignment="CENTER_RIGHT" style="-fx-padding: 10 0 0 0;">
+                        <Button text="Annuler" onAction="#handleRetour"
+                                style="-fx-background-color: white; -fx-border-color: #d1d5db; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-size: 13; -fx-cursor: hand;"/>
+                        <Button fx:id="submitBtn" text="Enregistrer" onAction="#handleSubmit"
+                                style="-fx-background-color: #0FB5A9; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 24; -fx-font-size: 13; -fx-cursor: hand;"/>
+                    </HBox>
+
+                    <Label fx:id="globalMessage" text="" wrapText="true"
+                           style="-fx-font-size: 12;" visible="false" managed="false"/>
+                </VBox>
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>
