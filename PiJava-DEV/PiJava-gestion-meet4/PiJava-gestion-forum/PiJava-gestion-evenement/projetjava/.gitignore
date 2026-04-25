@@ -1,29 +1,42 @@
+### --- JAVA & MAVEN --- ###
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+bin/
+*.class
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
 
-### Fichiers sensibles ###
+### --- FICHIERS SENSIBLES & APIs (CORRIGÉ) --- ###
+# On bloque tous les fichiers de secrets et de configuration
 .env
 .env.*
 *.env
-application-local.properties
-application-prod.properties
-application-dev.properties
-config.properties
-secrets.properties
-**/src/main/resources/config.properties
+*.properties
+*.xml
+*.json
+*.yml
+*.yaml
 
-### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositaries.xml
-.idea/compiler.xml
-.idea/libraries/
+# Exceptions : On autorise uniquement les fichiers de config indispensables au build
+!pom.xml
+!**/src/main/resources/*.properties.example
+!**/src/main/resources/log4j2.properties
+!**/src/main/resources/logback.xml
+
+### --- IDE : INTELIJ IDEA --- ###
+.idea/
 *.iws
 *.iml
 *.ipr
+out/
+!**/src/main/**/out/
 
-### Eclipse ###
+### --- IDE : ECLIPSE --- ###
 .apt_generated
 .classpath
 .factorypath
@@ -32,7 +45,7 @@ secrets.properties
 .springBeans
 .sts4-cache
 
-### NetBeans ###
+### --- IDE : NETBEANS --- ###
 /nbproject/private/
 /nbbuild/
 /dist/
@@ -42,8 +55,13 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### VS Code ###
+### --- IDE : VS CODE --- ###
 .vscode/
+*.code-workspace
 
-### Mac OS ###
+### --- OS & DIVERS --- ###
 .DS_Store
+Thumbs.db
+desktop.ini
+temp/
+tmp/
