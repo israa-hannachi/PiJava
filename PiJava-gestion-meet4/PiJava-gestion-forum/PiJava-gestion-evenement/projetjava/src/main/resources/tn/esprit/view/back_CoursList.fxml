@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.Back.BackCoursListController"
+            prefWidth="1280" prefHeight="820" minWidth="1180" minHeight="760"
+            stylesheets="@cours-ui.css"
+            styleClass="cours-root">
+
+    <!-- SIDEBAR -->
+    <left>
+        <VBox prefWidth="230" styleClass="admin-sidebar">
+            <Label text="NAJA7NI ADMIN"
+                   styleClass="admin-brand"/>
+            <Label text="Navigation"
+                   styleClass="admin-kicker"/>
+            <Button text="🏠 Dashboard" maxWidth="Infinity" onAction="#handleDashboard"
+                    styleClass="admin-nav-btn"/>
+            <Button text="📚 Cours" maxWidth="Infinity"
+                    styleClass="admin-nav-group"/>
+            <Button text="   📂 Catégories" maxWidth="Infinity" onAction="#handleCategories"
+                    styleClass="admin-subnav-btn"/>
+            <Button text="   📦 Modules" maxWidth="Infinity" onAction="#handleModules"
+                    styleClass="admin-subnav-btn"/>
+            <Button text="   📖 Cours" maxWidth="Infinity" onAction="#handleCours"
+                    styleClass="admin-subnav-active"/>
+        </VBox>
+    </left>
+
+    <!-- TOP HEADER -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="12"
+              styleClass="screen-header">
+            <Label text="📖 Gestion des Cours"
+                   styleClass="screen-title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <TextField fx:id="searchField" promptText="🔍 Rechercher..."
+                       prefWidth="240"
+                       styleClass="search-field"
+                       onKeyReleased="#handleSearch"/>
+            <ComboBox fx:id="filterModule" promptText="Module" prefWidth="140"
+                      styleClass="filter-combo" onAction="#handleFilterModule"/>
+            <ComboBox fx:id="filterVisible" promptText="Visibilité" prefWidth="120"
+                      styleClass="filter-combo" onAction="#handleFilterVisible"/>
+            <Button text="📥 Export PDF" onAction="#handleExportPdf"
+                    styleClass="btn-export"/>
+            <Button text="➕ Ajouter" onAction="#handleAddCours"
+                    styleClass="btn-primary"/>
+        </HBox>
+    </top>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <ScrollPane fitToWidth="true" vbarPolicy="ALWAYS" hbarPolicy="NEVER" pannable="true" styleClass="page-scroll">
+            <VBox spacing="16" styleClass="content-shell">
+
+            <!-- Breadcrumb -->
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Label text="Dashboard" style="-fx-text-fill: #64748b; -fx-font-size: 13;"/>
+                <Label text="›" style="-fx-text-fill: #94a3b8;"/>
+                <Label text="Cours" style="-fx-text-fill: #64748b; -fx-font-size: 13;"/>
+                <Label text="›" style="-fx-text-fill: #94a3b8;"/>
+                <Label text="Liste des Cours"
+                       style="-fx-text-fill: #0f172a; -fx-font-weight: bold; -fx-font-size: 13;"/>
+            </HBox>
+
+            <!-- Stats -->
+            <HBox spacing="14">
+                <VBox spacing="4" HBox.hgrow="ALWAYS"
+                      styleClass="stat-card-accent">
+                    <Label text="Total Cours" style="-fx-text-fill: #64748b; -fx-font-size: 11;"/>
+                    <Label fx:id="totalCoursLabel" text="—"
+                           style="-fx-font-size: 26; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                </VBox>
+                <VBox spacing="4" HBox.hgrow="ALWAYS"
+                      styleClass="stat-card-accent">
+                    <Label text="Actifs" style="-fx-text-fill: #64748b; -fx-font-size: 11;"/>
+                    <Label fx:id="activeCoursLabel" text="—"
+                           style="-fx-font-size: 26; -fx-font-weight: bold; -fx-text-fill: #16a34a;"/>
+                </VBox>
+                <VBox spacing="4" HBox.hgrow="ALWAYS"
+                      styleClass="stat-card-accent">
+                    <Label text="Avec PDF" style="-fx-text-fill: #64748b; -fx-font-size: 11;"/>
+                    <Label fx:id="withPdfLabel" text="—"
+                           style="-fx-font-size: 26; -fx-font-weight: bold; -fx-text-fill: #2563eb;"/>
+                </VBox>
+                <VBox spacing="4" HBox.hgrow="ALWAYS"
+                      styleClass="stat-card-accent">
+                    <Label text="Durée Totale (min)" style="-fx-text-fill: #64748b; -fx-font-size: 11;"/>
+                    <Label fx:id="totalDureeLabel" text="—"
+                           style="-fx-font-size: 26; -fx-font-weight: bold; -fx-text-fill: #7c3aed;"/>
+                </VBox>
+            </HBox>
+
+            <!-- Sort bar -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Trier par:" style="-fx-text-fill: #64748b; -fx-font-size: 12; -fx-font-weight:600;"/>
+                <Button text="Titre ↕" onAction="#sortByTitre"
+                        styleClass="sort-pill"/>
+                <Button text="Durée ↕" onAction="#sortByDuree"
+                        styleClass="sort-pill"/>
+                <Button text="Ordre ↕" onAction="#sortByOrdre"
+                        styleClass="sort-pill"/>
+                <Button text="Date ↕" onAction="#sortByDate"
+                        styleClass="sort-pill"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="resultCountLabel" text="" style="-fx-text-fill: #64748b; -fx-font-size: 12;"/>
+            </HBox>
+
+            <!-- Table -->
+            <TableView fx:id="coursTable" VBox.vgrow="ALWAYS"
+                       styleClass="table-card">
+                <columns>
+                    <TableColumn fx:id="colTitre" text="Titre" prefWidth="230"/>
+                    <TableColumn fx:id="colModule" text="Module" prefWidth="170"/>
+                    <TableColumn fx:id="colDuree" text="Durée (min)" prefWidth="100"/>
+                    <TableColumn fx:id="colOrdre" text="Ordre" prefWidth="70"/>
+                    <TableColumn fx:id="colFichier" text="Fichier" prefWidth="90"/>
+                    <TableColumn fx:id="colVisible" text="Visible" prefWidth="80"/>
+                    <TableColumn fx:id="colActif" text="Actif" prefWidth="70"/>
+                    <TableColumn fx:id="colActions" text="Actions" prefWidth="220"/>
+                </columns>
+            </TableView>
+        </VBox>
+    
+        </ScrollPane>
+    </center>
+
+</BorderPane>

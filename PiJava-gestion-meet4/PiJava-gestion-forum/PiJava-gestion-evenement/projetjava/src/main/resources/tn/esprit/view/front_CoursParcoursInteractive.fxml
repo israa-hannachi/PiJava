@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.2" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.front.FrontCoursParcoursInteractiveController"
+            prefWidth="1280" prefHeight="820" minWidth="1180" minHeight="760"
+            stylesheets="@cours-ui.css"
+            styleClass="cours-root">
+<!-- SIDEBAR GAUCHE -->
+    <left>
+        <VBox prefWidth="120.0" spacing="8.0"
+              styleClass="sidebar-modern">
+            <padding><Insets top="14.0" right="8.0" bottom="14.0" left="8.0"/></padding>
+            <ImageView fitHeight="56.0" preserveRatio="true" pickOnBounds="true">
+                <image><Image url="@/assets/images/logo.png"/></image>
+            </ImageView>
+            <Button text="Home" maxWidth="Infinity" onAction="#handleHome"
+                    styleClass="sidebar-btn"/>
+            <Button text="Profile" maxWidth="Infinity" onAction="#handleProfile"
+                    styleClass="sidebar-btn"/>
+            <Button text="Courses" maxWidth="Infinity" onAction="#handleCoursCategories"
+                    styleClass="sidebar-btn-active"/>
+            <Button text="Meet" maxWidth="Infinity" onAction="#handleMeets"
+                    styleClass="sidebar-btn"/>
+            <Button text="Jeux" maxWidth="Infinity" onAction="#handleGameList"
+                    styleClass="sidebar-btn"/>
+            <Button text="Events" maxWidth="Infinity" onAction="#handleEvents"
+                    styleClass="sidebar-btn"/>
+            <Button text="Forums" maxWidth="Infinity" onAction="#handleForums"
+                    styleClass="sidebar-btn"/>
+            <Button text="Back" maxWidth="Infinity" onAction="#handleBackToList"
+                    styleClass="sidebar-btn"/>
+            <Region VBox.vgrow="ALWAYS"/>
+            <Button text="Logout" maxWidth="Infinity" onAction="#handleLogout"
+                    styleClass="sidebar-btn"/>
+        </VBox>
+    </left>
+
+    <!-- CONTENU PRINCIPAL -->
+    <center>
+        <VBox spacing="0.0" styleClass="content-shell">
+            <!-- HEADER AVEC RECHERCHE ET PROFIL -->
+            <HBox spacing="16.0" alignment="CENTER_LEFT"
+                  styleClass="glass-header">
+                <!-- Bouton retour -->
+                <Button text="← Retour" onAction="#handleBackToList"
+                        styleClass="btn-back"/>
+
+                <!-- Champ de recherche -->
+                <TextField fx:id="searchField" promptText="Rechercher des cours, modules..."
+                           prefWidth="300.0"
+                           styleClass="search-field"/>
+                
+                <!-- Bouton de tri -->
+                <Button text="Trier (Date)" onAction="#handleSort"
+                        styleClass="sort-pill"/>
+                
+                <Region HBox.hgrow="ALWAYS"/>
+                
+                <!-- Avatar et statut -->
+                <HBox spacing="8.0" alignment="CENTER_RIGHT">
+                    <StackPane>
+                        <Circle fx:id="userAvatar" radius="20.0" fill="#0FB5A9"/>
+                        <Label fx:id="userInitial" text="A" 
+                               style="-fx-text-fill:white; -fx-font-weight:700; -fx-font-size:14;"/>
+                    </StackPane>
+                    <StackPane>
+                        <Circle radius="4.0" fill="#10b981"/>
+                    </StackPane>
+                </HBox>
+            </HBox>
+
+            <!-- CONTENU CENTRAL EN GRID -->
+            <HBox spacing="20.0" style="-fx-padding:24;">
+                
+                <!-- COLONNE PRINCIPALE GAUCHE -->
+                <VBox spacing="20.0" HBox.hgrow="ALWAYS">
+                    
+                    <!-- RÉSUMÉ UTILISATEUR -->
+                    <HBox spacing="16.0">
+                        <VBox spacing="8.0" styleClass="stat-card">
+                            <Label text="XP" style="-fx-font-size:14; -fx-font-weight:700; -fx-text-fill:#64748b;"/>
+                            <Label fx:id="xpLabel" text="10" style="-fx-font-size:24; -fx-font-weight:800; -fx-text-fill:#0FB5A9;"/>
+                        </VBox>
+                        <VBox spacing="8.0" styleClass="stat-card">
+                            <Label text="Badges" style="-fx-font-size:14; -fx-font-weight:700; -fx-text-fill:#64748b;"/>
+                            <Label fx:id="badgesLabel" text="0" style="-fx-font-size:24; -fx-font-weight:800; -fx-text-fill:#f59e0b;"/>
+                        </VBox>
+                    </HBox>
+
+                    <!-- SECTION MON PARCOURS -->
+                    <VBox spacing="16.0" styleClass="form-card">
+                        <HBox spacing="16.0" alignment="CENTER_LEFT">
+                            <VBox HBox.hgrow="ALWAYS">
+                                <Label text="Mon parcours" style="-fx-font-size:20; -fx-font-weight:700; -fx-text-fill:#1f2937;"/>
+                                <Label text="Glissez-déposez les modules pour réorganiser votre parcours" 
+                                       style="-fx-text-fill:#64748b; -fx-font-size:14;"/>
+                            </VBox>
+                            <Button fx:id="saveParcoursBtn" text="Sauvegarder" onAction="#handleSaveParcours"
+                                    styleClass="btn-primary"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- ZONE MODULES -->
+                    <VBox spacing="16.0">
+                        <HBox spacing="12.0" alignment="CENTER_LEFT">
+                            <Label text="Modules" style="-fx-font-size:18; -fx-font-weight:700; -fx-text-fill:#1f2937;"/>
+                            <Label text="Drag &amp; Drop" style="-fx-text-fill:#64748b; -fx-font-size:14; -fx-font-style:italic;"/>
+                        </HBox>
+                        
+                        <ScrollPane fx:id="modulesScrollPane" fitToWidth="true" prefHeight="500.0" vbarPolicy="ALWAYS" hbarPolicy="NEVER" pannable="true" styleClass="page-scroll">
+                            <VBox fx:id="modulesContainer" spacing="16.0"/>
+                        </ScrollPane>
+                    </VBox>
+                </VBox>
+
+                <!-- COLONNE DROITE - ROADMAP -->
+                <VBox spacing="16.0" prefWidth="350.0">
+                    <Label text="Roadmap" style="-fx-font-size:18; -fx-font-weight:700; -fx-text-fill:#1f2937;"/>
+                    
+                    <ScrollPane fx:id="roadmapScrollPane" fitToWidth="true" prefHeight="600.0" vbarPolicy="ALWAYS" hbarPolicy="NEVER" pannable="true" styleClass="page-scroll">
+                        <VBox fx:id="roadmapContainer" spacing="16.0"/>
+                    </ScrollPane>
+                </VBox>
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>

@@ -1,0 +1,777 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   COURS-UI.CSS  —  Premium 3D Design System for Naja7ni Course Management
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── ROOT & TYPOGRAPHY ─────────────────────────────────────────────────── */
+.cours-root {
+    -fx-background-color: linear-gradient(to bottom right, #f0f4f8, #e8f0fe);
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.cours-root .label {
+    -fx-letter-spacing: 0;
+}
+
+/* ─── 3D CARD SYSTEM ────────────────────────────────────────────────────── */
+.card-3d {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-border-color: rgba(15,181,169,0.08);
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 12, 0, 0, 4),
+                dropshadow(gaussian, rgba(15,181,169,0.04), 20, 0, 0, 8);
+}
+
+.card-3d:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.10), 18, 0, 0, 6),
+                dropshadow(gaussian, rgba(15,181,169,0.10), 28, 0, 0, 12);
+    -fx-border-color: rgba(15,181,169,0.22);
+    -fx-scale-x: 1.01;
+    -fx-scale-y: 1.01;
+}
+
+/* ─── STAT CARDS (elevated look) ────────────────────────────────────────── */
+.stat-card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 14;
+    -fx-border-radius: 14;
+    -fx-border-color: rgba(226,232,240,0.6);
+    -fx-border-width: 1;
+    -fx-padding: 18 22;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.04), 8, 0, 0, 3),
+                dropshadow(gaussian, rgba(15,181,169,0.03), 16, 0, 0, 6);
+}
+
+.stat-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 14, 0, 0, 5),
+                dropshadow(gaussian, rgba(15,181,169,0.08), 22, 0, 0, 10);
+    -fx-border-color: rgba(15,181,169,0.18);
+}
+
+/* ─── GRADIENT BANNER ───────────────────────────────────────────────────── */
+.banner-gradient {
+    -fx-background-color: linear-gradient(to bottom right, #0FB5A9, #04B6D5, #0a97b0);
+    -fx-background-radius: 20;
+    -fx-padding: 28 32;
+    -fx-effect: dropshadow(gaussian, rgba(15,181,169,0.30), 16, 0, 0, 6),
+                dropshadow(gaussian, rgba(4,182,213,0.15), 28, 0, 0, 12);
+}
+
+/* ─── GLASSMORPHISM HEADER ──────────────────────────────────────────────── */
+.glass-header {
+    -fx-background-color: rgba(255,255,255,0.85);
+    -fx-border-color: rgba(15,181,169,0.10);
+    -fx-border-width: 0 0 1 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.03), 6, 0, 0, 2);
+}
+
+/* ─── SIDEBAR ───────────────────────────────────────────────────────────── */
+.sidebar-modern {
+    -fx-background-color: linear-gradient(to bottom, #f8fffe, #f0faf9);
+    -fx-border-color: rgba(15,181,169,0.08);
+    -fx-border-width: 0 1 0 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.02), 4, 0, 2, 0);
+}
+
+.sidebar-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #64748b;
+    -fx-background-radius: 12;
+    -fx-padding: 10 14;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+.sidebar-btn:hover {
+    -fx-background-color: rgba(15,181,169,0.08);
+    -fx-text-fill: #0FB5A9;
+}
+
+.sidebar-btn-active {
+    -fx-background-color: rgba(15,181,169,0.14);
+    -fx-text-fill: #0FB5A9;
+    -fx-font-weight: 700;
+    -fx-background-radius: 12;
+    -fx-padding: 10 14;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(15,181,169,0.08), 4, 0, 0, 2);
+}
+
+/* ─── INPUTS (3D depth) ─────────────────────────────────────────────────── */
+.cours-root .text-field,
+.cours-root .text-area,
+.cours-root .combo-box {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 12;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+    -fx-padding: 10 16;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.03), 4, 0, 0, 2);
+}
+
+.cours-root .text-field:focused,
+.cours-root .text-area:focused,
+.cours-root .combo-box:focused {
+    -fx-border-color: #0fb5a9;
+    -fx-effect: dropshadow(three-pass-box, rgba(15,181,169,0.22), 10, 0, 0, 0),
+                dropshadow(gaussian, rgba(15,181,169,0.06), 16, 0, 0, 4);
+}
+
+/* ─── BUTTONS (3D raised look) ──────────────────────────────────────────── */
+.cours-root .button {
+    -fx-cursor: hand;
+}
+
+.btn-primary {
+    -fx-background-color: linear-gradient(to bottom, #12c4b8, #0FB5A9);
+    -fx-text-fill: white;
+    -fx-font-weight: 700;
+    -fx-background-radius: 12;
+    -fx-padding: 10 22;
+    -fx-effect: dropshadow(gaussian, rgba(15,181,169,0.25), 8, 0, 0, 3);
+    -fx-cursor: hand;
+}
+
+.btn-primary:hover {
+    -fx-background-color: linear-gradient(to bottom, #15d6c8, #11c8bb);
+    -fx-effect: dropshadow(gaussian, rgba(15,181,169,0.35), 12, 0, 0, 5);
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
+}
+
+.btn-primary:pressed {
+    -fx-background-color: linear-gradient(to bottom, #0a9e94, #089990);
+    -fx-effect: dropshadow(gaussian, rgba(15,181,169,0.15), 4, 0, 0, 1);
+    -fx-scale-x: 0.98;
+    -fx-scale-y: 0.98;
+}
+
+.btn-secondary {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #475569;
+    -fx-font-weight: 600;
+    -fx-background-radius: 10;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 10;
+    -fx-padding: 8 16;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.04), 4, 0, 0, 2);
+    -fx-cursor: hand;
+}
+
+.btn-secondary:hover {
+    -fx-background-color: #f8fafc;
+    -fx-border-color: #0FB5A9;
+    -fx-text-fill: #0FB5A9;
+    -fx-effect: dropshadow(gaussian, rgba(15,181,169,0.10), 8, 0, 0, 3);
+}
+
+.btn-back {
+    -fx-background-color: linear-gradient(to bottom, #f8fafc, #f1f5f9);
+    -fx-text-fill: #475569;
+    -fx-font-weight: 700;
+    -fx-background-radius: 10;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 10;
+    -fx-padding: 8 16;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.04), 4, 0, 0, 2);
+    -fx-cursor: hand;
+}
+
+.btn-back:hover {
+    -fx-background-color: linear-gradient(to bottom, #ffffff, #f8fafc);
+    -fx-border-color: #cbd5e1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 6, 0, 0, 3);
+}
+
+/* ─── TABLE (3D elevated) ───────────────────────────────────────────────── */
+.cours-root .table-view {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 14;
+    -fx-border-color: rgba(226,232,240,0.6);
+    -fx-border-radius: 14;
+    -fx-padding: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 4),
+                dropshadow(gaussian, rgba(0,0,0,0.02), 20, 0, 0, 8);
+}
+
+.cours-root .table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom, #f8fafb, #eef4f8);
+    -fx-background-radius: 14 14 0 0;
+}
+
+.cours-root .table-view .column-header,
+.cours-root .table-view .filler {
+    -fx-background-color: transparent;
+    -fx-size: 46px;
+    -fx-border-color: transparent transparent #e2e8f0 transparent;
+}
+
+.cours-root .table-view .column-header .label {
+    -fx-text-fill: #1e293b;
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+}
+
+.cours-root .table-row-cell {
+    -fx-cell-size: 50px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: transparent transparent #f1f5f9 transparent;
+}
+
+.cours-root .table-row-cell:odd {
+    -fx-background-color: #fafcff;
+}
+
+.cours-root .table-row-cell:hover {
+    -fx-background-color: #f0fdfa;
+}
+
+.cours-root .table-row-cell:selected {
+    -fx-background-color: linear-gradient(to right, #d5f5f2, #e0f7fa);
+    -fx-text-background-color: #0f172a;
+}
+
+/* ─── SCROLL PANE ───────────────────────────────────────────────────────── */
+.cours-root .scroll-pane,
+.cours-root .scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.cours-root .scroll-bar .thumb {
+    -fx-background-color: rgba(15,181,169,0.20);
+    -fx-background-radius: 10;
+}
+
+.cours-root .scroll-bar .thumb:hover {
+    -fx-background-color: rgba(15,181,169,0.35);
+}
+
+.cours-root .scroll-bar .track {
+    -fx-background-color: transparent;
+}
+
+.cours-root .scroll-bar .increment-button,
+.cours-root .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.cours-root .scroll-bar .increment-arrow,
+.cours-root .scroll-bar .decrement-arrow {
+    -fx-shape: "";
+    -fx-padding: 0;
+}
+
+/* ─── WEB VIEW ──────────────────────────────────────────────────────────── */
+.cours-root .web-view {
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.04), 6, 0, 0, 2);
+}
+
+/* ─── DIALOG PANE ───────────────────────────────────────────────────────── */
+.cours-root .dialog-pane {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 24, 0, 0, 8);
+}
+
+/* ─── SORT PILLS ────────────────────────────────────────────────────────── */
+.sort-pill {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #e2e8f0;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-padding: 6 16;
+    -fx-font-size: 12px;
+    -fx-text-fill: #64748b;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.03), 3, 0, 0, 1);
+    -fx-cursor: hand;
+}
+
+.sort-pill:hover {
+    -fx-background-color: #f0fdfa;
+    -fx-border-color: #0FB5A9;
+    -fx-text-fill: #0FB5A9;
+    -fx-effect: dropshadow(gaussian, rgba(15,181,169,0.10), 6, 0, 0, 2);
+}
+
+/* ─── BADGE ─────────────────────────────────────────────────────────────── */
+.badge-prof {
+    -fx-background-color: linear-gradient(to right, #0FB5A9, #04B6D5);
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-padding: 4 14;
+    -fx-font-size: 11px;
+    -fx-font-weight: 700;
+    -fx-effect: dropshadow(gaussian, rgba(15,181,169,0.20), 6, 0, 0, 2);
+}
+
+.badge-student {
+    -fx-background-color: linear-gradient(to right, #3b82f6, #6366f1);
+    -fx-text-fill: white;
+    -fx-background-radius: 20;
+    -fx-padding: 4 14;
+    -fx-font-size: 11px;
+    -fx-font-weight: 700;
+    -fx-effect: dropshadow(gaussian, rgba(59,130,246,0.20), 6, 0, 0, 2);
+}
+
+/* ─── EMPTY STATE ───────────────────────────────────────────────────────── */
+.empty-state {
+    -fx-padding: 60 0;
+    -fx-alignment: center;
+}
+
+/* ─── PROFILE BUTTON ────────────────────────────────────────────────────── */
+.btn-profile {
+    -fx-background-color: linear-gradient(to bottom right, #0FB5A9, #04B6D5);
+    -fx-text-fill: white;
+    -fx-font-weight: 700;
+    -fx-background-radius: 999;
+    -fx-padding: 8 20;
+    -fx-effect: dropshadow(gaussian, rgba(15,181,169,0.25), 6, 0, 0, 2);
+    -fx-cursor: hand;
+}
+
+.btn-profile:hover {
+    -fx-effect: dropshadow(gaussian, rgba(15,181,169,0.35), 10, 0, 0, 4);
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+/* CODEx course polish layer */
+.cours-root {
+    -fx-background-color: linear-gradient(to bottom right, #edfdfa 0%, #f8fbff 48%, #fff7ed 100%);
+    -fx-font-family: "Segoe UI Variable", "Segoe UI", "Trebuchet MS", sans-serif;
+    -fx-text-fill: #132238;
+}
+
+.cours-root .label {
+    -fx-font-smoothing-type: gray;
+}
+
+.admin-sidebar {
+    -fx-background-color: linear-gradient(to bottom, #0f172a, #12263f 45%, #0f3b45 100%);
+    -fx-padding: 10 0 14 0;
+    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.28), 24, 0, 8, 0);
+}
+
+.admin-brand {
+    -fx-text-fill: white;
+    -fx-font-size: 19px;
+    -fx-font-weight: 900;
+    -fx-padding: 22 20 4 20;
+}
+
+.admin-kicker {
+    -fx-text-fill: #8fd8d2;
+    -fx-font-size: 11px;
+    -fx-font-weight: 800;
+    -fx-padding: 0 20 12 20;
+}
+
+.admin-nav-btn,
+.admin-nav-group,
+.admin-subnav-btn,
+.admin-subnav-active,
+.admin-logout-btn {
+    -fx-alignment: CENTER_LEFT;
+    -fx-background-radius: 0 18 18 0;
+    -fx-cursor: hand;
+    -fx-font-size: 12.5px;
+}
+
+.admin-nav-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #cbd5e1;
+    -fx-padding: 11 20;
+}
+
+.admin-nav-btn:hover,
+.admin-subnav-btn:hover {
+    -fx-background-color: rgba(255,255,255,0.10);
+    -fx-text-fill: white;
+}
+
+.admin-nav-group {
+    -fx-background-color: rgba(255,255,255,0.10);
+    -fx-text-fill: white;
+    -fx-font-weight: 800;
+    -fx-padding: 11 20;
+}
+
+.admin-subnav-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #b6c6d8;
+    -fx-padding: 9 30;
+}
+
+.admin-subnav-active {
+    -fx-background-color: linear-gradient(to right, #14b8a6, #06b6d4);
+    -fx-text-fill: white;
+    -fx-font-weight: 900;
+    -fx-padding: 9 30;
+    -fx-effect: dropshadow(gaussian, rgba(20,184,166,0.35), 16, 0, 0, 4);
+}
+
+.admin-logout-btn,
+.sidebar-logout-btn {
+    -fx-background-color: rgba(248,113,113,0.10);
+    -fx-text-fill: #fecaca;
+    -fx-padding: 10 20;
+}
+
+.screen-header,
+.form-header {
+    -fx-background-color: linear-gradient(to right, rgba(255,255,255,0.96), rgba(240,253,250,0.94));
+    -fx-border-color: rgba(148,163,184,0.22);
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 15 24;
+    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.06), 18, 0, 0, 5);
+}
+
+.screen-title,
+.form-page-title {
+    -fx-font-size: 23px;
+    -fx-font-weight: 900;
+    -fx-text-fill: #102033;
+}
+
+.content-shell,
+.form-shell {
+    -fx-background-color: linear-gradient(to bottom right, #edfdfa, #f8fbff 55%, #fff7ed);
+    -fx-padding: 26;
+}
+
+.form-shell {
+    -fx-alignment: TOP_CENTER;
+}
+
+.form-card {
+    -fx-background-color: linear-gradient(to bottom right, #ffffff, #fbfffe);
+    -fx-background-radius: 24;
+    -fx-border-color: rgba(20,184,166,0.16);
+    -fx-border-radius: 24;
+    -fx-padding: 30;
+    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.10), 28, 0, 0, 10), dropshadow(gaussian, rgba(20,184,166,0.10), 34, 0, 0, 15);
+}
+
+.field-label {
+    -fx-font-weight: 900;
+    -fx-text-fill: #24364b;
+    -fx-font-size: 13px;
+}
+
+.search-field,
+.filter-combo,
+.field-control,
+.cours-root .text-field,
+.cours-root .text-area,
+.cours-root .combo-box {
+    -fx-background-color: rgba(255,255,255,0.96);
+    -fx-background-radius: 15;
+    -fx-border-color: rgba(148,163,184,0.34);
+    -fx-border-radius: 15;
+    -fx-border-width: 1.2;
+    -fx-padding: 11 15;
+    -fx-font-size: 13px;
+    -fx-text-fill: #102033;
+    -fx-prompt-text-fill: #93a4b8;
+    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.045), 10, 0, 0, 3);
+}
+
+.search-field:focused,
+.filter-combo:focused,
+.field-control:focused,
+.cours-root .text-field:focused,
+.cours-root .text-area:focused,
+.cours-root .combo-box:focused {
+    -fx-background-color: white;
+    -fx-border-color: #14b8a6;
+    -fx-effect: dropshadow(gaussian, rgba(20,184,166,0.22), 18, 0, 0, 0), dropshadow(gaussian, rgba(15,23,42,0.06), 12, 0, 0, 4);
+}
+
+.ai-textarea {
+    -fx-control-inner-background: #faf5ff;
+    -fx-background-color: #faf5ff;
+    -fx-border-color: #ddd6fe;
+    -fx-border-radius: 16;
+    -fx-background-radius: 16;
+    -fx-padding: 12 14;
+}
+
+.editor-frame {
+    -fx-border-color: rgba(20,184,166,0.25);
+    -fx-border-radius: 18;
+    -fx-background-radius: 18;
+    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.08), 18, 0, 0, 7);
+}
+
+.pdf-panel {
+    -fx-background-color: linear-gradient(to bottom right, #f8fafc, #ecfeff);
+    -fx-background-radius: 20;
+    -fx-border-color: rgba(6,182,212,0.22);
+    -fx-border-radius: 20;
+    -fx-border-width: 1.2;
+    -fx-padding: 16;
+}
+
+.stat-card,
+.stat-card-accent {
+    -fx-background-color: linear-gradient(to bottom right, #ffffff, #fafffe);
+    -fx-background-radius: 18;
+    -fx-border-color: rgba(20,184,166,0.13);
+    -fx-border-radius: 18;
+    -fx-padding: 19 23;
+    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.075), 18, 0, 0, 7);
+}
+
+.stat-card:hover,
+.stat-card-accent:hover {
+    -fx-border-color: rgba(20,184,166,0.32);
+    -fx-effect: dropshadow(gaussian, rgba(20,184,166,0.18), 24, 0, 0, 10);
+}
+
+.table-card,
+.cours-root .table-view {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-border-color: rgba(148,163,184,0.24);
+    -fx-border-radius: 20;
+    -fx-padding: 0;
+    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.10), 24, 0, 0, 9);
+}
+
+.cours-root .table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom, #ecfeff, #f8fafc);
+    -fx-background-radius: 20 20 0 0;
+}
+
+.cours-root .table-view .column-header .label {
+    -fx-text-fill: #153044;
+    -fx-font-size: 12.5px;
+    -fx-font-weight: 900;
+}
+
+.cours-root .table-row-cell {
+    -fx-cell-size: 52px;
+}
+
+.btn-primary,
+.btn-export,
+.btn-ai,
+.btn-info,
+.btn-soft,
+.btn-secondary,
+.btn-back {
+    -fx-cursor: hand;
+    -fx-font-weight: 900;
+}
+
+.btn-primary {
+    -fx-background-color: linear-gradient(to bottom right, #14b8a6, #06b6d4);
+    -fx-text-fill: white;
+    -fx-background-radius: 14;
+    -fx-padding: 10 22;
+    -fx-effect: dropshadow(gaussian, rgba(20,184,166,0.30), 16, 0, 0, 5);
+}
+
+.btn-export,
+.btn-ai {
+    -fx-background-color: linear-gradient(to bottom right, #8b5cf6, #2563eb);
+    -fx-text-fill: white;
+    -fx-background-radius: 14;
+    -fx-padding: 10 18;
+    -fx-effect: dropshadow(gaussian, rgba(99,102,241,0.25), 15, 0, 0, 5);
+}
+
+.btn-info {
+    -fx-background-color: linear-gradient(to bottom right, #2563eb, #0891b2);
+    -fx-text-fill: white;
+    -fx-background-radius: 13;
+    -fx-padding: 9 15;
+}
+
+.btn-soft,
+.btn-secondary,
+.btn-back {
+    -fx-background-color: rgba(255,255,255,0.92);
+    -fx-text-fill: #334155;
+    -fx-background-radius: 13;
+    -fx-border-color: rgba(148,163,184,0.35);
+    -fx-border-radius: 13;
+    -fx-padding: 9 18;
+}
+
+.btn-primary:hover,
+.btn-export:hover,
+.btn-ai:hover,
+.btn-info:hover,
+.btn-soft:hover,
+.btn-secondary:hover,
+.btn-back:hover,
+.sort-pill:hover,
+.btn-profile:hover {
+    -fx-scale-x: 1.015;
+    -fx-scale-y: 1.015;
+}
+
+.sort-pill {
+    -fx-background-color: rgba(255,255,255,0.92);
+    -fx-border-color: rgba(148,163,184,0.28);
+    -fx-border-radius: 999;
+    -fx-background-radius: 999;
+    -fx-padding: 7 17;
+    -fx-font-size: 12px;
+    -fx-font-weight: 800;
+    -fx-text-fill: #52677c;
+    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.05), 10, 0, 0, 3);
+}
+
+.banner-gradient {
+    -fx-background-color: linear-gradient(to bottom right, #0f766e, #0ea5e9 62%, #f59e0b);
+    -fx-background-radius: 26;
+    -fx-padding: 30 34;
+    -fx-effect: dropshadow(gaussian, rgba(14,165,233,0.27), 30, 0, 0, 12);
+}
+
+.sidebar-modern {
+    -fx-background-color: linear-gradient(to bottom, #f8fffe, #eefdfb 48%, #fff7ed);
+    -fx-border-color: rgba(20,184,166,0.13);
+    -fx-border-width: 0 1 0 0;
+}
+
+.sidebar-btn,
+.sidebar-btn-active,
+.btn-profile {
+    -fx-font-weight: 850;
+}
+/* CODEx viewport sliders and 3D finish */
+.cours-root {
+    -fx-pref-width: 1280px;
+    -fx-pref-height: 820px;
+    -fx-min-width: 1180px;
+    -fx-min-height: 760px;
+}
+
+.page-scroll,
+.page-scroll > .viewport,
+.cours-root .scroll-pane,
+.cours-root .scroll-pane > .viewport {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.cours-root .scroll-bar:vertical {
+    -fx-pref-width: 13px;
+    -fx-padding: 2;
+    -fx-background-color: rgba(224,242,254,0.55);
+    -fx-background-radius: 999;
+}
+
+.cours-root .scroll-bar:horizontal {
+    -fx-pref-height: 13px;
+    -fx-padding: 2;
+    -fx-background-color: rgba(224,242,254,0.45);
+    -fx-background-radius: 999;
+}
+
+.cours-root .scroll-bar .track {
+    -fx-background-color: rgba(255,255,255,0.78);
+    -fx-background-radius: 999;
+}
+
+.cours-root .scroll-bar .thumb {
+    -fx-background-color: linear-gradient(to bottom, #14b8a6, #0ea5e9);
+    -fx-background-radius: 999;
+    -fx-effect: dropshadow(gaussian, rgba(14,165,233,0.26), 10, 0, 0, 2);
+}
+
+.cours-root .scroll-bar .thumb:hover {
+    -fx-background-color: linear-gradient(to bottom, #0f766e, #0284c7);
+}
+
+.cours-root .scroll-bar .increment-button,
+.cours-root .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 2;
+}
+
+.cours-root .tab-pane {
+    -fx-background-color: transparent;
+    -fx-tab-min-height: 42px;
+    -fx-tab-max-height: 42px;
+}
+
+.cours-root .tab-pane .tab-header-area {
+    -fx-padding: 0 0 12 0;
+}
+
+.cours-root .tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: linear-gradient(to right, rgba(236,254,255,0.95), rgba(255,247,237,0.90));
+    -fx-background-radius: 20;
+    -fx-border-color: rgba(20,184,166,0.18);
+    -fx-border-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.08), 18, 0, 0, 6);
+}
+
+.cours-root .tab-pane .tab {
+    -fx-background-color: rgba(255,255,255,0.86);
+    -fx-background-radius: 16 16 0 0;
+    -fx-border-color: rgba(148,163,184,0.22);
+    -fx-border-radius: 16 16 0 0;
+    -fx-padding: 9 24;
+    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.09), 10, 0, 0, 3);
+}
+
+.cours-root .tab-pane .tab:selected {
+    -fx-background-color: linear-gradient(to bottom right, #ffffff, #ecfeff);
+    -fx-border-color: #14b8a6;
+}
+
+.cours-root .tab-pane .tab .tab-label {
+    -fx-text-fill: #36516b;
+    -fx-font-weight: 900;
+}
+
+.cours-root .tab-pane .tab:selected .tab-label {
+    -fx-text-fill: #0f766e;
+}
+
+.cours-root .tab-pane .tab-content-area {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.cours-root .button {
+    -fx-cursor: hand;
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.16), 12, 0, 0, 4), innershadow(gaussian, rgba(255,255,255,0.35), 1, 0, 0, 1);
+}
+
+.cours-root .button:hover {
+    -fx-effect: dropshadow(gaussian, rgba(20,184,166,0.26), 18, 0, 0, 7), innershadow(gaussian, rgba(255,255,255,0.40), 1, 0, 0, 1);
+    -fx-translate-y: -1;
+}
+
+.cours-root .button:pressed {
+    -fx-effect: innershadow(gaussian, rgba(15,23,42,0.24), 8, 0, 0, 2);
+    -fx-translate-y: 1;
+    -fx-scale-x: 0.985;
+    -fx-scale-y: 0.985;
+}
+
+.sidebar-modern .button,
+.admin-sidebar .button {
+    -fx-effect: dropshadow(gaussian, rgba(15,23,42,0.10), 8, 0, 0, 2);
+}
+
+.content-shell,
+.form-shell {
+    -fx-padding: 26 30 32 30;
+}

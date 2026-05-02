@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.front.FrontCoursModulesController"
+            prefWidth="1280" prefHeight="820" minWidth="1180" minHeight="760"
+            stylesheets="@cours-ui.css"
+            styleClass="cours-root">
+
+    <!-- SIDEBAR -->
+    <left>
+        <VBox prefWidth="140.0" spacing="6.0" styleClass="sidebar-modern">
+            <padding><Insets top="16.0" right="10.0" bottom="16.0" left="10.0"/></padding>
+            <ImageView fitHeight="56.0" preserveRatio="true" pickOnBounds="true">
+                <image><Image url="@/assets/images/logo.png"/></image>
+            </ImageView>
+            <Region prefHeight="8"/>
+            <Button text="🏠 Accueil" maxWidth="1.7976931348623157E308" onAction="#handleHome"
+                    styleClass="sidebar-btn"/>
+            <Button text="👤 Profil" maxWidth="1.7976931348623157E308" onAction="#handleProfile"
+                    styleClass="sidebar-btn"/>
+            <Button text="📚 Cours" maxWidth="1.7976931348623157E308" onAction="#handleCoursCategories"
+                    styleClass="sidebar-btn-active"/>
+            <Button text="🎮 Jeux" maxWidth="1.7976931348623157E308" onAction="#handleJeux"
+                    styleClass="sidebar-btn"/>
+            <Button text="📅 Events" maxWidth="1.7976931348623157E308" onAction="#handleEvents"
+                    styleClass="sidebar-btn"/>
+            <Button text="💬 Forums" maxWidth="1.7976931348623157E308" onAction="#handleForums"
+                    styleClass="sidebar-btn"/>
+            <Region VBox.vgrow="ALWAYS"/>
+            <Button text="🚪 Logout" maxWidth="1.7976931348623157E308" onAction="#handleLogout"
+                    styleClass="sidebar-logout-btn"/>
+        </VBox>
+    </left>
+
+    <!-- TOP BAR -->
+    <top>
+        <HBox spacing="14.0" alignment="CENTER_LEFT" styleClass="glass-header">
+            <padding><Insets top="12.0" right="24.0" bottom="12.0" left="24.0"/></padding>
+            <Label text="Naja7ni" style="-fx-font-size:26px; -fx-font-weight:800; -fx-text-fill:#0FB5A9;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <TextField fx:id="searchField" promptText="🔍 Rechercher un module..." prefWidth="340.0"
+                       styleClass="search-field"
+                       onKeyReleased="#handleSearch"/>
+            <ComboBox fx:id="filterNiveau" promptText="Niveau" prefWidth="140.0"
+                      styleClass="filter-combo" onAction="#handleFilterNiveau"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <!-- Back button -->
+            <Button text="← Retour" onAction="#handleBack" styleClass="btn-back"/>
+            <Button fx:id="profileButton" text="Profile" onAction="#handleProfile" styleClass="btn-profile"/>
+        </HBox>
+    </top>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <ScrollPane fitToWidth="true" vbarPolicy="ALWAYS" hbarPolicy="NEVER" pannable="true" styleClass="page-scroll">
+            <VBox spacing="22.0" style="-fx-background-color:transparent;">
+                <padding><Insets top="28.0" right="32.0" bottom="28.0" left="32.0"/></padding>
+
+                <!-- Breadcrumb -->
+                <HBox spacing="8.0" alignment="CENTER_LEFT">
+                    <Button text="← Catégories" onAction="#handleCoursCategories"
+                            style="-fx-background-color:transparent; -fx-text-fill:#0FB5A9; -fx-font-weight:700; -fx-cursor:hand; -fx-padding:0;"/>
+                    <Label text="›" style="-fx-text-fill:#94a3b8;"/>
+                    <Label fx:id="breadcrumbLabel" text="Modules"
+                           style="-fx-text-fill:#1f2937; -fx-font-weight:700;"/>
+                </HBox>
+
+                <!-- Category header banner with 3D glow -->
+                <VBox spacing="6.0" styleClass="banner-gradient">
+                    <Label fx:id="categorieNomLabel" text="📦 Modules"
+                           style="-fx-font-size:30px; -fx-font-weight:800; -fx-text-fill:white;"/>
+                    <Label fx:id="categorieDescLabel" text=""
+                           style="-fx-font-size:13px; -fx-text-fill:rgba(255,255,255,0.92); -fx-wrap-text:true;"/>
+                </VBox>
+
+                <!-- Stats with 3D cards -->
+                <HBox spacing="16.0">
+                    <VBox spacing="4.0" HBox.hgrow="ALWAYS" styleClass="stat-card">
+                        <Label fx:id="totalModLabel" text="—" style="-fx-font-size:30px; -fx-font-weight:800; -fx-text-fill:#1f2937;"/>
+                        <Label text="Modules" style="-fx-text-fill:#64748b; -fx-font-size:13px;"/>
+                    </VBox>
+                    <VBox spacing="4.0" HBox.hgrow="ALWAYS" styleClass="stat-card">
+                        <Label fx:id="debutantLabel" text="—" style="-fx-font-size:30px; -fx-font-weight:800; -fx-text-fill:#16a34a;"/>
+                        <Label text="Débutant" style="-fx-text-fill:#64748b; -fx-font-size:13px;"/>
+                    </VBox>
+                    <VBox spacing="4.0" HBox.hgrow="ALWAYS" styleClass="stat-card">
+                        <Label fx:id="interLabel" text="—" style="-fx-font-size:30px; -fx-font-weight:800; -fx-text-fill:#2563eb;"/>
+                        <Label text="Intermédiaire" style="-fx-text-fill:#64748b; -fx-font-size:13px;"/>
+                    </VBox>
+                    <VBox spacing="4.0" HBox.hgrow="ALWAYS" styleClass="stat-card">
+                        <Label fx:id="avanceLabel" text="—" style="-fx-font-size:30px; -fx-font-weight:800; -fx-text-fill:#dc2626;"/>
+                        <Label text="Avancé" style="-fx-text-fill:#64748b; -fx-font-size:13px;"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Sort bar -->
+                <HBox spacing="10.0" alignment="CENTER_LEFT">
+                    <Label text="Trier:" style="-fx-text-fill:#64748b; -fx-font-size:13px; -fx-font-weight:600;"/>
+                    <Button text="Titre A→Z" onAction="#sortAZ" styleClass="sort-pill"/>
+                    <Button text="Durée ↑" onAction="#sortByDuree" styleClass="sort-pill"/>
+                    <Button text="Niveau" onAction="#sortByNiveau" styleClass="sort-pill"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="countLabel" text="" style="-fx-text-fill:#94a3b8; -fx-font-size:12px;"/>
+                </HBox>
+
+                <!-- Module cards -->
+                <FlowPane fx:id="modulesContainer" hgap="18.0" vgap="18.0" prefWrapLength="900"/>
+
+                <!-- Empty state -->
+                <VBox fx:id="emptyState" alignment="CENTER" spacing="12.0" visible="false" managed="false"
+                      styleClass="empty-state">
+                    <Label text="📦" style="-fx-font-size:52px;"/>
+                    <Label text="Aucun module trouvé" style="-fx-font-size:18px; -fx-font-weight:700; -fx-text-fill:#64748b;"/>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

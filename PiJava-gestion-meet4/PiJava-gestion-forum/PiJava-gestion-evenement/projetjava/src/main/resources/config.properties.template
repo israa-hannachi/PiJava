@@ -1,0 +1,23 @@
+# Copy this file to config.properties and fill only the values you need.
+# Never commit real API keys.
+
+GEMINI_API_KEY=
+OPENAI_API_KEY=
+HUGGINGFACE_API_KEY=
+GROQ_API_KEY=
+
+DB_URL=jdbc:mysql://localhost:3306/pidev_db
+DB_USER=root
+DB_PASSWORD=
+
+# AI provider priority, comma-separated.
+AI_PROVIDERS_PRIORITY=groq,huggingface,gemini,openai
+
+GEMINI_ENABLE_FALLBACK=true
+GEMINI_MAX_RETRIES=2
+GEMINI_RETRY_DELAY_MS=5000
+
+ENABLE_GEMINI=true
+ENABLE_OPENAI=true
+ENABLE_HUGGINGFACE=true
+ENABLE_GROQ=true

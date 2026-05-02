@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.front.AdminDashboardController">
+
+    <!-- LEFT SIDEBAR NAVIGATION -->
+    <left>
+        <VBox id="sidebar" prefWidth="260" style="-fx-background-color: #1a202c; -fx-padding: 0;">
+
+            <!-- Logo Section -->
+            <VBox prefHeight="70" alignment="TOP_CENTER" style="-fx-background-color: #0f172a; -fx-padding: 15;">
+                <Label text="NAJA7NI ADMIN" style="-fx-font-size:18; -fx-font-weight:bold; -fx-text-fill:white;"/>
+            </VBox>
+
+            <!-- Navigation Menu -->
+            <ScrollPane fitToWidth="true" style="-fx-background-color: #1a202c;">
+                <VBox spacing="5" style="-fx-padding: 10; -fx-background-color: #1a202c;">
+
+                    <Label text="Navigation" style="-fx-text-fill: #94a3b8; -fx-font-size: 12; -fx-font-weight: bold; -fx-padding: 10 0 5 0;" />
+
+                    <!-- Dashboard Menu -->
+                    <Button text="🏠 Dashboard" onAction="#handleDashboard" maxWidth="1.7976931348623157E308"
+                            style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #334155; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
+
+                    <!-- Comptes Menu -->
+                    <VBox spacing="0" style="-fx-background-radius: 8; -fx-background-color: #334155;">
+                        <Button text="👤 Comptes" onAction="#toggleComptesMenu" maxWidth="1.7976931348623157E308"
+                                style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #334155; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
+                        <VBox fx:id="comptesSubmenu" spacing="0" style="-fx-background-color: #1a202c;" visible="false" managed="false">
+                            <Button text="   Liste des comptes" maxWidth="1.7976931348623157E308"
+                                    onAction="#handleListeComptes"
+                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                        </VBox>
+                    </VBox>
+
+                    <!-- Cours Menu -->
+                    <VBox spacing="0" style="-fx-background-radius: 8; -fx-background-color: #334155;">
+                        <Button text="📚 Cours" onAction="#toggleCoursMenu" maxWidth="1.7976931348623157E308"
+                                style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #334155; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
+                        <VBox fx:id="coursSubmenu" spacing="0" style="-fx-background-color: #1a202c;" visible="false" managed="false">
+                            <Button text="   📂 Catégories" maxWidth="1.7976931348623157E308"
+                                    onAction="#handleCategories"
+                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                            <Button text="   📦 Modules" maxWidth="1.7976931348623157E308"
+                                    onAction="#handleModules"
+                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                            <Button text="   📖 Cours" maxWidth="1.7976931348623157E308"
+                                    onAction="#handleCours"
+                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                        </VBox>
+                    </VBox>
+
+                    <!-- Jeux Menu -->
+                    <VBox spacing="0" style="-fx-background-radius: 8; -fx-background-color: #334155;">
+                        <Button text="🎮 Jeux" onAction="#toggleJeuxMenu" maxWidth="1.7976931348623157E308"
+                                style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #334155; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
+                        <VBox fx:id="jeuxSubmenu" spacing="0" style="-fx-background-color: #1a202c;" visible="false" managed="false">
+                            <Button text="   Jeux" onAction="#handleBackList" maxWidth="1.7976931348623157E308"
+                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                        </VBox>
+                    </VBox>
+
+                    <!-- Forums Menu -->
+                    <VBox spacing="0" style="-fx-background-radius: 8; -fx-background-color: #334155;">
+                        <Button text="💬 Forums" onAction="#toggleForumMenu" maxWidth="1.7976931348623157E308"
+                                style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #334155; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
+                        <VBox fx:id="forumSubmenu" spacing="0" style="-fx-background-color: #1a202c;" visible="false" managed="false">
+                            <Button text="   Forums" maxWidth="1.7976931348623157E308"
+                                    onAction="#handleForums"
+                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                        </VBox>
+                    </VBox>
+
+                    <!-- Events Menu -->
+                    <VBox spacing="0" style="-fx-background-radius: 8; -fx-background-color: #334155;">
+                        <Button text="📅 Events" onAction="#toggleEventsMenu" maxWidth="1.7976931348623157E308"
+                                style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #334155; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
+                        <VBox fx:id="eventsSubmenu" spacing="0" style="-fx-background-color: #1a202c;" visible="false" managed="false">
+                            <Button text="   Liste des Events" maxWidth="1.7976931348623157E308"
+                                    onAction="#handleEventsList"
+                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                            <Button text="   Calendrier" maxWidth="1.7976931348623157E308"
+                                    onAction="#handleEventsCalendrier"
+                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                            <Button text="   Sponsors" maxWidth="1.7976931348623157E308"
+                                    onAction="#handleEventsSponsors"
+                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                            <Button text="   Inscriptions" maxWidth="1.7976931348623157E308"
+                                    onAction="#handleEventsInscriptions"
+                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                        </VBox>
+                    </VBox>
+
+                    <!-- Meet Menu -->
+                    <VBox spacing="0" style="-fx-background-radius: 8; -fx-background-color: #334155;">
+                        <Button text="📹 Meet" onAction="#toggleMeetMenu" maxWidth="1.7976931348623157E308"
+                                style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #334155; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
+                        <VBox fx:id="meetSubmenu" spacing="0" style="-fx-background-color: #1a202c;" visible="false" managed="false">
+                            <Button text="   Dashboard" maxWidth="1.7976931348623157E308"
+                                    onAction="#handleMeetDashboard"
+                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                            <Button text="   Participants" maxWidth="1.7976931348623157E308"
+                                    onAction="#handleParticipants"
+                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                            <Button text="   Reunions" maxWidth="1.7976931348623157E308"
+                                    onAction="#handleMeetList"
+                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                        </VBox>
+                    </VBox>
+
+                    <Region VBox.vgrow="ALWAYS" />
+
+                    <!-- Back to Front Button -->
+                    <Button text="🏠 Retour Front-Office" onAction="#handleBackFront" maxWidth="1.7976931348623157E308"
+                            style="-fx-text-fill: white; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #0FB5A9; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
+
+                    <!-- Logout Button -->
+                    <Button text="🚪 Logout" onAction="#handleLogout" maxWidth="1.7976931348623157E308"
+                            style="-fx-text-fill: #f87171; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: transparent; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </left>
+
+    <!-- TOP NAVBAR -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15"
+              style="-fx-background-color: #ffffff; -fx-border-color: #e2e8f0; -fx-border-width: 0 0 1 0; -fx-padding: 15;">
+            <Label text="NAJA7NI" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+            <Separator orientation="VERTICAL" />
+            <Label text="Back Office" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #64748b;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="adminNameLabel" text="Admin"
+                   style="-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #0FB5A9;" />
+            <Button text="👤 Profile" style="-fx-font-size: 12; -fx-padding: 8 15;" onAction="#handleProfile" />
+        </HBox>
+    </top>
+
+    <center>
+        <StackPane fx:id="contentArea">
+            <ScrollPane fitToWidth="true" style="-fx-background-color: #f8fafc;">
+                <VBox spacing="20" style="-fx-padding: 25; -fx-background-color: #f8fafc;">
+
+                    <!-- Page Header -->
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <VBox spacing="5">
+                            <Label text="Dashboard Admin" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+                            <HBox spacing="10">
+                                <Label text="Home >" style="-fx-text-fill: #64748b; -fx-font-size: 13;" />
+                                <Label text="Dashboard" style="-fx-text-fill: #0f172a; -fx-font-size: 13; -fx-font-weight: bold;" />
+                            </HBox>
+                        </VBox>
+                        <Region HBox.hgrow="ALWAYS" />
+                    </HBox>
+
+                    <!-- Statistics Cards -->
+                    <GridPane hgap="15" vgap="15">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="25" />
+                            <ColumnConstraints percentWidth="25" />
+                            <ColumnConstraints percentWidth="25" />
+                            <ColumnConstraints percentWidth="25" />
+                        </columnConstraints>
+
+                        <VBox style="-fx-border-color: #e2e8f0; -fx-background-color: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 20;" GridPane.columnIndex="0">
+                            <Label text="👥 Total Utilisateurs" style="-fx-text-fill: #64748b; -fx-font-size: 12;" />
+                            <Label fx:id="totalUsersLabel" text="—" style="-fx-text-fill: #0f172a; -fx-font-size: 24; -fx-font-weight: bold;" />
+                            <ProgressBar progress="0.75" maxWidth="1.7976931348623157E308" style="-fx-padding: 10 0 0 0;" />
+                        </VBox>
+
+                        <VBox style="-fx-border-color: #e2e8f0; -fx-background-color: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 20;" GridPane.columnIndex="1">
+                            <Label text="📈 Moy. Présence / Event" style="-fx-text-fill: #64748b; -fx-font-size: 12;" />
+                            <Label text="85.4" style="-fx-text-fill: #0f172a; -fx-font-size: 24; -fx-font-weight: bold;" />
+                            <ProgressBar progress="0.85" maxWidth="1.7976931348623157E308" style="-fx-padding: 10 0 0 0;" />
+                        </VBox>
+
+                        <VBox style="-fx-border-color: #e2e8f0; -fx-background-color: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 20;" GridPane.columnIndex="2">
+                            <Label text="⭐ Meilleur Mois (Avril)" style="-fx-text-fill: #64748b; -fx-font-size: 12;" />
+                            <Label text="342" style="-fx-text-fill: #0f172a; -fx-font-size: 24; -fx-font-weight: bold;" />
+                            <ProgressBar progress="0.65" maxWidth="1.7976931348623157E308" style="-fx-padding: 10 0 0 0;" />
+                        </VBox>
+
+                        <VBox style="-fx-border-color: #e2e8f0; -fx-background-color: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 20;" GridPane.columnIndex="3">
+                            <Label text="💰 Revenus Events" style="-fx-text-fill: #64748b; -fx-font-size: 12;" />
+                            <Label text="45,820 DT" style="-fx-text-fill: #0f172a; -fx-font-size: 24; -fx-font-weight: bold;" />
+                            <ProgressBar progress="0.90" maxWidth="1.7976931348623157E308" style="-fx-padding: 10 0 0 0;" />
+                        </VBox>
+                    </GridPane>
+
+                    <!-- AI Alerts -->
+                    <VBox spacing="10" style="-fx-border-color: #e2e8f0; -fx-background-color: white; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 20;">
+                        <Label text="🤖 AI Alerts &amp; Insights" style="-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+                        <HBox spacing="12">
+                            <VBox style="-fx-background-color: #dcfce7; -fx-background-radius: 8; -fx-padding: 12;" HBox.hgrow="ALWAYS">
+                                <Label text="✅ System Status" style="-fx-font-weight: bold; -fx-text-fill: #15803d;" />
+                                <Label text="Tout est sous contrôle" style="-fx-font-size: 11; -fx-text-fill: #166534;" />
+                            </VBox>
+                            <VBox style="-fx-background-color: #fef08a; -fx-background-radius: 8; -fx-padding: 12;" HBox.hgrow="ALWAYS">
+                                <Label text="⚠️ Attendance Alert" style="-fx-font-weight: bold; -fx-text-fill: #92400e;" />
+                                <Label text="Moyenne baisse observée" style="-fx-font-size: 11; -fx-text-fill: #b45309;" />
+                            </VBox>
+                            <VBox style="-fx-background-color: #fee2e2; -fx-background-radius: 8; -fx-padding: 12;" HBox.hgrow="ALWAYS">
+                                <Label text="❌ Critical Alert" style="-fx-font-weight: bold; -fx-text-fill: #992b1e;" />
+                                <Label text="Action requise immédiatement" style="-fx-font-size: 11; -fx-text-fill: #b42818;" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Welcome Banner -->
+                    <VBox spacing="10" style="-fx-border-color: #0284c7; -fx-border-width: 2; -fx-background-color: #f0f9ff; -fx-background-radius: 8; -fx-border-radius: 8; -fx-padding: 20;">
+                        <Label text="Bienvenue dans le Back Office NAJA7NI" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #0c4a6e;" />
+                        <Label text="Vous avez acces a tous les outils de gestion : Comptes, Cours, Jeux, Forums, Events et Meet."
+                               style="-fx-font-size: 12; -fx-text-fill: #155e75; -fx-wrap-text: true;" />
+                    </VBox>
+
+                </VBox>
+            </ScrollPane>
+        </StackPane>
+    </center>
+
+</BorderPane>

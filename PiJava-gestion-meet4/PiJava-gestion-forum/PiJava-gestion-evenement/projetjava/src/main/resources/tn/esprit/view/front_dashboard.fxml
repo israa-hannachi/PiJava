@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.front.FrontHomeController"
+            stylesheets="@../css/front-home.css"
+            prefWidth="1440.0" prefHeight="980.0"
+            styleClass="root-page">
+
+    <top>
+        <HBox spacing="12.0" alignment="CENTER_LEFT" styleClass="topbar">
+            <padding>
+                <Insets top="14.0" right="24.0" bottom="14.0" left="24.0"/>
+            </padding>
+
+            <ImageView fx:id="brandLogo" fitHeight="42.0" preserveRatio="true"/>
+
+            <MenuButton text="Category" styleClass="category-btn">
+                <items>
+                    <MenuItem text="Development"/>
+                    <MenuItem text="Web Design"/>
+                    <MenuItem text="Graphic Design"/>
+                    <MenuItem text="Marketing"/>
+                    <MenuItem text="Finance"/>
+                </items>
+            </MenuButton>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Buttons shown when NOT logged in -->
+            <Button fx:id="btnSignIn" text="Sign In" styleClass="btn-dark" onAction="#handleSignIn"/>
+            <Button fx:id="btnSignUp" text="Sign up" styleClass="btn-primary" onAction="#handleSignUp"/>
+
+            <!-- Menu shown when logged in -->
+            <HBox fx:id="userMenu" spacing="10" alignment="CENTER" visible="false" managed="false">
+                <Label fx:id="userNameLabel" style="-fx-font-weight: bold; -fx-text-fill: #0F172A; -fx-font-size: 15px;"/>
+                <Button text="Logout" style="-fx-background-color: #EF4444; -fx-text-fill: white; -fx-background-radius: 8;" onAction="#handleLogout"/>
+            </HBox>
+        </HBox>
+    </top>
+    <center>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="page-scroll">
+            <content>
+                <VBox spacing="24.0" styleClass="page-content" alignment="TOP_CENTER" maxWidth="1280.0">
+                    <padding>
+                        <Insets top="22.0" right="22.0" bottom="28.0" left="22.0"/>
+                    </padding>
+
+                    <VBox spacing="24.0" alignment="TOP_LEFT" maxWidth="1280.0">
+
+                    <!-- Hero -->
+                    <HBox spacing="22.0" alignment="CENTER_LEFT" maxWidth="1280.0">
+                        <VBox spacing="14.0" prefWidth="620.0">
+                            <Label text="Limitless learning at your fingertips" wrapText="true" styleClass="hero-title"/>
+                            <Label text="Online learning and teaching marketplace with 5K+ courses &amp; 10M students. Taught by experts to help you acquire new skills."
+                                   wrapText="true" styleClass="hero-subtitle"/>
+
+                            <HBox spacing="18.0">
+                                <Label text="Learn with experts" styleClass="bullet-text"/>
+                                <Label text="Get certificate" styleClass="bullet-text"/>
+                                <Label text="Get membership" styleClass="bullet-text"/>
+                            </HBox>
+
+                            <HBox spacing="10.0">
+                                <Button text="Get Started" styleClass="btn-soft"/>
+                                <Button text="Watch video" styleClass="btn-pill"/>
+                            </HBox>
+                        </VBox>
+
+                        <StackPane prefWidth="600.0" prefHeight="390.0" maxWidth="600.0" maxHeight="390.0">
+                            <children>
+                                <Region styleClass="hero-blob"/>
+                                <ImageView fx:id="heroImage" fitWidth="470.0" fitHeight="310.0" preserveRatio="true"/>
+
+                                <HBox spacing="10.0" StackPane.alignment="TOP_CENTER" translateY="-12.0">
+                                    <Label text="Icon" styleClass="chip"/>
+                                    <Label text="Icon" styleClass="chip"/>
+                                    <Label text="Icon" styleClass="chip"/>
+                                </HBox>
+
+                            </children>
+                        </StackPane>
+                    </HBox>
+
+                    <!-- Counters -->
+                    <GridPane hgap="14.0" vgap="14.0" maxWidth="1280.0">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="25.0"/>
+                            <ColumnConstraints percentWidth="25.0"/>
+                            <ColumnConstraints percentWidth="25.0"/>
+                            <ColumnConstraints percentWidth="25.0"/>
+                        </columnConstraints>
+
+                        <HBox GridPane.columnIndex="0" spacing="12.0" styleClass="counter yellow" alignment="CENTER_LEFT">
+                            <Label text="10" styleClass="counter-num"/>
+                            <VBox><Label text="K" styleClass="counter-sfx"/><Label text="Online Courses" styleClass="counter-label"/></VBox>
+                        </HBox>
+
+                        <HBox GridPane.columnIndex="1" spacing="12.0" styleClass="counter blue" alignment="CENTER_LEFT">
+                            <Label text="200" styleClass="counter-num"/>
+                            <VBox><Label text="+" styleClass="counter-sfx"/><Label text="Expert Tutors" styleClass="counter-label"/></VBox>
+                        </HBox>
+
+                        <HBox GridPane.columnIndex="2" spacing="12.0" styleClass="counter purple" alignment="CENTER_LEFT">
+                            <Label text="60" styleClass="counter-num"/>
+                            <VBox><Label text="K+" styleClass="counter-sfx"/><Label text="Online Students" styleClass="counter-label"/></VBox>
+                        </HBox>
+
+                        <HBox GridPane.columnIndex="3" spacing="12.0" styleClass="counter cyan" alignment="CENTER_LEFT">
+                            <Label text="6" styleClass="counter-num"/>
+                            <VBox><Label text="K+" styleClass="counter-sfx"/><Label text="Certified Courses" styleClass="counter-label"/></VBox>
+                        </HBox>
+                    </GridPane>
+
+                    <!-- Courses -->
+                    <VBox spacing="10.0" maxWidth="1280.0">
+                        <Label text="Most Popular Courses" styleClass="section-title"/>
+                        <Label text="Choose from hundreds of courses from specialist organizations" styleClass="section-subtitle"/>
+
+                        <TabPane tabClosingPolicy="UNAVAILABLE" styleClass="tabs" maxWidth="1280.0">
+                            <tabs>
+                                <Tab text="Web Design">
+                                    <content>
+                                        <FlowPane hgap="14.0" vgap="14.0" prefWrapLength="1240.0">
+
+                                            <VBox prefWidth="305.0" spacing="8.0" styleClass="course-card">
+                                                <ImageView fx:id="course1" fitWidth="285.0" fitHeight="160.0" preserveRatio="false"/>
+                                                <Label text="All level" styleClass="badge purple-badge"/>
+                                                <Label text="Sketch from A to Z: for app designer" wrapText="true" styleClass="course-title"/>
+                                                <Label text="Proposal indulged no do sociable he throwing settling." wrapText="true" styleClass="course-desc"/>
+                                                <Label text="4.0/5.0" styleClass="course-rate"/>
+                                                <HBox><Label text="12h 56m"/><Region HBox.hgrow="ALWAYS"/><Label text="15 lectures"/></HBox>
+                                            </VBox>
+
+                                            <VBox prefWidth="305.0" spacing="8.0" styleClass="course-card">
+                                                <ImageView fx:id="course2" fitWidth="285.0" fitHeight="160.0" preserveRatio="false"/>
+                                                <Label text="Beginner" styleClass="badge green-badge"/>
+                                                <Label text="Graphic Design Masterclass" wrapText="true" styleClass="course-title"/>
+                                                <Label text="Rooms oh fully taken by worse do. Points afraid but may end." wrapText="true" styleClass="course-desc"/>
+                                                <Label text="4.5/5.0" styleClass="course-rate"/>
+                                                <HBox><Label text="9h 56m"/><Region HBox.hgrow="ALWAYS"/><Label text="65 lectures"/></HBox>
+                                            </VBox>
+
+                                            <VBox prefWidth="305.0" spacing="8.0" styleClass="course-card">
+                                                <ImageView fx:id="course3" fitWidth="285.0" fitHeight="160.0" preserveRatio="false"/>
+                                                <Label text="Beginner" styleClass="badge green-badge"/>
+                                                <Label text="Create a Design System in Figma" wrapText="true" styleClass="course-title"/>
+                                                <Label text="Rooms oh fully taken by worse do. Points afraid but may end." wrapText="true" styleClass="course-desc"/>
+                                                <Label text="4.5/5.0" styleClass="course-rate"/>
+                                                <HBox><Label text="5h 56m"/><Region HBox.hgrow="ALWAYS"/><Label text="32 lectures"/></HBox>
+                                            </VBox>
+
+                                            <VBox prefWidth="305.0" spacing="8.0" styleClass="course-card">
+                                                <ImageView fx:id="course4" fitWidth="285.0" fitHeight="160.0" preserveRatio="false"/>
+                                                <Label text="Beginner" styleClass="badge green-badge"/>
+                                                <Label text="Deep Learning with React-Native" wrapText="true" styleClass="course-title"/>
+                                                <Label text="Far advanced settling say finished raillery. Offered chiefly farther." wrapText="true" styleClass="course-desc"/>
+                                                <Label text="4.0/5.0" styleClass="course-rate"/>
+                                                <HBox><Label text="18h 56m"/><Region HBox.hgrow="ALWAYS"/><Label text="99 lectures"/></HBox>
+                                            </VBox>
+
+                                            <VBox prefWidth="305.0" spacing="8.0" styleClass="course-card">
+                                                <ImageView fx:id="course5" fitWidth="285.0" fitHeight="160.0" preserveRatio="false"/>
+                                                <Label text="All level" styleClass="badge purple-badge"/>
+                                                <Label text="Build Responsive Websites with HTML" wrapText="true" styleClass="course-title"/>
+                                                <Label text="Far advanced settling say finished raillery. Offered chiefly farther." wrapText="true" styleClass="course-desc"/>
+                                                <Label text="4.0/5.0" styleClass="course-rate"/>
+                                                <HBox><Label text="15h 30m"/><Region HBox.hgrow="ALWAYS"/><Label text="68 lectures"/></HBox>
+                                            </VBox>
+
+                                            <VBox prefWidth="305.0" spacing="8.0" styleClass="course-card">
+                                                <ImageView fx:id="course6" fitWidth="285.0" fitHeight="160.0" preserveRatio="false"/>
+                                                <Label text="Beginner" styleClass="badge green-badge"/>
+                                                <Label text="Build Websites with CSS" wrapText="true" styleClass="course-title"/>
+                                                <Label text="Far advanced settling say finished raillery. Offered chiefly farther." wrapText="true" styleClass="course-desc"/>
+                                                <Label text="4.5/5.0" styleClass="course-rate"/>
+                                                <HBox><Label text="36h 30m"/><Region HBox.hgrow="ALWAYS"/><Label text="72 lectures"/></HBox>
+                                            </VBox>
+
+                                            <VBox prefWidth="305.0" spacing="8.0" styleClass="course-card">
+                                                <ImageView fx:id="course7" fitWidth="285.0" fitHeight="160.0" preserveRatio="false"/>
+                                                <Label text="All level" styleClass="badge purple-badge"/>
+                                                <Label text="Learn Invision" wrapText="true" styleClass="course-title"/>
+                                                <Label text="Arrived off she elderly beloved him Course regard to up he hardly." wrapText="true" styleClass="course-desc"/>
+                                                <Label text="3.5/5.0" styleClass="course-rate"/>
+                                                <HBox><Label text="6h 56m"/><Region HBox.hgrow="ALWAYS"/><Label text="82 lectures"/></HBox>
+                                            </VBox>
+
+                                            <VBox prefWidth="305.0" spacing="8.0" styleClass="course-card">
+                                                <ImageView fx:id="course8" fitWidth="285.0" fitHeight="160.0" preserveRatio="false"/>
+                                                <Label text="All level" styleClass="badge purple-badge"/>
+                                                <Label text="JavaScript: Full Understanding" wrapText="true" styleClass="course-title"/>
+                                                <Label text="Far advanced settling say finished raillery. Offered chiefly farther." wrapText="true" styleClass="course-desc"/>
+                                                <Label text="5.0/5.0" styleClass="course-rate"/>
+                                                <HBox><Label text="35h 20m"/><Region HBox.hgrow="ALWAYS"/><Label text="89 lectures"/></HBox>
+                                            </VBox>
+
+                                        </FlowPane>
+                                    </content>
+                                </Tab>
+                                <Tab text="Development"><content><Label text="Use same cards with different data."/></content></Tab>
+                                <Tab text="Graphic Design"><content><Label text="Use same cards with different data."/></content></Tab>
+                                <Tab text="Marketing"><content><Label text="Use same cards with different data."/></content></Tab>
+                                <Tab text="Finance"><content><Label text="Use same cards with different data."/></content></Tab>
+                            </tabs>
+                        </TabPane>
+                    </VBox>
+
+                    </VBox>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>
