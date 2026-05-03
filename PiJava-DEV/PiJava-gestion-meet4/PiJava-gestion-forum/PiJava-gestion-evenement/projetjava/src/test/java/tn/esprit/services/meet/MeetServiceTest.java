@@ -1,7 +1,7 @@
 package tn.esprit.services.meet;
 
 import org.junit.jupiter.api.*;
-import tn.esprit.entities.meet.meet;
+import tn.esprit.entities.meet.Meet;
 import tn.esprit.entities.meet.participant;
 
 import java.sql.SQLException;
@@ -46,7 +46,7 @@ public class MeetServiceTest {
     @Test
     @Order(1)
     void testAjouterMeet() {
-        meet m = new meet("Réunion de Projet", "Discussion sur le jalon 1",
+        Meet m = new Meet("Réunion de Projet", "Discussion sur le jalon 1",
             new Timestamp(System.currentTimeMillis() + 86400000), // tomorrow
             new Timestamp(System.currentTimeMillis() + 90000000),
             "meet.google.com/test", testParticipantId);
@@ -62,7 +62,7 @@ public class MeetServiceTest {
     @Test
     @Order(2)
     void testRecupererMeets() throws SQLException {
-        List<meet> meets = meetService.recuperer();
+        List<Meet> meets = meetService.recuperer();
         assertNotNull(meets);
         assertTrue(meets.size() > 0, "La liste des meets ne doit pas être vide après un ajout.");
     }
@@ -70,7 +70,7 @@ public class MeetServiceTest {
     @Test
     @Order(3)
     void testFindById() throws SQLException {
-        meet m = meetService.findById(testMeetId);
+        Meet m = meetService.findById(testMeetId);
         assertNotNull(m);
         assertEquals("Réunion de Projet", m.getTitre());
         assertEquals(testParticipantId, m.getParticipantId());
@@ -79,20 +79,20 @@ public class MeetServiceTest {
     @Test
     @Order(4)
     void testModifierMeet() throws SQLException {
-        meet m = meetService.findById(testMeetId);
+        Meet m = meetService.findById(testMeetId);
         assertNotNull(m);
 
         m.setTitre("Réunion Modifiée");
         assertDoesNotThrow(() -> meetService.modifier(m));
 
-        meet mUpdated = meetService.findById(testMeetId);
+       Meet mUpdated = meetService.findById(testMeetId);
         assertEquals("Réunion Modifiée", mUpdated.getTitre());
     }
 
     @Test
     @Order(5)
     void testRechercherParTitre() throws SQLException {
-        List<meet> results = meetService.rechercherParTitre("Modifiée");
+        List<Meet> results = meetService.rechercherParTitre("Modifiée");
         assertFalse(results.isEmpty());
         assertEquals(testMeetId, results.get(0).getId());
     }
@@ -100,7 +100,7 @@ public class MeetServiceTest {
     @Test
     @Order(6)
     void testTrierParDateDebut() throws SQLException {
-        List<meet> meets = meetService.trierParDateDebut(true);
+        List<Meet> meets = meetService.trierParDateDebut(true);
         assertNotNull(meets);
         if (meets.size() > 1) {
             assertTrue(meets.get(0).getDateDebut().compareTo(meets.get(1).getDateDebut()) <= 0);
@@ -111,7 +111,7 @@ public class MeetServiceTest {
     @Order(7)
     void testSupprimerMeet() throws SQLException {
         assertDoesNotThrow(() -> meetService.supprimer(testMeetId));
-        meet deleted = meetService.findById(testMeetId);
+        Meet deleted = meetService.findById(testMeetId);
         assertNull(deleted, "Le meet devrait être nul après suppression.");
         testMeetId = 0; // Prevent tearDown from failing
     }

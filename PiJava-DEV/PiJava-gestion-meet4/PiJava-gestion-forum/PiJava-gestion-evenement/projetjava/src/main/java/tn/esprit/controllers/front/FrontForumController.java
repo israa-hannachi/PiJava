@@ -542,19 +542,19 @@ public class FrontForumController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
             Parent root = loader.load();
             Object controller = loader.getController();
-            if (controller instanceof FrontUserDashboardController && currentUser != null) {
+            if (controller instanceof FrontUserDashboardController) {
                 ((FrontUserDashboardController) controller).initUser(currentUser);
-            } else if (controller instanceof FrontCoursCategorieController && currentUser != null) {
+            } else if (controller instanceof FrontCoursCategorieController) {
                 ((FrontCoursCategorieController) controller).initUser(currentUser);
-            } else if (controller instanceof FrontGameListController && currentUser != null) {
+            } else if (controller instanceof FrontGameListController) {
                 ((FrontGameListController) controller).initUser(currentUser);
-            } else if (controller instanceof FrontProfileController && currentUser != null) {
+            } else if (controller instanceof FrontProfileController) {
                 ((FrontProfileController) controller).initUser(currentUser);
-            } else if (controller instanceof EventFrontController && currentUser != null) {
+            } else if (controller instanceof EventFrontController) {
                 ((EventFrontController) controller).initUser(currentUser);
-            } else if (controller instanceof FrontForumController && currentUser != null) {
+            } else if (controller instanceof FrontForumController) {
                 ((FrontForumController) controller).initUser(currentUser);
-            } else if (controller instanceof FrontMeetListController && currentUser != null) {
+            } else if (controller instanceof FrontMeetListController) {
                 ((FrontMeetListController) controller).initUser(currentUser);
             }
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

@@ -440,7 +440,7 @@ public class BackGestionForumsController implements Initializable {
     public void handleEventsInscriptions(ActionEvent event) { navigateTo("/tn/esprit/view/back_Event.fxml", event); }
 
     @FXML
-    public void handleMeet(ActionEvent event) { navigateTo("/tn/esprit/view/back_admin.fxml", event); }
+    public void handleMeet(ActionEvent event) { navigateTo("/tn/esprit/view/back_MeetList.fxml", event); }
 
     @FXML
     public void handleMailing(ActionEvent event) { navigateTo("/tn/esprit/view/back_admin.fxml", event); }

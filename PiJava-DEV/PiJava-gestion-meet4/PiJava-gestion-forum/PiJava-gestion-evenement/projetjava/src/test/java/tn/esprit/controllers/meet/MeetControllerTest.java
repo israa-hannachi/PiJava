@@ -1,7 +1,7 @@
 package tn.esprit.controllers.meet;
 
 import org.junit.jupiter.api.*;
-import tn.esprit.entities.meet.meet;
+import tn.esprit.entities.meet.Meet;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,7 +18,7 @@ public class MeetControllerTest {
 
     @Test @Order(1)
     void testAjouterMeet() {
-        meet m = new meet("Test JUnit Meet", "Description test",
+        Meet m = new Meet("Test JUnit Meet", "Description test",
             Timestamp.valueOf(LocalDateTime.now().plusDays(1)),
             Timestamp.valueOf(LocalDateTime.now().plusDays(1).plusHours(2)),
             null, 3);
@@ -29,31 +29,31 @@ public class MeetControllerTest {
 
     @Test @Order(2)
     void testRecupererMeets() {
-        List<meet> list = controller.recupererMeets();
+        List<Meet> list = controller.recupererMeets();
         assertNotNull(list);
         assertFalse(list.isEmpty());
     }
 
     @Test @Order(3)
     void testFindById() {
-        meet found = controller.findById(createdId);
+        Meet found = controller.findById(createdId);
         assertNotNull(found);
         assertEquals("Test JUnit Meet", found.getTitre());
     }
 
     @Test @Order(4)
     void testModifierMeet() {
-        meet m = controller.findById(createdId);
+        Meet m = controller.findById(createdId);
         assertNotNull(m);
         m.setTitre("Meet Modifié JUnit");
         controller.modifierMeet(m);
-        meet updated = controller.findById(createdId);
+        Meet updated = controller.findById(createdId);
         assertEquals("Meet Modifié JUnit", updated.getTitre());
     }
 
     @Test @Order(5)
     void testAjouterMeetTitreVide() {
-        meet m = new meet("", "desc",
+        Meet m = new Meet("", "desc",
             Timestamp.valueOf(LocalDateTime.now().plusDays(1)),
             Timestamp.valueOf(LocalDateTime.now().plusDays(2)),
             null, 3);
@@ -64,7 +64,7 @@ public class MeetControllerTest {
 
     @Test @Order(6)
     void testAjouterMeetDateFinAvantDebut() {
-        meet m = new meet("Bad Dates",
+        Meet m = new Meet("Bad Dates",
             "desc",
             Timestamp.valueOf(LocalDateTime.now().plusDays(3)),
             Timestamp.valueOf(LocalDateTime.now().plusDays(1)),
@@ -76,7 +76,7 @@ public class MeetControllerTest {
     @Test @Order(7)
     void testSupprimerMeet() {
         controller.supprimerMeet(createdId);
-        meet deleted = controller.findById(createdId);
+        Meet deleted = controller.findById(createdId);
         assertNull(deleted, "Le meet supprimé ne doit plus exister");
     }
 }

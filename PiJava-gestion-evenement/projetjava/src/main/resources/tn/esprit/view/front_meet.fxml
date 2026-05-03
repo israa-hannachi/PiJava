@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.front.FrontMeetController"
+            prefWidth="1440.0" prefHeight="980.0"
+            style="-fx-background-color:#FFFFFF; -fx-font-family:'Segoe UI';">
+
+    <!-- Sidebar -->
+    <left>
+        <VBox prefWidth="120.0" spacing="8.0"
+              style="-fx-background-color:#F7FFFE; -fx-border-color:rgba(15,181,169,0.10); -fx-border-width:0 1 0 0;">
+            <padding><Insets top="14.0" right="8.0" bottom="14.0" left="8.0"/></padding>
+
+            <ImageView fitHeight="62.0" preserveRatio="true" pickOnBounds="true">
+                <image><Image url="@/assets/images/logo.png"/></image>
+            </ImageView>
+
+            <Button onAction="#handleAccueil" text="🏠 Accueil" maxWidth="1.7976931348623157E308"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button onAction="#handleProfile" text="👤 Profil" maxWidth="1.7976931348623157E308"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button onAction="#handleCours" text="📚 Cours" maxWidth="1.7976931348623157E308"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="🧭 Parcours" maxWidth="1.7976931348623157E308"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="🎥 Meet" maxWidth="1.7976931348623157E308"
+                    style="-fx-background-color:rgba(15,181,169,0.14); -fx-text-fill:#0FB5A9; -fx-font-weight:700; -fx-background-radius:10;"/>
+            <Button onAction="#handleGameList" text="🎮 Jeux" maxWidth="1.7976931348623157E308"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button onAction="#handleEvents" text="📅 Events" maxWidth="1.7976931348623157E308"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button onAction="#handleForums" text="💬 Forums" maxWidth="1.7976931348623157E308"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+
+            <Region VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </left>
+
+    <!-- Top bar -->
+    <top>
+        <HBox spacing="12.0" alignment="CENTER_LEFT"
+              style="-fx-background-color:#FFFFFF; -fx-border-color:rgba(15,181,169,0.12); -fx-border-width:0 0 1 0;">
+            <padding><Insets top="10.0" right="20.0" bottom="10.0" left="20.0"/></padding>
+            <Label text="Naja7ni" style="-fx-font-size:24px; -fx-font-weight:800; -fx-text-fill:#0FB5A9;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <TextField fx:id="searchField" promptText="Rechercher un meet..."
+                       prefWidth="420.0"
+                       style="-fx-background-color:#F7FFFE; -fx-background-radius:12; -fx-border-color:transparent; -fx-padding:10 14;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="profileButton" text="Profile" onAction="#handleProfile"
+                    style="-fx-background-color:linear-gradient(to bottom right, #0FB5A9, #04B6D5); -fx-text-fill:white; -fx-font-weight:700; -fx-background-radius:999;"/>
+        </HBox>
+    </top>
+
+    <!-- Centre -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background:#F0FFFE;">
+            <content>
+                <VBox spacing="22.0" style="-fx-background-color:#F0FFFE;">
+                    <padding><Insets top="24.0" right="24.0" bottom="24.0" left="24.0"/></padding>
+
+                    <!-- Header -->
+                    <VBox spacing="6.0"
+                          style="-fx-background-color:linear-gradient(to right, #0FB5A9, #04B6D5); -fx-background-radius:18; -fx-padding:22;">
+                        <Label text="🎥 Sessions Meet"
+                               style="-fx-font-size:28px; -fx-font-weight:800; -fx-text-fill:white;"/>
+                        <Label text="Rejoignez ou organisez des sessions de visioconférence en direct"
+                               style="-fx-font-size:14px; -fx-text-fill:rgba(255,255,255,0.90);"/>
+                    </VBox>
+
+                    <!-- Liste des meets -->
+                    <FlowPane fx:id="meetListContainer" hgap="20" vgap="20"
+                              style="-fx-padding:4;"/>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

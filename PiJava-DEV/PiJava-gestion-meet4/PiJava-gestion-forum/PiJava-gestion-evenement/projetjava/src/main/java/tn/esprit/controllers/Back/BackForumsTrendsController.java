@@ -62,7 +62,7 @@ public class BackForumsTrendsController implements Initializable {
     }
 
     // ─── Setup ────────────────────────────────────────────────────────────────
-
+    //PARTIE I: TENDANCE GLOBALE DES MESSAGES
     private void setupPeriodComboBox() {
         periodComboBox.setItems(FXCollections.observableArrayList(
                 "7 derniers jours", "30 derniers jours", "3 derniers mois"
@@ -70,7 +70,7 @@ public class BackForumsTrendsController implements Initializable {
         periodComboBox.setValue("30 derniers jours");
         periodComboBox.setOnAction(e -> loadTrendChart());
     }
-
+    //Table Prédictions par forum
     private void setupTableColumns() {
         colForum.setCellValueFactory(new PropertyValueFactory<>("forumName"));
         colTrend.setCellValueFactory(new PropertyValueFactory<>("trend"));
@@ -120,7 +120,7 @@ public class BackForumsTrendsController implements Initializable {
         });
     }
 
-    // ─── KPIs ─────────────────────────────────────────────────────────────────
+    // ─── KPIs:Forums actifs ou inactifs ─────────────────────────────────────────────────────────────────
 
     private void loadKPIs() {
         List<Forum> forums = serviceForum.afficher();
@@ -152,7 +152,7 @@ public class BackForumsTrendsController implements Initializable {
         }
     }
 
-    // ─── Trend Chart ──────────────────────────────────────────────────────────
+    // ─── Trend Chart:Tendance globale des messages ──────────────────────────────────────────────────────────
 
     private void loadTrendChart() {
         activityTrendChart.getData().clear();
@@ -216,7 +216,7 @@ public class BackForumsTrendsController implements Initializable {
         predictionTable.setItems(predictions);
     }
 
-    // ─── AI Report ────────────────────────────────────────────────────────────
+    // ─── AI Report:Conseiller Stratégique IA   ────────────────────────────────────────────────────────────
 
     @FXML
     public void generateStrategicReport(ActionEvent event) {

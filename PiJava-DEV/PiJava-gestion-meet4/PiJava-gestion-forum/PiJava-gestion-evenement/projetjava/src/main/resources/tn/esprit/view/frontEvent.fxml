@@ -29,7 +29,7 @@
                     style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
             <Button text="📚 Cours" maxWidth="1.7976931348623157E308" onAction="#handleCours"
                     style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
-            <Button text="🎥 Meet" maxWidth="1.7976931348623157E308"
+            <Button text="🎥 Meet" maxWidth="1.7976931348623157E308" onAction="#handleMeets"
                     style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
             <Button text="🎮 Jeux" onAction="#handleGameList" maxWidth="1.7976931348623157E308"
                     style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>

@@ -3,6 +3,7 @@ package tn.esprit.services;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -266,12 +267,42 @@ public class HuggingFaceService {
     // Résolution des clés API depuis env var ou .env
     // ─────────────────────────────────────────────────────────────────────────
     private String resolveKey(String keyName) {
-        if ("GROQ_API_KEY".equals(keyName)) {
-            return "[REDACTED]";
-        }
         String val = System.getenv(keyName);
         if (val != null && !val.isBlank()) return val.trim();
-        return readKeyFromDotEnv(keyName);
+        
+        val = readKeyFromDotEnv(keyName);
+        if (val != null && !val.isBlank()) return val;
+        
+        return readKeyFromConfigProperties(keyName);
+    }
+
+    private String readKeyFromConfigProperties(String keyName) {
+        try {
+            Properties config = new Properties();
+            // 1. Essayer via le ClassLoader (plus robuste en production)
+            java.io.InputStream is = getClass().getClassLoader().getResourceAsStream("config.properties");
+            
+            // 2. Essayer via chemin relatif si ClassLoader échoue
+            if (is == null) {
+                File file = new File("src/main/resources/config.properties");
+                if (file.exists()) {
+                    is = new java.io.FileInputStream(file);
+                }
+            }
+            
+            if (is != null) {
+                config.load(is);
+                is.close();
+                String val = config.getProperty(keyName);
+                if (val != null && !val.isBlank()) {
+                    System.out.println("✅ " + keyName + " trouvée dans: config.properties");
+                    return val.trim();
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("⚠️ Erreur lecture config.properties: " + e.getMessage());
+        }
+        return null;
     }
 
     private String readKeyFromDotEnv(String keyName) {

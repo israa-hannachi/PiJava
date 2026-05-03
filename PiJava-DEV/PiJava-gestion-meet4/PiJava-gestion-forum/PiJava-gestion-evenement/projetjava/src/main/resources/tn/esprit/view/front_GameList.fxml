@@ -28,7 +28,7 @@
                     style="-fx-background-color:transparent; -fx-text-fill:#64748b;"/>
             <Button onAction="#handleCours" text="📚 Cours" maxWidth="Infinity"
                     style="-fx-background-color:transparent; -fx-text-fill:#64748b;"/>
-            <Button text="🎥 Meet" maxWidth="Infinity"
+            <Button text="🎥 Meet" maxWidth="Infinity" onAction="#handleMeets"
                     style="-fx-background-color:transparent; -fx-text-fill:#64748b;"/>
             <Button onAction="#handleGameList" text="🎮 Jeux" maxWidth="Infinity"
                     style="-fx-background-color:rgba(15,181,169,0.14); -fx-text-fill:#0FB5A9; -fx-font-weight:700;"/>

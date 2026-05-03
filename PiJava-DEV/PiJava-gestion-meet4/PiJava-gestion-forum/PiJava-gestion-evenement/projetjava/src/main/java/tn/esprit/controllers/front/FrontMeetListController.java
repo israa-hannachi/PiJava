@@ -641,6 +641,12 @@ public class FrontMeetListController implements Initializable {
                 ((FrontCoursCategorieController) ctrl).initUser(currentUser);
             } else if (ctrl instanceof FrontMeetCalendarController) {
                 ((FrontMeetCalendarController) ctrl).initUser(currentUser);
+            } else if (ctrl instanceof FrontForumController) {
+                ((FrontForumController) ctrl).initUser(currentUser);
+            } else if (ctrl instanceof FrontGameListController) {
+                ((FrontGameListController) ctrl).initUser(currentUser);
+            } else if (ctrl instanceof FrontMeetListController) {
+                ((FrontMeetListController) ctrl).initUser(currentUser);
             }
 
             Stage stage = (Stage) meetContainer.getScene().getWindow();

@@ -450,6 +450,12 @@ public class FrontGamePlayController {
                 "/tn/esprit/view/front_forum.fxml", event);
     }
 
+    @FXML
+    private void handleMeets(ActionEvent event) {
+        if (timer != null) timer.cancel();
+        navigateTo("/tn/esprit/view/front_MeetList.fxml", event);
+    }
+
     private void navigateTo(String fxmlPath, ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(

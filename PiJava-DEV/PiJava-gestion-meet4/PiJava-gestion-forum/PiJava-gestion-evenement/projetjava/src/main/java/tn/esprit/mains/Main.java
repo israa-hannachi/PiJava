@@ -17,7 +17,6 @@ public class Main {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/tn/esprit/view/front_login.fxml"));
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
-
                 primaryStage.setTitle("Naja7ni - Apprentissage & Gaming");
                 primaryStage.setScene(scene);
                 StageUtils.applyUniformSize(primaryStage);

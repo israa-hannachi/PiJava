@@ -138,6 +138,11 @@ public class FrontGameListController {
         navigateTo("/tn/esprit/view/front_forum.fxml", event);
     }
 
+    @FXML
+    private void handleMeets(ActionEvent event) {
+        navigateTo("/tn/esprit/view/front_MeetList.fxml", event);
+    }
+
     private void navigateTo(String fxmlPath, ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
@@ -154,6 +159,8 @@ public class FrontGameListController {
                 ((FrontProfileController) controller).initUser(currentUser);
             } else if (controller instanceof FrontForumController) {
                 ((FrontForumController) controller).initUser(currentUser);
+            } else if (controller instanceof FrontMeetListController) {
+                ((FrontMeetListController) controller).initUser(currentUser);
             }
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

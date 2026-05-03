@@ -11,7 +11,8 @@ import java.nio.charset.StandardCharsets;
 public class HuggingFaceService {
 
     // ⚠️ Remplace par ton vrai token HuggingFace
-    private static final String HF_TOKEN = "[REDACTED]";
+    // Lire depuis la variable d'environnement pour ne pas exposer la clé
+    private static final String HF_TOKEN = System.getenv("HF_TOKEN");
 
     private static final String API_URL =
             "https://router.huggingface.co/hf-inference/models/" +

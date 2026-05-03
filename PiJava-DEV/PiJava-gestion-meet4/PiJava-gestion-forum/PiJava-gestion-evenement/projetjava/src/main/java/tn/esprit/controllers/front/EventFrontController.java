@@ -486,6 +486,11 @@ public class EventFrontController implements Initializable {
         showAlert("Calendrier", "Intégration Google Calendar en cours...");
     }
 
+    @FXML
+    private void handleMeets(ActionEvent event) {
+        navigateTo("/tn/esprit/view/front_MeetList.fxml", event);
+    }
+
     private void navigateTo(String fxmlPath, ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
@@ -502,6 +507,8 @@ public class EventFrontController implements Initializable {
                 ((FrontProfileController) controller).initUser(currentUser);
             } else if (controller instanceof FrontForumController) {
                 ((FrontForumController) controller).initUser(currentUser);
+            } else if (controller instanceof FrontMeetListController) {
+                ((FrontMeetListController) controller).initUser(currentUser);
             }
 
             showScene(root, event);

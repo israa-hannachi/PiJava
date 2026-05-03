@@ -1,8 +1,8 @@
 package tn.esprit.controllers.meet;
 
 import org.junit.jupiter.api.*;
-import tn.esprit.entities.meet.meet;
-import tn.esprit.entities.meet.meet_participants;
+import tn.esprit.entities.meet.Meet;
+import tn.esprit.entities.meet.Meet_Participants;
 import tn.esprit.entities.meet.participant;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -23,7 +23,7 @@ public class MeetParticipantsControllerTest {
         partCtrl   = new ParticipantController();
 
         // Créer meet et participant de test
-        meet m = new meet("MP_Test_Meet", "test",
+        Meet m = new Meet("MP_Test_Meet", "test",
             Timestamp.valueOf(LocalDateTime.now().plusDays(1)),
             Timestamp.valueOf(LocalDateTime.now().plusDays(2)),
             null, 3);
@@ -48,14 +48,14 @@ public class MeetParticipantsControllerTest {
 
     @Test @Order(3)
     void testGetParticipantsDuMeet() {
-        List<meet_participants> list = controller.getParticipantsDuMeet(meetId);
+        List<Meet_Participants> list = controller.getParticipantsDuMeet(meetId);
         assertFalse(list.isEmpty());
         assertEquals(partId, list.get(0).getParticipantId());
     }
 
     @Test @Order(4)
     void testGetMeetsDuParticipant() {
-        List<meet_participants> list = controller.getMeetsDuParticipant(partId);
+        List<Meet_Participants> list = controller.getMeetsDuParticipant(partId);
         assertFalse(list.isEmpty());
         assertEquals(meetId, list.get(0).getMeetId());
     }
@@ -64,7 +64,7 @@ public class MeetParticipantsControllerTest {
     void testAjouterDoublon() {
         // Ajouter deux fois le même — ne doit pas créer un doublon
         controller.ajouterParticipantAuMeet(meetId, partId);
-        List<meet_participants> list = controller.getParticipantsDuMeet(meetId);
+        List<Meet_Participants> list = controller.getParticipantsDuMeet(meetId);
         assertEquals(1, list.size(), "Pas de doublon autorisé");
     }
 
