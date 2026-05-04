@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.front.FrontForumController"
+            style="-fx-background-color: #f8fafc;">
+
+    <!-- Sidebar style dashboard (clair) -->
+    <left>
+        <VBox prefWidth="120.0" spacing="8.0"
+              style="-fx-background-color:#F7FFFE; -fx-border-color:rgba(15,181,169,0.10); -fx-border-width:0 1 0 0;">
+            <padding><Insets top="14.0" right="8.0" bottom="14.0" left="8.0"/></padding>
+
+            <ImageView fitHeight="62.0" preserveRatio="true" pickOnBounds="true">
+                <image><Image url="@/assets/images/logo.png"/></image>
+            </ImageView>
+
+            <Button text="🏠 Accueil" onAction="#handleDashboard" maxWidth="1.7976931348623157E308"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="👤 Profil" maxWidth="1.7976931348623157E308" onAction="#handleProfile"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="📚 Cours" maxWidth="1.7976931348623157E308" onAction="#handleCours"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="🧭 Parcours" maxWidth="1.7976931348623157E308"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="🎥 Meet" maxWidth="1.7976931348623157E308" onAction="#handleMeets"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="🎮 Jeux" onAction="#handleGameList" maxWidth="1.7976931348623157E308"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="📅 Events" onAction="#handleEvents" maxWidth="1.7976931348623157E308"
+                    style="-fx-background-color:transparent; -fx-text-fill:#64748b; -fx-background-radius:10;"/>
+            <Button text="💬 Forums" maxWidth="1.7976931348623157E308"
+                    style="-fx-background-color:rgba(15,181,169,0.14); -fx-text-fill:#0FB5A9; -fx-font-weight:700; -fx-background-radius:10;"/>
+
+            <Region VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </left>
+
+    <!-- Main Content -->
+    <center>
+        <StackPane>
+            <!-- Existing Forum Content -->
+            <ScrollPane fitToWidth="true" style="-fx-background-color: #f8fafc;" VBox.vgrow="ALWAYS">
+                <VBox spacing="25" style="-fx-padding: 40; -fx-background-color: #f8fafc;">
+
+                    <!-- Header -->
+                    <VBox spacing="5">
+                        <Label text="Forums de Discussion" style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
+                        <Label text="Échangez avec la communauté" style="-fx-font-size: 14; -fx-text-fill: #64748b;"/>
+                    </VBox>
+
+                    <!-- Section Votre Activité -->
+                    <Label text="Votre Activité" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #16a34a;"/>
+
+                    <HBox spacing="20">
+                        <!-- Carte Vos Forums -->
+                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);" HBox.hgrow="ALWAYS">
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <VBox HBox.hgrow="ALWAYS">
+                                    <Label text="Vos Forums" style="-fx-font-size: 13; -fx-text-fill: #64748b;"/>
+                                    <Label fx:id="userForumsCount" text="0" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
+                                </VBox>
+                                <Label text="💬" style="-fx-font-size: 24;"/>
+                            </HBox>
+                        </VBox>
+
+                        <!-- Carte Messages -->
+                        <VBox spacing="10" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);" HBox.hgrow="ALWAYS">
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <VBox HBox.hgrow="ALWAYS">
+                                    <Label text="Messages" style="-fx-font-size: 13; -fx-text-fill: #64748b;"/>
+                                    <Label fx:id="userMessagesCount" text="0" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
+                                </VBox>
+                                <Label text="✉️" style="-fx-font-size: 24;"/>
+                            </HBox>
+                        </VBox>
+                    </HBox>
+
+                    <!-- Barre de recherche -->
+                    <TextField fx:id="searchField" promptText="🔍 Rechercher dans les forums..." style="-fx-background-color: white; -fx-background-radius: 25; -fx-padding: 12 20; -fx-font-size: 14;"/>
+
+                    <!-- Section Catégories du Forum -->
+                    <VBox spacing="15">
+                        <Label text="Catégories du Forum" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
+                        <VBox fx:id="categoriesContainer" spacing="15">
+                            <!-- Les catégories seront ajoutées dynamiquement -->
+                        </VBox>
+                    </VBox>
+
+                    <!-- Section Tous les Forums -->
+                    <VBox spacing="15">
+                        <HBox alignment="CENTER_LEFT" spacing="10">
+                            <Label text="Tous les Forums" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #1e293b;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <ComboBox fx:id="filterCategorie" promptText="Toutes les catégories" style="-fx-background-color: white; -fx-background-radius: 6;"/>
+                        </HBox>
+                        <VBox fx:id="forumsContainer" spacing="12">
+                            <!-- Les forums seront ajoutés dynamiquement -->
+                        </VBox>
+                    </VBox>
+
+                </VBox>
+            </ScrollPane>
+
+            <!-- Floating Chat Button -->
+            <HBox alignment="BOTTOM_RIGHT" pickOnBounds="false" StackPane.alignment="BOTTOM_RIGHT">
+                <padding><Insets bottom="20" right="20"/></padding>
+                <Button fx:id="floatingChatBtn" onAction="#openChatbot"
+                        style="-fx-background-color: linear-gradient(to bottom right, #8B5CF6, #EC4899); -fx-background-radius: 50; -fx-pref-width: 65; -fx-pref-height: 65; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(236, 72, 153, 0.4), 10, 0, 0, 3);">
+                    <graphic>
+                        <javafx.scene.shape.SVGPath content="M 12 2 C 11.447 2 11 2.447 11 3 L 11 4.0625 C 8.2435 4.5425 6 6.974 6 10 L 6 11 L 4 11 L 4 15 L 6 15 L 6 18 C 6 19.104 6.896 20 8 20 L 16 20 C 17.104 20 18 19.104 18 18 L 18 15 L 20 15 L 20 11 L 18 11 L 18 10 C 18 6.974 15.7565 4.5425 13 4.0625 L 13 3 C 13 2.447 12.553 2 12 2 z M 12 6 C 14.209 6 16 7.791 16 10 L 16 18 L 8 18 L 8 10 C 8 7.791 9.791 6 12 6 z M 10 11 A 1 1 0 0 0 9 12 A 1 1 0 0 0 10 13 A 1 1 0 0 0 11 12 A 1 1 0 0 0 10 11 z M 14 11 A 1 1 0 0 0 13 12 A 1 1 0 0 0 14 13 A 1 1 0 0 0 15 12 A 1 1 0 0 0 14 11 z M 10 15 L 10 16 L 14 16 L 14 15 L 10 15 z" fill="white" scaleX="1.3" scaleY="1.3"/>
+                    </graphic>
+                </Button>
+            </HBox>
+        </StackPane>
+    </center>
+</BorderPane>

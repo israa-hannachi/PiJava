@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.Back.BackParticipantController"
+            prefHeight="800.0" prefWidth="1200.0">
+
+    <!-- SIDEBAR -->
+    <left>
+        <VBox prefWidth="240" style="-fx-background-color:#1a202c;">
+            <VBox prefHeight="65" alignment="CENTER" style="-fx-background-color:#0f172a;-fx-padding:15;">
+                <Label text="NAJA7NI ADMIN" style="-fx-font-size:16;-fx-font-weight:bold;-fx-text-fill:white;"/>
+            </VBox>
+            <ScrollPane fitToWidth="true" style="-fx-background-color:#1a202c;" hbarPolicy="NEVER">
+                <VBox spacing="4" style="-fx-padding:10;-fx-background-color:#1a202c;">
+                    <Label text="Navigation" style="-fx-text-fill:#94a3b8;-fx-font-size:11;-fx-font-weight:bold;-fx-padding:8 0 4 0;"/>
+                    <Button text="🏠 Dashboard" maxWidth="Infinity" onAction="#handleDashboard"
+                            style="-fx-background-color:#334155;-fx-text-fill:white;-fx-alignment:CENTER_LEFT;-fx-padding:10 15;-fx-background-radius:6;"/>
+                    <Button text="👤 Comptes" maxWidth="Infinity" onAction="#handleListeComptes"
+                            style="-fx-background-color:transparent;-fx-text-fill:#cbd5e1;-fx-alignment:CENTER_LEFT;-fx-padding:10 15;"/>
+                    <Button text="📚 Cours" maxWidth="Infinity" onAction="#handleCours"
+                            style="-fx-background-color:transparent;-fx-text-fill:#cbd5e1;-fx-alignment:CENTER_LEFT;-fx-padding:10 15;"/>
+                    <Button text="📅 Events" maxWidth="Infinity" onAction="#handleEventsList"
+                            style="-fx-background-color:transparent;-fx-text-fill:#cbd5e1;-fx-alignment:CENTER_LEFT;-fx-padding:10 15;"/>
+                    <Button text="🎮 Jeux" maxWidth="Infinity" onAction="#handleJeux"
+                            style="-fx-background-color:transparent;-fx-text-fill:#cbd5e1;-fx-alignment:CENTER_LEFT;-fx-padding:10 15;"/>
+                    <Button text="💬 Forums" maxWidth="Infinity" onAction="#handleForums"
+                            style="-fx-background-color:transparent;-fx-text-fill:#cbd5e1;-fx-alignment:CENTER_LEFT;-fx-padding:10 15;"/>
+                    <Label text="📹 Meet" style="-fx-text-fill:#0FB5A9;-fx-font-size:12;-fx-font-weight:bold;-fx-padding:10 15 2 15;"/>
+                    <Button text="   � Dashboard" maxWidth="Infinity" onAction="#handleMeetDashboard"
+                            style="-fx-background-color:transparent;-fx-text-fill:#94a3b8;-fx-alignment:CENTER_LEFT;-fx-padding:8 25;"/>
+                    <Button text="   �📋 Réunions" maxWidth="Infinity" onAction="#handleMeetList"
+                            style="-fx-background-color:transparent;-fx-text-fill:#94a3b8;-fx-alignment:CENTER_LEFT;-fx-padding:8 25;"/>
+                    <Button text="   👥 Participants" maxWidth="Infinity"
+                            style="-fx-background-color:#0FB5A9;-fx-text-fill:white;-fx-alignment:CENTER_LEFT;-fx-padding:8 25;-fx-background-radius:6;"/>
+                    <Region VBox.vgrow="ALWAYS"/>
+                    <Button text="🚪 Logout" maxWidth="Infinity" onAction="#handleLogout"
+                            style="-fx-background-color:transparent;-fx-text-fill:#f87171;-fx-alignment:CENTER_LEFT;-fx-padding:10 15;"/>
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </left>
+
+    <!-- TOP HEADER -->
+    <top>
+        <VBox spacing="0">
+            <!-- Breadcrumbs / Top Nav -->
+            <HBox alignment="CENTER_LEFT" spacing="12"
+                  style="-fx-background-color:white;-fx-border-color:#e2e8f0;-fx-border-width:0 0 1 0;-fx-padding:12 20;">
+                <HBox spacing="8" alignment="CENTER_LEFT">
+                    <Label text="🏠 Admin" style="-fx-text-fill:#64748b; -fx-font-size:13;"/>
+                    <Label text="›" style="-fx-text-fill:#94a3b8; -fx-font-size:14;"/>
+                    <Label text="📹 Meet" style="-fx-text-fill:#64748b; -fx-font-size:13;"/>
+                    <Label text="›" style="-fx-text-fill:#94a3b8; -fx-font-size:14;"/>
+                    <Label text="👥 Participants" style="-fx-text-fill:#0FB5A9; -fx-font-size:13; -fx-font-weight:bold;"/>
+                </HBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <TextField fx:id="searchField" promptText="🔍 Rechercher..." prefWidth="200"
+                           style="-fx-background-radius:8;-fx-border-color:#e2e8f0;-fx-border-radius:8;-fx-padding:8 12;"
+                           onKeyReleased="#handleSearch"/>
+                <ComboBox fx:id="filterRoleCombo" promptText="Rôle" prefWidth="130"
+                          style="-fx-background-radius:8;" onAction="#handleFilter"/>
+                <ComboBox fx:id="sortCombo" promptText="Trier" prefWidth="130"
+                          style="-fx-background-radius:8;" onAction="#handleSort"/>
+                <Button text="➕ Ajouter un Participant" onAction="#handleAdd"
+                        style="-fx-background-color:#0FB5A9;-fx-text-fill:white;-fx-font-weight:700;-fx-background-radius:8;-fx-padding:8 16;"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- CONTENT -->
+    <center>
+        <VBox spacing="12" style="-fx-padding:20;-fx-background-color:#f8fafc;">
+            <Label fx:id="totalLabel" text="Total : 0 participant(s)"
+                   style="-fx-font-size:13;-fx-text-fill:#64748b;"/>
+            <TableView fx:id="participantTable" VBox.vgrow="ALWAYS"
+                       style="-fx-background-radius:8;-fx-border-color:#e2e8f0;-fx-border-radius:8;">
+                <columns>
+
+                    <TableColumn fx:id="colNom"     text="Nom"       prefWidth="150"/>
+                    <TableColumn fx:id="colPrenom"  text="Prénom"    prefWidth="150"/>
+                    <TableColumn fx:id="colEmail"   text="Email"     prefWidth="220"/>
+                    <TableColumn fx:id="colRole"    text="Rôle"      prefWidth="100"/>
+                    <TableColumn fx:id="colDate"    text="Créé le"   prefWidth="110"/>
+                    <TableColumn fx:id="colActions" text="Actions"   prefWidth="130"/>
+                </columns>
+                <placeholder><Label text="Aucun participant trouvé." style="-fx-text-fill:#94a3b8;"/></placeholder>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>

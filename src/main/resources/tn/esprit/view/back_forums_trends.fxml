@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.BarChart?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.Back.BackForumsTrendsController"
+            prefHeight="900.0" prefWidth="1400.0" 
+            style="-fx-background-color: #f1f5f9;">
+
+    <!-- TOP NAVBAR -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15"
+              style="-fx-background-color: #ffffff; -fx-border-color: #e2e8f0; -fx-border-width: 0 0 1 0; -fx-padding: 15;">
+            <Label text="NAJA7NI" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+            <Separator orientation="VERTICAL" />
+            <Label text="Analyse des Tendances &amp; Prédictions" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #64748b;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="⬅️ Retour Dashboard" onAction="#handleBack" 
+                    style="-fx-background-color: #f8fafc; -fx-text-fill: #475569; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-weight: bold; -fx-cursor: hand;" />
+            <Button text="📊 Statistiques Classiques" onAction="#handleStats" 
+                    style="-fx-background-color: linear-gradient(to right, #4f46e5, #3b82f6); -fx-text-fill: white; -fx-background-radius: 8; -fx-padding: 10 20; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.3), 10, 0, 0, 3); -fx-cursor: hand;" />
+        </HBox>
+    </top>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: #f1f5f9;">
+            <VBox spacing="30" style="-fx-padding: 40;">
+
+                <!-- Header -->
+                <VBox spacing="5">
+                    <Label text="📈 Analyse Prédictive" style="-fx-font-size: 32; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+                    <Label text="Anticipez l'inactivité et identifiez les forums en pleine croissance." style="-fx-text-fill: #64748b; -fx-font-size: 16;" />
+                </VBox>
+
+                <!-- KPI Cards -->
+                <GridPane hgap="25" vgap="20">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="33.3" />
+                        <ColumnConstraints percentWidth="33.3" />
+                        <ColumnConstraints percentWidth="33.3" />
+                    </columnConstraints>
+
+                    <VBox style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 15, 0, 0, 4);"
+                          GridPane.columnIndex="0" spacing="10">
+                        <Label text="Croissance Hebdomadaire" style="-fx-text-fill: #64748b; -fx-font-size: 14; -fx-font-weight: bold;" />
+                        <HBox alignment="BOTTOM_LEFT" spacing="10">
+                            <Label fx:id="growthRateLabel" text="+15%" style="-fx-text-fill: #10b981; -fx-font-size: 32; -fx-font-weight: bold;" />
+                            <Label text="vs sem. dernière" style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" />
+                        </HBox>
+                    </VBox>
+
+                    <VBox style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 15, 0, 0, 4);"
+                          GridPane.columnIndex="1" spacing="10">
+                        <Label text="Forums à Risque (Inactifs)" style="-fx-text-fill: #64748b; -fx-font-size: 14; -fx-font-weight: bold;" />
+                        <HBox alignment="BOTTOM_LEFT" spacing="10">
+                            <Label fx:id="atRiskLabel" text="3" style="-fx-text-fill: #f43f5e; -fx-font-size: 32; -fx-font-weight: bold;" />
+                            <Label text="Nécessitent une intervention" style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" />
+                        </HBox>
+                    </VBox>
+
+                    <VBox style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 15, 0, 0, 4);"
+                          GridPane.columnIndex="2" spacing="10">
+                        <Label text="Momentum Actuel" style="-fx-text-fill: #64748b; -fx-font-size: 14; -fx-font-weight: bold;" />
+                        <HBox alignment="BOTTOM_LEFT" spacing="10">
+                            <Label fx:id="momentumLabel" text="Élevé" style="-fx-text-fill: #8b5cf6; -fx-font-size: 32; -fx-font-weight: bold;" />
+                            <Label text="Engagement global" style="-fx-text-fill: #94a3b8; -fx-font-size: 12;" />
+                        </HBox>
+                    </VBox>
+                </GridPane>
+
+                <!-- AI STRATEGIC REPORT -->
+                <VBox spacing="20" style="-fx-background-color: #f0f9ff; -fx-background-radius: 20; -fx-padding: 30; -fx-border-color: #bae6fd; -fx-border-radius: 20; -fx-border-width: 1; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 15, 0, 0, 4);">
+                    <HBox alignment="CENTER_LEFT" spacing="20">
+                        <VBox alignment="CENTER" style="-fx-background-color: rgba(59, 130, 246, 0.1); -fx-background-radius: 16; -fx-min-width: 60; -fx-min-height: 60; -fx-max-width: 60; -fx-max-height: 60;">
+                            <Label text="🤖" style="-fx-font-size: 30;" />
+                        </VBox>
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="Conseiller Stratégique IA" style="-fx-text-fill: #1e293b; -fx-font-size: 20; -fx-font-weight: bold;" />
+                            <Label text="Analyse cognitive et stratégique de votre communauté" style="-fx-text-fill: #64748b; -fx-font-size: 14;" />
+                        </VBox>
+                        <Button text="🔄 Actualiser l'Analyse" onAction="#generateStrategicReport" 
+                                style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10; -fx-padding: 10 25; -fx-cursor: hand; -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.2), 10, 0, 0, 3);" />
+                    </HBox>
+                    <Separator opacity="0.4" />
+                    <Label fx:id="aiReportLabel" wrapText="true" 
+                           text="Cliquez sur 'Actualiser' pour générer votre rapport stratégique personnalisé..." 
+                           style="-fx-text-fill: #334155; -fx-font-size: 15; -fx-line-spacing: 6; -fx-font-family: 'Segoe UI';" />
+                </VBox>
+
+                <!-- Trend Chart Section -->
+                <VBox style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 15, 0, 0, 4);" spacing="20">
+                    <HBox alignment="CENTER_LEFT">
+                        <VBox spacing="5" HBox.hgrow="ALWAYS">
+                            <Label text="📊 Tendance Globale des Messages" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+                            <Label text="Nombre de messages publiés par jour (30 derniers jours)" style="-fx-text-fill: #64748b; -fx-font-size: 14;" />
+                        </VBox>
+                        <ComboBox fx:id="periodComboBox" prefWidth="180" promptText="Période" style="-fx-background-color: white; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-background-radius: 8;" />
+                    </HBox>
+                    <LineChart fx:id="activityTrendChart" prefHeight="400" createSymbols="true" style="-fx-background-color: transparent;">
+                        <xAxis>
+                            <CategoryAxis fx:id="dateAxis" label="Date" side="BOTTOM" />
+                        </xAxis>
+                        <yAxis>
+                            <NumberAxis fx:id="countAxis" label="Messages" side="LEFT" />
+                        </yAxis>
+                    </LineChart>
+                </VBox>
+
+                <!-- Prediction Table Section -->
+                <VBox style="-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 15, 0, 0, 4);" spacing="20">
+                    <Label text="🔮 Prédictions par Forum" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+                    <TableView fx:id="predictionTable" prefHeight="400" 
+                               style="-fx-background-color: white; -fx-background-radius: 12; -fx-border-color: #e2e8f0; -fx-border-radius: 12; -fx-padding: 5;">
+                        <columns>
+                            <TableColumn fx:id="colForum" prefWidth="250" text="Forum" />
+                            <TableColumn fx:id="colTrend" prefWidth="150" text="Tendance" />
+                            <TableColumn fx:id="colScore" prefWidth="150" text="Score" />
+                            <TableColumn fx:id="colRecommendation" prefWidth="450" text="Recommandation IA" />
+                        </columns>
+                        <placeholder>
+                            <Label text="Pas assez de données pour générer des prédictions." style="-fx-text-fill: #94a3b8;" />
+                        </placeholder>
+                    </TableView>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

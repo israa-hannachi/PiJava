@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.Back.RecommandationController"
+            prefHeight="900.0" prefWidth="1400.0"
+            style="-fx-background-color: #f8fafc;">
+    <center>
+        <ScrollPane fitToWidth="true"
+                    style="-fx-background-color: #f8fafc;">
+            <VBox spacing="20"
+                  style="-fx-padding: 25; -fx-background-color: #f8fafc;">
+
+                <!-- Header -->
+                <HBox spacing="20" alignment="CENTER_LEFT">
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Recommandation de Quiz"
+                               style="-fx-font-size: 28; -fx-font-weight: bold;
+                                      -fx-text-fill: #1e293b;" />
+                        <Label text="Questions depuis OpenTDB pour enrichir vos jeux."
+                               style="-fx-text-fill: #64748b; -fx-font-size: 14;" />
+                    </VBox>
+                    <HBox spacing="10">
+                        <Button text="Retour a la liste" onAction="#handleRetour"
+                                style="-fx-background-color: #334155;
+                                       -fx-text-fill: white; -fx-font-size: 13;
+                                       -fx-padding: 10 25; -fx-background-radius: 8;
+                                       -fx-font-weight: bold;"/>
+                        <Button text="Exporter PDF" onAction="#exportPdf"
+                                style="-fx-background-color: #dc2626;
+                                       -fx-text-fill: white; -fx-font-size: 13;
+                                       -fx-padding: 10 25; -fx-background-radius: 8;
+                                       -fx-font-weight: bold;"/>
+                    </HBox>
+                </HBox>
+
+                <!-- Filtres -->
+                <VBox spacing="15"
+                      style="-fx-border-color: #e2e8f0; -fx-background-color: white;
+                             -fx-background-radius: 12; -fx-border-radius: 12;
+                             -fx-padding: 20;
+                             -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.05),10,0,0,2);">
+                    <Label text="Filtres"
+                           style="-fx-font-size: 16; -fx-font-weight: bold;
+                                  -fx-text-fill: #1e293b;" />
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <VBox spacing="5">
+                            <Label text="Matiere / Niveau"
+                                   style="-fx-text-fill: #64748b; -fx-font-size: 11;" />
+                            <ComboBox fx:id="categoryCombo" prefWidth="230"
+                                      style="-fx-background-color: #f1f5f9;
+                                             -fx-background-radius: 6;" />
+                        </VBox>
+                        <VBox spacing="5">
+                            <Label text="Type de question"
+                                   style="-fx-text-fill: #64748b; -fx-font-size: 11;" />
+                            <ComboBox fx:id="typeCombo" prefWidth="180"
+                                      style="-fx-background-color: #f1f5f9;
+                                             -fx-background-radius: 6;" />
+                        </VBox>
+                        <VBox spacing="5">
+                            <Label text="Nombre"
+                                   style="-fx-text-fill: #64748b; -fx-font-size: 11;" />
+                            <ComboBox fx:id="amountCombo" prefWidth="100"
+                                      style="-fx-background-color: #f1f5f9;
+                                             -fx-background-radius: 6;" />
+                        </VBox>
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button text="Afficher" onAction="#handleSearch"
+                                style="-fx-background-color: #0FB5A9;
+                                       -fx-text-fill: white; -fx-font-size: 13;
+                                       -fx-padding: 10 20; -fx-background-radius: 6;
+                                       -fx-font-weight: bold;" />
+                    </HBox>
+                    <Label fx:id="statusLabel" text=""
+                           style="-fx-text-fill: #64748b; -fx-font-size: 12;" />
+                </VBox>
+
+                <!-- KPI Cards -->
+                <HBox spacing="15">
+                    <VBox HBox.hgrow="ALWAYS"
+                          style="-fx-border-color: #e2e8f0; -fx-background-color: white;
+                                 -fx-background-radius: 6; -fx-border-radius: 6;
+                                 -fx-padding: 20;
+                                 -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.04),4,0,0,1);">
+                        <Label text="Questions chargees"
+                               style="-fx-text-fill: #64748b; -fx-font-size: 12;" />
+                        <Label fx:id="kpiTotal" text="—"
+                               style="-fx-text-fill: #1e293b; -fx-font-size: 28;
+                                      -fx-font-weight: bold;" />
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS"
+                          style="-fx-border-color: #e2e8f0; -fx-background-color: white;
+                                 -fx-background-radius: 6; -fx-border-radius: 6;
+                                 -fx-padding: 20;
+                                 -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.04),4,0,0,1);">
+                        <Label text="Matiere"
+                               style="-fx-text-fill: #64748b; -fx-font-size: 12;" />
+                        <Label fx:id="kpiMatiere" text="—"
+                               style="-fx-text-fill: #0FB5A9; -fx-font-size: 16;
+                                      -fx-font-weight: bold;" />
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS"
+                          style="-fx-border-color: #e2e8f0; -fx-background-color: white;
+                                 -fx-background-radius: 6; -fx-border-radius: 6;
+                                 -fx-padding: 20;
+                                 -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.04),4,0,0,1);">
+                        <Label text="Type"
+                               style="-fx-text-fill: #64748b; -fx-font-size: 12;" />
+                        <Label fx:id="kpiType" text="—"
+                               style="-fx-text-fill: #7c3aed; -fx-font-size: 16;
+                                      -fx-font-weight: bold;" />
+                    </VBox>
+                    <VBox HBox.hgrow="ALWAYS"
+                          style="-fx-border-color: #e2e8f0; -fx-background-color: white;
+                                 -fx-background-radius: 6; -fx-border-radius: 6;
+                                 -fx-padding: 20;
+                                 -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.04),4,0,0,1);">
+                        <Label text="Difficulte"
+                               style="-fx-text-fill: #64748b; -fx-font-size: 12;" />
+                        <Label fx:id="kpiDifficulte" text="—"
+                               style="-fx-text-fill: #dc2626; -fx-font-size: 16;
+                                      -fx-font-weight: bold;" />
+                    </VBox>
+                </HBox>
+
+                <!-- Tableau -->
+                <!-- Tableau + Bloc-notes -->
+                <HBox spacing="15">
+                    <!-- Tableau -->
+                    <VBox spacing="10"
+                          HBox.hgrow="ALWAYS"
+                          style="-fx-border-color: #e2e8f0; -fx-background-color: white;
+                 -fx-background-radius: 6; -fx-border-radius: 6;
+                 -fx-padding: 20;
+                 -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.04),4,0,0,1);">
+                        <Label text="Questions recommandees"
+                               style="-fx-font-size: 14; -fx-font-weight: bold;
+                      -fx-text-fill: #1e293b;" />
+                        <TableView fx:id="questionsTable" prefHeight="450">
+                            <columns>
+                                <TableColumn fx:id="colNum" text="#" prefWidth="50"/>
+                                <TableColumn fx:id="colQuestion" text="Question"
+                                             prefWidth="500"/>
+                                <TableColumn fx:id="colAnswers" text="Reponses"
+                                             prefWidth="300"/>
+                                <TableColumn fx:id="colDifficulty" text="Difficulte"
+                                             prefWidth="100"/>
+                            </columns>
+                            <placeholder>
+                                <Label text="Selectionnez une matiere et cliquez Afficher."
+                                       style="-fx-text-fill: #94a3b8;" />
+                            </placeholder>
+                        </TableView>
+                    </VBox>
+
+                    <!-- Bloc-notes -->
+                    <VBox spacing="10"
+                          prefWidth="300"
+                          style="-fx-border-color: #e2e8f0; -fx-background-color: white;
+                 -fx-background-radius: 6; -fx-border-radius: 6;
+                 -fx-padding: 20;
+                 -fx-effect: dropshadow(gaussian,rgba(0,0,0,0.04),4,0,0,1);">
+                        <Label text="Bloc-notes"
+                               style="-fx-font-size: 14; -fx-font-weight: bold;
+                      -fx-text-fill: #1e293b;" />
+                        <TextArea fx:id="notesArea" prefHeight="450" wrapText="true"
+                                  promptText="Écrivez vos notes ici..."
+                                  style="-fx-background-color:#f1f5f9; -fx-border-color:#e2e8f0;"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Footer -->
+                <HBox alignment="CENTER">
+                    <Label text="Source : Open Trivia Database (opentdb.com)"
+                           style="-fx-text-fill: #94a3b8; -fx-font-size: 11;" />
+                </HBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+</BorderPane>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.forum.back.BackForumForumsController"
+            style="-fx-background-color: #f8fafc;">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15"
+              style="-fx-background-color: #ffffff; -fx-border-color: #e2e8f0; -fx-border-width: 0 0 1 0; -fx-padding: 15;">
+            <Label text="NAJA7NI" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+            <Separator orientation="VERTICAL" />
+            <Label text="Gestion Forums" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #64748b;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="⬅️ Retour" onAction="#handleBack" />
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: #f8fafc;">
+            <VBox spacing="20" style="-fx-padding: 25;">
+
+                <GridPane hgap="15" vgap="10">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="33" />
+                        <ColumnConstraints percentWidth="33" />
+                        <ColumnConstraints percentWidth="34" />
+                    </columnConstraints>
+
+                    <VBox style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 15; -fx-border-color: #e2e8f0; -fx-border-radius: 8;"
+                          GridPane.columnIndex="0">
+                        <Label text="Total Forums" style="-fx-text-fill: #64748b; -fx-font-size: 12;" />
+                        <Label fx:id="totalForumsLabel" text="—" style="-fx-text-fill: #0f172a; -fx-font-size: 20; -fx-font-weight: bold;" />
+                    </VBox>
+
+                    <VBox style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 15; -fx-border-color: #e2e8f0; -fx-border-radius: 8;"
+                          GridPane.columnIndex="1">
+                        <Label text="Actifs" style="-fx-text-fill: #64748b; -fx-font-size: 12;" />
+                        <Label fx:id="activeForumsLabel" text="—" style="-fx-text-fill: #16a34a; -fx-font-size: 20; -fx-font-weight: bold;" />
+                    </VBox>
+
+                    <VBox style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 15; -fx-border-color: #e2e8f0; -fx-border-radius: 8;"
+                          GridPane.columnIndex="2">
+                        <Label text="Inactifs/Fermés" style="-fx-text-fill: #64748b; -fx-font-size: 12;" />
+                        <Label fx:id="inactiveForumsLabel" text="—" style="-fx-text-fill: #dc2626; -fx-font-size: 20; -fx-font-weight: bold;" />
+                    </VBox>
+                </GridPane>
+
+                <HBox spacing="10">
+                    <TextField fx:id="searchField" promptText="🔍 Rechercher..." prefWidth="250"
+                               onAction="#handleSearch" />
+                    <ComboBox fx:id="filterEtat" prefWidth="120" />
+                    <ComboBox fx:id="categorieCombo" promptText="Toutes catégories" prefWidth="150" />
+                    <Button text="Filtrer" onAction="#handleSearch" />
+                    <Button text="Trier Titre" onAction="#sortByTitre" />
+
+                    <Button text="Trier État" onAction="#sortByEtat" />
+                    <Region HBox.hgrow="ALWAYS" />
+                    <Label fx:id="resultCountLabel" text="0 forum(s)" />
+                </HBox>
+
+                <TableView fx:id="forumTable" prefHeight="300">
+                    <columns>
+
+                        <TableColumn fx:id="colTitre" text="Titre" prefWidth="180" />
+                        <TableColumn fx:id="colDescription" text="Description" prefWidth="200" />
+                        <TableColumn fx:id="colCategorie" text="Catégorie" prefWidth="120" />
+                        <TableColumn fx:id="colEtat" text="État" prefWidth="80" />
+                        <TableColumn fx:id="colCreatedBy" text="Créé par" prefWidth="100" />
+                        <TableColumn fx:id="colActions" text="Actions" prefWidth="120" />
+                    </columns>
+                </TableView>
+
+                <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 8; -fx-padding: 20; -fx-border-color: #e2e8f0; -fx-border-radius: 8;">
+                    <Label text="Formulaire Forum" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+                    
+                    <Label fx:id="errorLabel" visible="false" />
+                    
+                    <GridPane hgap="15" vgap="10">
+                        <columnConstraints>
+                            <ColumnConstraints prefWidth="100" />
+                            <ColumnConstraints prefWidth="300" />
+                            <ColumnConstraints prefWidth="100" />
+                            <ColumnConstraints prefWidth="200" />
+                        </columnConstraints>
+                        
+                        <Label text="Titre *" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                        <TextField fx:id="titreField" promptText="Nom du forum" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                        
+                        <Label text="Catégorie *" GridPane.rowIndex="0" GridPane.columnIndex="2" />
+                        <ComboBox fx:id="categorieFormCombo" promptText="Sélectionner..." GridPane.rowIndex="0" GridPane.columnIndex="3" />
+                        
+                        <Label text="Description" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                        <TextArea fx:id="descriptionField" promptText="Description du forum" prefRowCount="2" GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="3" />
+                        
+                        <Label text="Créé par *" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                        <TextField fx:id="createdByField" promptText="Nom du créateur" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                        
+                        <Label text="État" GridPane.rowIndex="2" GridPane.columnIndex="2" />
+                        <ComboBox fx:id="etatCombo" GridPane.rowIndex="2" GridPane.columnIndex="3" />
+                    </GridPane>
+                    
+                    <HBox spacing="10">
+                        <Button text="➕ Ajouter" onAction="#handleAdd" 
+                                style="-fx-background-color: #0FB5A9; -fx-text-fill: white; -fx-font-weight: bold;" />
+                        <Button text="✏️ Modifier" onAction="#handleUpdate"
+                                style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: bold;" />
+                        <Button text="🗑️ Effacer" onAction="#handleClear"
+                                style="-fx-background-color: #64748b; -fx-text-fill: white; -fx-font-weight: bold;" />
+                    </HBox>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>
