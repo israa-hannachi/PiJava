@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.Back.BackCoursModuleController"
+            style="-fx-background-color: #f8fafc;">
+
+    <!-- SIDEBAR -->
+    <left>
+        <VBox prefWidth="250" style="-fx-background-color: #1e293b;">
+            <Label text="NAJA7NI ADMIN" style="-fx-text-fill: white; -fx-font-size: 18; -fx-font-weight: bold; -fx-padding: 20 20 10 20;" />
+            <Label text="Navigation" style="-fx-text-fill: #94a3b8; -fx-font-size: 11; -fx-padding: 0 20 8 20;" />
+            <Button text="🏠 Dashboard" maxWidth="Infinity" onAction="#handleDashboard"
+                    style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-alignment: CENTER_LEFT; -fx-padding: 10 20;" />
+            <Button text="📚 Cours" maxWidth="Infinity"
+                    style="-fx-background-color: #334155; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-padding: 10 20;" />
+            <Button text="   📂 Catégories" maxWidth="Infinity" onAction="#handleCategories"
+                    style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-alignment: CENTER_LEFT; -fx-padding: 8 30;" />
+            <Button text="   📦 Modules" maxWidth="Infinity" onAction="#handleModules"
+                    style="-fx-background-color: #0FB5A9; -fx-text-fill: white; -fx-alignment: CENTER_LEFT; -fx-padding: 8 30;" />
+            <Button text="   📖 Cours" maxWidth="Infinity" onAction="#handleCours"
+                    style="-fx-background-color: transparent; -fx-text-fill: #94a3b8; -fx-alignment: CENTER_LEFT; -fx-padding: 8 30;" />
+            <Button text="🎮 Jeux" maxWidth="Infinity"
+                    style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-alignment: CENTER_LEFT; -fx-padding: 10 20;" />
+            <Button text="💬 Forums" maxWidth="Infinity"
+                    style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-alignment: CENTER_LEFT; -fx-padding: 10 20;" />
+            <Button text="📅 Events" maxWidth="Infinity"
+                    style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-alignment: CENTER_LEFT; -fx-padding: 10 20;" />
+            <Button text="📹 Meet" maxWidth="Infinity"
+                    style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-alignment: CENTER_LEFT; -fx-padding: 10 20;" />
+            <Region VBox.vgrow="ALWAYS"/>
+            <Button text="🚪 Logout" maxWidth="Infinity" onAction="#handleLogout"
+                    style="-fx-background-color: transparent; -fx-text-fill: #f87171; -fx-alignment: CENTER_LEFT; -fx-padding: 10 20;" />
+        </VBox>
+    </left>
+
+    <!-- TOP HEADER -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="12"
+              style="-fx-background-color: white; -fx-border-color: #e2e8f0; -fx-border-width: 0 0 1 0; -fx-padding: 12 20;">
+            <Label text="📦 Gestion des Modules" style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <TextField fx:id="searchField" promptText="🔍 Rechercher un module..."
+                       prefWidth="280"
+                       style="-fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 8 12;"
+                       onKeyReleased="#handleSearch"/>
+            <ComboBox fx:id="filterNiveau" promptText="Niveau" prefWidth="130"
+                      style="-fx-background-radius: 8; -fx-border-color: #e2e8f0;" onAction="#handleFilterNiveau"/>
+            <ComboBox fx:id="filterCategorie" promptText="Catégorie" prefWidth="150"
+                      style="-fx-background-radius: 8; -fx-border-color: #e2e8f0;" onAction="#handleFilterCategorie"/>
+            <Button text="➕ Ajouter" onAction="#handleAddModule"
+                    style="-fx-background-color:#0FB5A9; -fx-text-fill:white; -fx-font-weight:700; -fx-background-radius:8; -fx-padding:8 16;"/>
+        </HBox>
+    </top>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <VBox spacing="14" style="-fx-padding: 20; -fx-background-color: #f8fafc;">
+
+            <!-- Breadcrumb -->
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Label text="Dashboard" style="-fx-text-fill: #64748b; -fx-font-size: 13;" />
+                <Label text="›" style="-fx-text-fill: #94a3b8;" />
+                <Label text="Cours" style="-fx-text-fill: #64748b; -fx-font-size: 13;" />
+                <Label text="›" style="-fx-text-fill: #94a3b8;" />
+                <Label text="Modules" style="-fx-text-fill: #0f172a; -fx-font-weight: bold; -fx-font-size: 13;" />
+            </HBox>
+
+            <!-- Stats -->
+            <HBox spacing="12">
+                <VBox style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 12 20;" HBox.hgrow="ALWAYS">
+                    <Label text="Total Modules" style="-fx-text-fill: #64748b; -fx-font-size: 11;"/>
+                    <Label fx:id="totalModLabel" text="—" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                </VBox>
+                <VBox style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 12 20;" HBox.hgrow="ALWAYS">
+                    <Label text="Débutant" style="-fx-text-fill: #64748b; -fx-font-size: 11;"/>
+                    <Label fx:id="debutantLabel" text="—" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #16a34a;"/>
+                </VBox>
+                <VBox style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 12 20;" HBox.hgrow="ALWAYS">
+                    <Label text="Intermédiaire" style="-fx-text-fill: #64748b; -fx-font-size: 11;"/>
+                    <Label fx:id="interLabel" text="—" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #2563eb;"/>
+                </VBox>
+                <VBox style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 12 20;" HBox.hgrow="ALWAYS">
+                    <Label text="Avancé" style="-fx-text-fill: #64748b; -fx-font-size: 11;"/>
+                    <Label fx:id="avanceLabel" text="—" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #dc2626;"/>
+                </VBox>
+            </HBox>
+
+            <!-- Sort bar -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Trier par:" style="-fx-text-fill: #64748b; -fx-font-size: 12;"/>
+                <Button text="Titre ↕" onAction="#sortByTitre"
+                        style="-fx-background-color: white; -fx-border-color: #e2e8f0; -fx-border-radius: 6; -fx-padding: 5 12; -fx-font-size: 12;"/>
+                <Button text="Durée ↕" onAction="#sortByDuree"
+                        style="-fx-background-color: white; -fx-border-color: #e2e8f0; -fx-border-radius: 6; -fx-padding: 5 12; -fx-font-size: 12;"/>
+                <Button text="Niveau ↕" onAction="#sortByNiveau"
+                        style="-fx-background-color: white; -fx-border-color: #e2e8f0; -fx-border-radius: 6; -fx-padding: 5 12; -fx-font-size: 12;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="resultCountLabel" text="" style="-fx-text-fill: #64748b; -fx-font-size: 12;"/>
+            </HBox>
+
+            <!-- Table -->
+            <TableView fx:id="moduleTable" VBox.vgrow="ALWAYS"
+                       style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #e2e8f0; -fx-border-radius: 10;">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="55"/>
+                    <TableColumn fx:id="colTitre" text="Titre" prefWidth="180"/>
+                    <TableColumn fx:id="colNiveau" text="Niveau" prefWidth="110"/>
+                    <TableColumn fx:id="colDuree" text="Durée (h)" prefWidth="90"/>
+                    <TableColumn fx:id="colCategorie" text="Catégorie" prefWidth="150"/>
+                    <TableColumn fx:id="colActif" text="Statut" prefWidth="80"/>
+                    <TableColumn fx:id="colActions" text="Actions" prefWidth="160"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+</BorderPane>

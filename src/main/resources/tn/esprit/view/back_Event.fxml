@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.chart.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.event.BackEventController"
+            prefHeight="900.0" prefWidth="1400.0">
+
+    <!-- LEFT SIDEBAR NAVIGATION -->
+    <left>
+        <VBox id="sidebar" prefWidth="260" style="-fx-background-color: #1a202c; -fx-padding: 0;">
+            <!-- Logo Section -->
+            <VBox prefHeight="70" alignment="TOP_CENTER" style="-fx-background-color: #0f172a; -fx-padding: 15;">
+                <Label text="NAJA7NI ADMIN" style="-fx-font-size:18; -fx-font-weight:bold; -fx-text-fill:white;"/>
+            </VBox>
+
+            <!-- Navigation Menu -->
+            <ScrollPane fitToWidth="true" style="-fx-background-color: #1a202c;" hbarPolicy="NEVER">
+                <VBox spacing="5" style="-fx-padding: 10; -fx-background-color: #1a202c;">
+                    <Label text="Navigation" style="-fx-text-fill: #94a3b8; -fx-font-size: 12; -fx-font-weight: bold; -fx-padding: 10 0 5 0;" />
+
+                    <!-- Dashboard Menu -->
+                    <Button text="ðŸ  Dashboard" onAction="#handleDashboard" maxWidth="1.7976931348623157E308"
+                            style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #334155; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
+
+                    <!-- Comptes Menu -->
+                    <VBox spacing="0" style="-fx-background-radius: 8; -fx-background-color: #334155;">
+                        <Button text="ðŸ‘¤ Comptes" onAction="#toggleComptesMenu" maxWidth="1.7976931348623157E308"
+                                style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #334155; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
+                        <VBox fx:id="comptesSubmenu" spacing="0" style="-fx-background-color: #1a202c;" visible="false" managed="false">
+                            <Button text="   Liste des comptes" maxWidth="1.7976931348623157E308"
+                                    onAction="#handleListeComptes"
+                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                        </VBox>
+                    </VBox>
+
+                    <!-- Cours Menu -->
+                    <VBox spacing="0" style="-fx-background-radius: 8; -fx-background-color: #334155;">
+                        <Button text="ðŸ“š Cours" onAction="#toggleCoursMenu" maxWidth="1.7976931348623157E308"
+                                style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #334155; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
+                        <VBox fx:id="coursSubmenu" spacing="0" style="-fx-background-color: #1a202c;" visible="false" managed="false">
+                            <Button text="   ðŸ“‚ CatÃ©gories" onAction="#handleCategories" maxWidth="1.7976931348623157E308" style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                            <Button text="   ðŸ“¦ Modules" onAction="#handleModules" maxWidth="1.7976931348623157E308" style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                            <Button text="   ðŸ“– Cours" onAction="#handleCours" maxWidth="1.7976931348623157E308" style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                        </VBox>
+                    </VBox>
+
+                    <!-- Jeux Menu -->
+                    <VBox spacing="0" style="-fx-background-radius: 8; -fx-background-color: #334155;">
+                        <Button text="ðŸŽ® Jeux" onAction="#toggleJeuxMenu" maxWidth="1.7976931348623157E308"
+                                style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #334155; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
+                        <VBox fx:id="jeuxSubmenu" spacing="0" style="-fx-background-color: #1a202c;" visible="false" managed="false">
+                            <Button text="   Jeux" onAction="#handleBackList" maxWidth="1.7976931348623157E308" style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                        </VBox>
+                    </VBox>
+
+                    <Button text="ðŸ’¬ Forums" maxWidth="Infinity"
+                            style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-alignment: CENTER_LEFT; -fx-padding: 10 20;" />
+
+
+                    <!-- Events Menu -->
+                    <VBox spacing="0" style="-fx-background-radius: 8; -fx-background-color: #334155;">
+                        <Button text="ðŸ“… Events" onAction="#toggleEventsMenu" maxWidth="1.7976931348623157E308"
+                                style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #334155; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
+                        <VBox fx:id="eventsSubmenu" spacing="0" style="-fx-background-color: #1a202c;" visible="true" managed="true">
+                            <Button text="   Liste des Events" onAction="#handleEventsList" maxWidth="1.7976931348623157E308" style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                            <Button text="   Calendrier" onAction="#handleEventsCalendrier" maxWidth="1.7976931348623157E308" style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                            <Button text="   Sponsors" onAction="#handleEventsSponsors" maxWidth="1.7976931348623157E308" style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                            <Button text="   Inscriptions" onAction="#handleEventsInscriptions" maxWidth="1.7976931348623157E308" style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                        </VBox>
+                    </VBox>
+
+                    <Button text="ðŸ“¹ Meet" maxWidth="Infinity"
+                            style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-alignment: CENTER_LEFT; -fx-padding: 10 20;" />
+
+                    <Region VBox.vgrow="ALWAYS" />
+                    <Button text="ðŸšª Logout" onAction="#handleLogout" maxWidth="1.7976931348623157E308"
+                            style="-fx-text-fill: #f87171; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: transparent; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </left>
+
+    <!-- TOP NAVBAR -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15"
+              style="-fx-background-color: #ffffff; -fx-border-color: #e2e8f0; -fx-border-width: 0 0 1 0; -fx-padding: 15;">
+            <Label text="NAJA7NI" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+            <Separator orientation="VERTICAL" />
+            <Label text="Gestion des Ã‰vÃ©nements" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #64748b;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="adminNameLabel" text="Admin" style="-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #0FB5A9;" />
+            <Button text="ðŸ‘¤ Profile" onAction="#handleProfile" />
+        </HBox>
+    </top>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <VBox spacing="20" style="-fx-padding: 20; -fx-background-color: #f8fafc;">
+            <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS" styleClass="floating">
+                <tabs>
+                    <Tab text="ðŸ“… Ã‰vÃ©nements">
+                        <content>
+                            <AnchorPane>
+                                <children>
+                                    <SplitPane dividerPositions="0.65" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" style="-fx-background-color: white;">
+                                        <items>
+                                            <VBox spacing="10.0" style="-fx-padding: 15;">
+                                                <children>
+                                                    <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                                        <children>
+                                                            <TextField fx:id="searchEvent" prefHeight="35.0" prefWidth="350.0" promptText="Rechercher un Ã©vÃ©nement..." style="-fx-background-radius: 8;"/>
+                                                            <Button mnemonicParsing="false" onAction="#handleAddEvent" style="-fx-background-color: #0FB5A9; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 20; -fx-background-radius: 8;" text="+ Ajouter" />
+                                                            <Button mnemonicParsing="false" onAction="#handleEditEvent" style="-fx-background-color: #4299E1; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 8;" text="Modifier" />
+                                                            <Button mnemonicParsing="false" onAction="#handleDeleteEvent" style="-fx-background-color: #F56565; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 8;" text="Supprimer" />
+                                                        </children>
+                                                    </HBox>
+                                                    <TableView fx:id="eventTable" VBox.vgrow="ALWAYS" style="-fx-background-radius: 8;">
+                                                        <columns>
+                                                            <TableColumn fx:id="colEventId" prefWidth="50.0" text="ID" />
+                                                            <TableColumn fx:id="colEventTitle" prefWidth="150.0" text="Titre" />
+                                                            <TableColumn fx:id="colEventDate" prefWidth="120.0" text="Date DÃ©but" />
+                                                            <TableColumn fx:id="colEventLocation" prefWidth="120.0" text="Lieu" />
+                                                            <TableColumn fx:id="colEventCapacity" prefWidth="80.0" text="CapacitÃ©" />
+                                                            <TableColumn fx:id="colEventInscrits" prefWidth="80.0" text="Inscrits" />
+                                                            <TableColumn fx:id="colEventPrice" prefWidth="80.0" text="Prix" />
+                                                        </columns>
+                                                    </TableView>
+                                                </children>
+                                            </VBox>
+                                            <VBox spacing="15.0" style="-fx-padding: 15; -fx-background-color: #f1f5f9;">
+                                                <children>
+                                                    <Label style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #1e293b;" text="DÃ©tails de l'Ã©vÃ©nement" />
+                                                    <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 14; -fx-background-radius: 12; -fx-border-color: #dbe7f2; -fx-border-radius: 12;">
+                                                        <children>
+                                                            <Label text="Assistant Back Event" style="-fx-font-size: 15; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                                                            <Label fx:id="selectedEventMetaLabel"
+                                                                   text="Selectionnez un evenement pour obtenir une analyse plus precise."
+                                                                   wrapText="true"
+                                                                   style="-fx-font-size: 11; -fx-text-fill: #64748b;"/>
+                                                            <TextArea fx:id="backChatArea" editable="false" prefHeight="150.0" wrapText="true"
+                                                                      style="-fx-background-radius: 10; -fx-border-radius: 10;"/>
+                                                            <HBox spacing="8.0">
+                                                                <children>
+                                                                    <TextField fx:id="backChatInput" onAction="#processBackChat"
+                                                                               promptText="Ex: montre les sponsors, les inscriptions, recommande un event..." />
+                                                                    <Button text="Envoyer" onAction="#processBackChat"
+                                                                            style="-fx-background-color: #0FB5A9; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                                                                    <Button text="Vider" onAction="#clearBackChat"
+                                                                            style="-fx-background-color: #e2e8f0; -fx-text-fill: #334155; -fx-font-weight: bold;"/>
+                                                                </children>
+                                                            </HBox>
+                                                        </children>
+                                                    </VBox>
+                                                    <TitledPane animated="false" text="Sponsors liÃ©s" expanded="true">
+                                                       <content>
+                                                          <TableView fx:id="subSponsorTable" prefHeight="200.0">
+                                                            <columns>
+                                                              <TableColumn fx:id="colSubSponsorNom" prefWidth="150.0" text="Nom" />
+                                                              <TableColumn fx:id="colSubSponsorType" prefWidth="100.0" text="Type" />
+                                                            </columns>
+                                                          </TableView>
+                                                       </content>
+                                                    </TitledPane>
+                                                    <TitledPane animated="false" text="Inscriptions liÃ©es" expanded="true">
+                                                       <content>
+                                                          <TableView fx:id="subRegistrationTable" prefHeight="200.0">
+                                                            <columns>
+                                                              <TableColumn fx:id="colSubRegName" prefWidth="150.0" text="Nom" />
+                                                              <TableColumn fx:id="colSubRegStatus" prefWidth="100.0" text="Statut" />
+                                                            </columns>
+                                                          </TableView>
+                                                       </content>
+                                                    </TitledPane>
+                                                </children>
+                                            </VBox>
+                                        </items>
+                                    </SplitPane>
+                                </children>
+                            </AnchorPane>
+                        </content>
+                    </Tab>
+                    <Tab text="ðŸŽ« Inscriptions">
+                        <content>
+                            <VBox spacing="15" style="-fx-padding: 20;">
+                                <HBox alignment="CENTER_LEFT" spacing="10">
+                                    <TextField fx:id="searchReg" prefHeight="35.0" prefWidth="350.0" promptText="Rechercher une inscription..." style="-fx-background-radius: 8;" />
+                                    <Button onAction="#handleAddRegistration" style="-fx-background-color: #0FB5A9; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 8;" text="+ Ajouter" />
+                                    <Button onAction="#handleEditRegistration" style="-fx-background-color: #4299E1; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 8;" text="Modifier" />
+                                    <Button onAction="#handleDeleteRegistration" style="-fx-background-color: #F56565; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 8;" text="Supprimer" />
+                                </HBox>
+                                <TableView fx:id="allRegistrationTable" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="colRegId" prefWidth="50.0" text="ID" />
+                                        <TableColumn fx:id="colRegEvent" prefWidth="150.0" text="Ã‰vÃ©nement ID" />
+                                        <TableColumn fx:id="colRegName" prefWidth="150.0" text="Nom Visiteur" />
+                                        <TableColumn fx:id="colRegEmail" prefWidth="200.0" text="Email" />
+                                        <TableColumn fx:id="colRegDate" prefWidth="150.0" text="Date Inscr." />
+                                        <TableColumn fx:id="colRegStatus" prefWidth="100.0" text="Statut" />
+                                        <TableColumn fx:id="colRegAmount" prefWidth="100.0" text="Montant" />
+                                        <TableColumn fx:id="colRegPaymentStatus" prefWidth="100.0" text="Paiement" />
+                                        <TableColumn fx:id="colRegMode" prefWidth="100.0" text="Mode" />
+                                    </columns>
+                                </TableView>
+                            </VBox>
+                        </content>
+                    </Tab>
+                    <Tab text="ðŸ¤ Sponsors">
+                        <content>
+                            <VBox spacing="15" style="-fx-padding: 20;">
+                                <HBox alignment="CENTER_LEFT" spacing="10">
+                                    <TextField fx:id="searchSponsor" prefHeight="35.0" prefWidth="350.0" promptText="Rechercher un sponsor..." style="-fx-background-radius: 8;" />
+                                    <Button onAction="#handleAddSponsor" style="-fx-background-color: #0FB5A9; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 8;" text="+ Ajouter" />
+                                    <Button onAction="#handleEditSponsor" style="-fx-background-color: #4299E1; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 8;" text="Modifier" />
+                                    <Button onAction="#handleDeleteSponsor" style="-fx-background-color: #F56565; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 8;" text="Supprimer" />
+                                </HBox>
+                                <TableView fx:id="allSponsorTable" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="colSponId" prefWidth="50.0" text="ID" />
+                                        <TableColumn fx:id="colSponNom" prefWidth="150.0" text="Nom" />
+                                        <TableColumn fx:id="colSponType" prefWidth="100.0" text="Type" />
+                                        <TableColumn fx:id="colSponEmail" prefWidth="200.0" text="Email" />
+                                        <TableColumn fx:id="colSponEvent" prefWidth="150.0" text="Ã‰vÃ©nement ID" />
+                                        <TableColumn fx:id="colSponMontant" prefWidth="100.0" text="Montant" />
+                                    </columns>
+                                </TableView>
+                            </VBox>
+                        </content>
+                    </Tab>
+                    <Tab text="ðŸ“Š Statistiques">
+                        <content>
+                            <HBox spacing="20" style="-fx-padding: 20;">
+                                <VBox spacing="15" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);">
+                                    <Label text="RÃ©partition des places par Event" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+                                    <BarChart fx:id="capacityChart" VBox.vgrow="ALWAYS" animated="false">
+                                        <xAxis>
+                                            <CategoryAxis label="Ã‰vÃ©nements" />
+                                        </xAxis>
+                                        <yAxis>
+                                            <NumberAxis label="Places" />
+                                        </yAxis>
+                                    </BarChart>
+                                </VBox>
+                                <VBox spacing="15" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 4);">
+                                    <Label text="Budgets Sponsoring (Top 5 en DT)" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #1e293b;" />
+                                    <PieChart fx:id="sponsorPieChart" VBox.vgrow="ALWAYS" animated="false" />
+                                </VBox>
+                            </HBox>
+                        </content>
+                    </Tab>
+                </tabs>
+            </TabPane>
+        </VBox>
+    </center>
+</BorderPane>

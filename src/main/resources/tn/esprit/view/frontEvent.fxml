@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.WebView?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.front.EventFrontController"
+            prefWidth="1440.0" prefHeight="920.0"
+            style="-fx-background-color: linear-gradient(to bottom, #f6fbff, #effaf8); -fx-font-family: 'Segoe UI';"
+            stylesheets="@/tn/esprit/css/front-home.css">
+
+    <left>
+        <VBox prefWidth="76.0" alignment="TOP_CENTER" spacing="8.0"
+              style="-fx-background-color: #f8fffe;
+                     -fx-border-color: rgba(15, 23, 42, 0.08);
+                     -fx-border-width: 0 1 0 0;">
+            <padding><Insets top="18.0" bottom="18.0"/></padding>
+
+            <Label text="N"
+                   style="-fx-font-size: 22px; -fx-font-weight: 900;
+                          -fx-text-fill: #10b7aa;
+                          -fx-background-color: rgba(16,183,170,0.10);
+                          -fx-background-radius: 14;
+                          -fx-padding: 10 14;"/>
+
+            <VBox styleClass="nav-item" onMouseClicked="#handleAccueil" spacing="4" alignment="CENTER" prefWidth="58" prefHeight="54" style="-fx-background-radius:14; -fx-cursor:hand; -fx-padding: 6 0;">
+                <Label text="A"
+                       style="-fx-font-size:13px; -fx-font-weight:900; -fx-text-fill:#0f172a;"/>
+                <Label text="Accueil" style="-fx-font-size:9px; -fx-text-fill:#94a3b8; -fx-font-weight:700;"/>
+            </VBox>
+            <VBox styleClass="nav-item" onMouseClicked="#handleProfile" spacing="4" alignment="CENTER" prefWidth="58" prefHeight="54" style="-fx-background-radius:14; -fx-cursor:hand; -fx-padding: 6 0;">
+                <Label text="P" style="-fx-font-size:13px; -fx-font-weight:900; -fx-text-fill:#0f172a;"/>
+                <Label text="Profil" style="-fx-font-size:9px; -fx-text-fill:#94a3b8; -fx-font-weight:700;"/>
+            </VBox>
+            <VBox styleClass="nav-item" onMouseClicked="#handleCours" spacing="4" alignment="CENTER" prefWidth="58" prefHeight="54" style="-fx-background-radius:14; -fx-cursor:hand; -fx-padding: 6 0;">
+                <Label text="C" style="-fx-font-size:13px; -fx-font-weight:900; -fx-text-fill:#0f172a;"/>
+                <Label text="Cours" style="-fx-font-size:9px; -fx-text-fill:#94a3b8; -fx-font-weight:700;"/>
+            </VBox>
+            <VBox styleClass="nav-item" onMouseClicked="#handleGameList" spacing="4" alignment="CENTER" prefWidth="58" prefHeight="54" style="-fx-background-radius:14; -fx-cursor:hand; -fx-padding: 6 0;">
+                <Label text="J" style="-fx-font-size:13px; -fx-font-weight:900; -fx-text-fill:#0f172a;"/>
+                <Label text="Jeux" style="-fx-font-size:9px; -fx-text-fill:#94a3b8; -fx-font-weight:700;"/>
+            </VBox>
+
+            <VBox spacing="4" alignment="CENTER" prefWidth="58" prefHeight="60"
+                  style="-fx-background-color: linear-gradient(to bottom, #16c6b8, #0fb5a9);
+                         -fx-background-radius:16; -fx-cursor:hand; -fx-padding: 6 0;">
+                <Label text="E" style="-fx-font-size:13px; -fx-font-weight:900; -fx-text-fill:white;"/>
+                <Label text="Events" style="-fx-font-size:9px; -fx-text-fill:white; -fx-font-weight:800;"/>
+            </VBox>
+
+            <Region VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </left>
+
+    <top>
+        <HBox spacing="14.0" alignment="CENTER_LEFT" prefHeight="64.0"
+              style="-fx-background-color: rgba(255,255,255,0.92);
+                     -fx-border-color: rgba(15, 23, 42, 0.08);
+                     -fx-border-width: 0 0 1 0;">
+            <padding><Insets top="12.0" right="24.0" bottom="12.0" left="24.0"/></padding>
+
+            <VBox spacing="2">
+                <Label text="naja7ni"
+                       style="-fx-font-size: 19px; -fx-font-weight: 900; -fx-text-fill: #0fb5a9;"/>
+                <Label text="Plateforme evenementielle"
+                       style="-fx-font-size: 10px; -fx-text-fill: #94a3b8; -fx-font-weight: 700;"/>
+            </VBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <StackPane maxWidth="420.0">
+                <TextField fx:id="searchBar"
+                           promptText="Rechercher des events, lieux, categories..."
+                           style="-fx-background-color: #f3fbfb; -fx-background-radius: 999;
+                                  -fx-border-color: #d8efec; -fx-border-radius: 999;
+                                  -fx-padding: 11 18 11 42; -fx-font-size: 13px;"/>
+                <Label text="Search"
+                       style="-fx-font-size:11px; -fx-font-weight:800; -fx-text-fill:#94a3b8; -fx-padding:0 0 0 14;"
+                       StackPane.alignment="CENTER_LEFT"/>
+            </StackPane>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Button text="My Ticket" onAction="#voirTickets"
+                    style="-fx-background-color: white;
+                           -fx-border-color: #d8e3ee; -fx-border-radius: 12;
+                           -fx-background-radius: 12; -fx-text-fill: #475569;
+                           -fx-font-size: 12px; -fx-font-weight: 700;
+                           -fx-padding: 10 16; -fx-cursor: hand;"/>
+
+            <Button fx:id="adminButton" text="Back Office" onAction="#handleBackOffice"
+                    visible="false" managed="false"
+                    style="-fx-background-color: #12213f; -fx-text-fill: white;
+                           -fx-font-weight: 800; -fx-background-radius: 12; -fx-padding: 10 16;"/>
+
+            <Button fx:id="profileButton" text="Profil" onAction="#handleProfile"
+                    style="-fx-background-color: linear-gradient(to right, #12c4b5, #0fb5a9);
+                           -fx-text-fill: white; -fx-font-weight: 800;
+                           -fx-background-radius: 999; -fx-padding: 10 18; -fx-cursor: hand;"/>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true"
+                    style="-fx-background: transparent; -fx-background-color: transparent; -fx-border-color: transparent;">
+            <VBox spacing="22.0" style="-fx-padding: 26 28 28 28;">
+
+                <VBox spacing="10.0"
+                      style="-fx-background-color: linear-gradient(to right, rgba(255,255,255,0.95), rgba(242,252,250,0.95));
+                             -fx-background-radius: 24; -fx-padding: 24 26;
+                             -fx-border-color: rgba(15, 181, 169, 0.10); -fx-border-radius: 24;">
+                    <Label text="PLATEFORME EVENEMENTIELLE"
+                           style="-fx-background-color: #dff8f4; -fx-text-fill: #0fb5a9;
+                                  -fx-font-size: 10px; -fx-font-weight: 800;
+                                  -fx-padding: 6 10; -fx-background-radius: 999;"/>
+                    <Label text="Explorez Les Evenements"
+                           style="-fx-font-size: 34px; -fx-font-weight: 900; -fx-text-fill: #0f172a;"/>
+                    <Label text="Un espace moderne pour trouver, reserver et suivre les evenements qui vous correspondent."
+                           style="-fx-font-size: 14px; -fx-text-fill: #64748b;"/>
+                </VBox>
+
+                <HBox spacing="18.0">
+                    <VBox HBox.hgrow="ALWAYS" spacing="10.0"
+                          style="-fx-background-color: white; -fx-background-radius: 22;
+                                 -fx-padding: 16; -fx-border-color: #dff0ef; -fx-border-radius: 22;
+                                 -fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.08), 16, 0, 0, 6);">
+                        <HBox alignment="CENTER_LEFT">
+                            <Label text="Carte des evenements"
+                                   style="-fx-font-size: 15px; -fx-font-weight: 800; -fx-text-fill: #334155;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button text="Filtrer proximite" onAction="#filterNearbyEvents"
+                                    style="-fx-background-color: #e6faf7; -fx-text-fill: #0fb5a9;
+                                           -fx-font-size: 11px; -fx-font-weight: 800;
+                                           -fx-background-radius: 999; -fx-padding: 8 12; -fx-cursor: hand;"/>
+                        </HBox>
+                        <WebView fx:id="mapWebView" prefHeight="330.0"/>
+                    </VBox>
+
+                    <VBox prefWidth="310.0" spacing="12.0"
+                          style="-fx-background-color: white; -fx-background-radius: 22;
+                                 -fx-padding: 18; -fx-border-color: #dff0ef; -fx-border-radius: 22;
+                                 -fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.08), 16, 0, 0, 6);">
+                        <Label text="Calendrier personalise"
+                               style="-fx-font-size: 16px; -fx-font-weight: 900; -fx-text-fill: #1e293b;"/>
+                        <Label text="Retrouvez vos inscriptions, vos prochains rendez-vous et vos jours charges."
+                               wrapText="true"
+                               style="-fx-font-size: 12px; -fx-text-fill: #64748b;"/>
+
+                        <VBox spacing="10.0"
+                              style="-fx-background-color: linear-gradient(to bottom right, #112548, #1d315f);
+                                     -fx-background-radius: 18; -fx-padding: 16;">
+                            <Label text="Analyse IA"
+                                   style="-fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: 800;"/>
+                            <Label text="Obtenez une vue claire de vos events les plus pertinents et de vos prochaines reservations."
+                                   wrapText="true"
+                                   style="-fx-text-fill: rgba(255,255,255,0.78); -fx-font-size: 12px;"/>
+                            <Button text="IA Conseil" onAction="#askAiAssistant"
+                                    style="-fx-background-color: rgba(255,255,255,0.14); -fx-text-fill: white;
+                                           -fx-font-weight: 800; -fx-background-radius: 12;
+                                           -fx-padding: 10 14; -fx-cursor: hand;"/>
+                            <Button text="Assistant Event" onAction="#openEventChatBot"
+                                    style="-fx-background-color: rgba(255,255,255,0.08); -fx-text-fill: white;
+                                           -fx-border-color: rgba(255,255,255,0.18); -fx-border-radius: 12;
+                                           -fx-background-radius: 12; -fx-font-weight: 800;
+                                           -fx-padding: 10 14; -fx-cursor: hand;"/>
+                        </VBox>
+
+                        <VBox spacing="8.0"
+                              style="-fx-background-color: #f7fbff; -fx-background-radius: 18;
+                                     -fx-padding: 16; -fx-border-color: #e5edf6; -fx-border-radius: 18;">
+                            <Label text="Mon calendrier"
+                                   style="-fx-font-size: 14px; -fx-font-weight: 800; -fx-text-fill: #1e293b;"/>
+                            <Label text="Visualisez vos inscriptions dans une vue mensuelle et ajoutez des avis apres participation."
+                                   wrapText="true"
+                                   style="-fx-font-size: 12px; -fx-text-fill: #64748b;"/>
+                            <Button text="Ouvrir le calendrier" onAction="#openWebPageCit"
+                                    style="-fx-background-color: linear-gradient(to right, #12c4b5, #0fb5a9);
+                                           -fx-text-fill: white; -fx-font-weight: 800;
+                                           -fx-background-radius: 12; -fx-padding: 11 14; -fx-cursor: hand;"/>
+                        </VBox>
+
+                    </VBox>
+                </HBox>
+
+                <VBox fx:id="forYouBox" managed="false" visible="false" spacing="12.0"
+                      style="-fx-background-color: white; -fx-background-radius: 20;
+                             -fx-padding: 18 20; -fx-border-color: #ccf3ee;
+                             -fx-border-radius: 20;">
+                    <HBox alignment="CENTER_LEFT" spacing="12">
+                        <VBox spacing="3">
+                            <Label fx:id="labelForYou" text="Recommandations personnalisees"
+                                   style="-fx-font-size:15px; -fx-font-weight:900; -fx-text-fill:#0f172a;"/>
+                            <Label text="Selectionnees selon votre profil."
+                                   style="-fx-font-size:12px; -fx-text-fill:#64748b;"/>
+                        </VBox>
+                    </HBox>
+                    <FlowPane fx:id="recommendedEventContainer" hgap="16.0" vgap="16.0" prefWrapLength="1100.0"/>
+                </VBox>
+
+                <HBox spacing="20.0" alignment="TOP_LEFT">
+                    <VBox HBox.hgrow="ALWAYS" spacing="16.0">
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <Label text="Liste des evenements"
+                                   style="-fx-font-size: 24px; -fx-font-weight: 900; -fx-text-fill: #1e293b;"/>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <Button text="Tous" style="-fx-background-color: #10b7aa; -fx-text-fill: white; -fx-font-size: 11px; -fx-font-weight: 800; -fx-background-radius: 999; -fx-padding: 7 12;"/>
+                        </HBox>
+
+                        <FlowPane fx:id="eventContainer" hgap="18.0" vgap="18.0" prefWrapLength="920.0"/>
+
+                        <HBox alignment="CENTER" style="-fx-padding: 8 0 4 0;">
+                            <Pagination fx:id="pagination" maxPageIndicatorCount="5" pageCount="1"
+                                        style="-fx-page-information-visible: false;"/>
+                        </HBox>
+                    </VBox>
+
+                    <VBox prefWidth="340.0" spacing="14.0"
+                          style="-fx-background-color: white; -fx-background-radius: 24;
+                                 -fx-padding: 18; -fx-border-color: #dff0ef; -fx-border-radius: 24;
+                                 -fx-effect: dropshadow(three-pass-box, rgba(15,23,42,0.08), 16, 0, 0, 6);">
+                        <HBox alignment="CENTER_LEFT">
+                            <VBox spacing="3">
+                                <Label text="Participation"
+                                       style="-fx-font-size: 22px; -fx-font-weight: 900; -fx-text-fill: #1e293b;"/>
+                                <Label text="Reservez sans changer la logique existante."
+                                       style="-fx-font-size: 12px; -fx-text-fill: #64748b;"/>
+                            </VBox>
+                        </HBox>
+
+                        <HBox alignment="CENTER_LEFT" spacing="0">
+                            <Label fx:id="stepCircle1" text="1"
+                                   style="-fx-background-color:#0FB5A9; -fx-text-fill:white;
+                                          -fx-font-weight:800; -fx-background-radius:999;
+                                          -fx-min-width:24; -fx-min-height:24;
+                                          -fx-max-width:24; -fx-max-height:24;
+                                          -fx-alignment:CENTER;"/>
+                            <Label text="Selection"
+                                   style="-fx-font-size:10px; -fx-font-weight:700;
+                                          -fx-text-fill:#0FB5A9; -fx-padding:0 6;"/>
+                            <Region style="-fx-background-color:#e2e8f0; -fx-pref-height:1;" HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="stepCircle2" text="2"
+                                   style="-fx-background-color:#f1f5f9; -fx-text-fill:#94a3b8;
+                                          -fx-font-weight:700; -fx-background-radius:999;
+                                          -fx-min-width:24; -fx-min-height:24;
+                                          -fx-max-width:24; -fx-max-height:24;
+                                          -fx-alignment:CENTER;"/>
+                            <Label text="Details"
+                                   style="-fx-font-size:10px; -fx-font-weight:700;
+                                          -fx-text-fill:#94a3b8; -fx-padding:0 6;"/>
+                            <Region style="-fx-background-color:#e2e8f0; -fx-pref-height:1;" HBox.hgrow="ALWAYS"/>
+                            <Label fx:id="stepCircle3" text="3"
+                                   style="-fx-background-color:#f1f5f9; -fx-text-fill:#94a3b8;
+                                          -fx-font-weight:700; -fx-background-radius:999;
+                                          -fx-min-width:24; -fx-min-height:24;
+                                          -fx-max-width:24; -fx-max-height:24;
+                                          -fx-alignment:CENTER;"/>
+                            <Label text="Confirmation"
+                                   style="-fx-font-size:10px; -fx-font-weight:700;
+                                          -fx-text-fill:#94a3b8; -fx-padding:0 0 0 6;"/>
+                        </HBox>
+
+                        <VBox fx:id="selectedEventPreview" spacing="8.0"
+                              style="-fx-background-color:#f7fbff; -fx-padding:16;
+                                     -fx-background-radius:16; -fx-border-color:#e2e8f0;
+                                     -fx-border-radius:16;">
+                            <Label text="Aucun evenement selectionne"
+                                   style="-fx-text-fill:#94a3b8; -fx-font-size:12px; -fx-font-style:italic;"/>
+                        </VBox>
+
+                        <Label text="VOS INFORMATIONS"
+                               style="-fx-font-size:10px; -fx-font-weight:800;
+                                      -fx-text-fill:#94a3b8; -fx-letter-spacing:0.8;"/>
+
+                        <VBox spacing="5.0">
+                            <Label text="Nom complet"
+                                   style="-fx-font-size:11px; -fx-font-weight:700; -fx-text-fill:#475569;"/>
+                            <TextField fx:id="visitorName" promptText="Ex: Jean Dupont"
+                                       style="-fx-background-color:#F8FAFC; -fx-background-radius:10;
+                                              -fx-border-color:#e2e8f0; -fx-border-radius:10;
+                                              -fx-padding:10 12; -fx-font-size:13px;"/>
+                        </VBox>
+
+                        <VBox spacing="5.0">
+                            <Label text="Email"
+                                   style="-fx-font-size:11px; -fx-font-weight:700; -fx-text-fill:#475569;"/>
+                            <TextField fx:id="visitorEmail" promptText="exemple@domain.com"
+                                       style="-fx-background-color:#F8FAFC; -fx-background-radius:10;
+                                              -fx-border-color:#e2e8f0; -fx-border-radius:10;
+                                              -fx-padding:10 12; -fx-font-size:13px;"/>
+                        </VBox>
+
+                        <HBox spacing="10.0">
+                            <VBox spacing="5.0" HBox.hgrow="ALWAYS">
+                                <Label text="Telephone"
+                                       style="-fx-font-size:11px; -fx-font-weight:700; -fx-text-fill:#475569;"/>
+                                <TextField fx:id="numTel" promptText="XX XXX XXX"
+                                           style="-fx-background-color:#F8FAFC; -fx-background-radius:10;
+                                                  -fx-border-color:#e2e8f0; -fx-border-radius:10;
+                                                  -fx-padding:10 12; -fx-font-size:13px;"/>
+                            </VBox>
+                            <VBox spacing="5.0">
+                                <Label text="Tickets"
+                                       style="-fx-font-size:11px; -fx-font-weight:700; -fx-text-fill:#475569;"/>
+                                <HBox alignment="CENTER_LEFT" spacing="6.0">
+                                    <Button text="-" onAction="#decrementTickets"
+                                            style="-fx-background-color:#f1f5f9; -fx-background-radius:8;
+                                                   -fx-border-color:#e2e8f0; -fx-border-radius:8;
+                                                   -fx-font-size:14px; -fx-min-width:30; -fx-min-height:30;
+                                                   -fx-cursor:hand;"/>
+                                    <Label fx:id="ticketCountLabel" text="1"
+                                           style="-fx-font-size:15px; -fx-font-weight:900;
+                                                  -fx-text-fill:#0f172a; -fx-min-width:28;
+                                                  -fx-alignment:CENTER;"/>
+                                    <Button text="+" onAction="#incrementTickets"
+                                            style="-fx-background-color:#f1f5f9; -fx-background-radius:8;
+                                                   -fx-border-color:#e2e8f0; -fx-border-radius:8;
+                                                   -fx-font-size:14px; -fx-min-width:30; -fx-min-height:30;
+                                                   -fx-cursor:hand;"/>
+                                </HBox>
+                            </VBox>
+                        </HBox>
+
+                        <VBox spacing="8.0"
+                              style="-fx-background-color:#f8fafc; -fx-padding:14;
+                                     -fx-background-radius:16; -fx-border-color:#e2e8f0;
+                                     -fx-border-radius:16;">
+                            <Label text="RESUME"
+                                   style="-fx-font-size:10px; -fx-font-weight:800;
+                                          -fx-text-fill:#94a3b8; -fx-letter-spacing:0.5;"/>
+                            <HBox>
+                                <Label text="Evenement" style="-fx-font-size:12px; -fx-text-fill:#64748b;"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="summaryEventName" text="-"
+                                       style="-fx-font-size:12px; -fx-font-weight:700; -fx-text-fill:#0f172a; -fx-max-width:140; -fx-wrap-text:true; -fx-text-alignment:right;"/>
+                            </HBox>
+                            <HBox>
+                                <Label text="Prix unitaire" style="-fx-font-size:12px; -fx-text-fill:#64748b;"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="summaryUnitPrice" text="-"
+                                       style="-fx-font-size:12px; -fx-font-weight:700; -fx-text-fill:#0f172a;"/>
+                            </HBox>
+                            <HBox>
+                                <Label text="Quantite" style="-fx-font-size:12px; -fx-text-fill:#64748b;"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="summaryQty" text="-"
+                                       style="-fx-font-size:12px; -fx-font-weight:700; -fx-text-fill:#0f172a;"/>
+                            </HBox>
+                            <HBox>
+                                <Label text="Total" style="-fx-font-size:12px; -fx-text-fill:#64748b; -fx-font-weight:800;"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="summaryTotal" text="-"
+                                       style="-fx-font-size:16px; -fx-font-weight:900; -fx-text-fill:#0FB5A9;"/>
+                            </HBox>
+                        </VBox>
+
+                        <Button onAction="#reserver" maxWidth="1.7976931348623157E308"
+                                text="Je m'inscris maintenant"
+                                style="-fx-background-color: linear-gradient(to right, #12c4b5, #0fb5a9);
+                                       -fx-text-fill: white; -fx-font-weight: 900; -fx-font-size: 14px;
+                                       -fx-padding: 13; -fx-background-radius: 14; -fx-cursor: hand;"/>
+
+                        <Label fx:id="feedbackLabel" wrapText="true"
+                               style="-fx-font-size:12px; -fx-font-weight:600;"/>
+
+                        <Separator style="-fx-opacity:0.5;"/>
+
+                        <Label text="PARTENAIRES OFFICIELS"
+                               style="-fx-font-size:10px; -fx-font-weight:800;
+                                      -fx-text-fill:#94a3b8; -fx-letter-spacing:0.5;"/>
+                        <FlowPane fx:id="sponsorContainer" hgap="6.0" vgap="6.0" prefWrapLength="280.0"/>
+                    </VBox>
+                </HBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>
