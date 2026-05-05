@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.Back.BackForumsStatisticsController"
+            prefHeight="900.0" prefWidth="1400.0" style="-fx-background-color: #f8fafc;">
+
+    <!-- TOP NAVBAR -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15"
+              style="-fx-background-color: #ffffff; -fx-border-color: #e2e8f0; -fx-border-width: 0 0 1 0; -fx-padding: 15;">
+            <Label text="NAJA7NI" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+            <Separator orientation="VERTICAL" />
+            <Label text="Statistiques Forums" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #64748b;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="📈 Analyse des Tendances" onAction="#handleTrends" style="-fx-background-color: #8b5cf6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;" />
+            <Button text="📜 Rapport résumé" onAction="#handleSummaryReport" style="-fx-background-color: #a855f7; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;" />
+            <Button text="⬅️ Retour Dashboard" onAction="#handleBack" />
+            <Button text="🏠 Dashboard" onAction="#handleDashboard" />
+            <Button text="🚪 Logout" onAction="#handleLogout" />
+        </HBox>
+    </top>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: #f8fafc;">
+            <VBox spacing="30" style="-fx-padding: 40; -fx-background-color: #f8fafc;">
+
+                <!-- Breadcrumb -->
+                <HBox spacing="5" alignment="CENTER_LEFT">
+                    <Label text="Home" style="-fx-text-fill: #94a3b8; -fx-font-size: 14;" />
+                    <Label text=">" style="-fx-text-fill: #94a3b8; -fx-font-size: 14;" />
+                    <Label text="Statistiques" style="-fx-text-fill: #0f172a; -fx-font-size: 14; -fx-font-weight: bold;" />
+                </HBox>
+
+                <!-- Page Title -->
+                <Label text="📊 Statistiques des Forums" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+
+                <!-- Summary Cards - Colorful matching web design -->
+                <GridPane hgap="20" vgap="20">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="25" />
+                        <ColumnConstraints percentWidth="25" />
+                        <ColumnConstraints percentWidth="25" />
+                        <ColumnConstraints percentWidth="25" />
+                    </columnConstraints>
+
+                    <VBox onMouseClicked="#handleRefresh" style="-fx-background-color: #8b5cf6; -fx-background-radius: 12; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 4); -fx-cursor: hand;"
+                          GridPane.columnIndex="0" spacing="5">
+                        <Label fx:id="totalForumsLabel" text="12" style="-fx-text-fill: white; -fx-font-size: 36; -fx-font-weight: bold;" />
+                        <Label text="Total Forums" style="-fx-text-fill: white; -fx-font-size: 14;" />
+                        <Label text="💬" style="-fx-font-size: 24;" />
+                    </VBox>
+
+                    <VBox onMouseClicked="#handleRefresh" style="-fx-background-color: #10b981; -fx-background-radius: 12; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 4); -fx-cursor: hand;"
+                          GridPane.columnIndex="1" spacing="5">
+                        <Label fx:id="activeForumsLabel" text="7" style="-fx-text-fill: white; -fx-font-size: 36; -fx-font-weight: bold;" />
+                        <Label text="Forums Actifs" style="-fx-text-fill: white; -fx-font-size: 14;" />
+                        <Label text="✅" style="-fx-font-size: 24;" />
+                    </VBox>
+
+                    <VBox onMouseClicked="#handleRefresh" style="-fx-background-color: #ef4444; -fx-background-radius: 12; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 4); -fx-cursor: hand;"
+                          GridPane.columnIndex="2" spacing="5">
+                        <Label fx:id="inactiveForumsLabel" text="5" style="-fx-text-fill: white; -fx-font-size: 36; -fx-font-weight: bold;" />
+                        <Label text="Forums Inactifs" style="-fx-text-fill: white; -fx-font-size: 14;" />
+                        <Label text="🚫" style="-fx-font-size: 24;" />
+                    </VBox>
+
+                    <VBox onMouseClicked="#handleRefresh" style="-fx-background-color: #06b6d4; -fx-background-radius: 12; -fx-padding: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 15, 0, 0, 4); -fx-cursor: hand;"
+                          GridPane.columnIndex="3" spacing="5">
+                        <Label fx:id="totalMessagesLabel" text="62" style="-fx-text-fill: white; -fx-font-size: 36; -fx-font-weight: bold;" />
+                        <Label text="Total Messages" style="-fx-text-fill: white; -fx-font-size: 14;" />
+                        <Label text="💭" style="-fx-font-size: 24;" />
+                    </VBox>
+                </GridPane>
+
+                <!-- Charts Section -->
+                <HBox spacing="20">
+                    <!-- Pie Chart - Répartition des Forums -->
+                    <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 25; -fx-border-color: #e2e8f0; -fx-border-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);" HBox.hgrow="ALWAYS" spacing="15">
+                        <Label text="🥧 Répartition des Forums" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+                        <Label text="État des Forums" style="-fx-text-fill: #64748b; -fx-font-size: 14;" />
+                        <PieChart fx:id="forumsByStatusChart" prefHeight="300" prefWidth="400" />
+                    </VBox>
+
+                    <!-- Bar Chart - Top Forums par Messages -->
+                    <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 25; -fx-border-color: #e2e8f0; -fx-border-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);" HBox.hgrow="ALWAYS" spacing="15">
+                        <Label text="📊 Top Forums par Messages" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+                        <BarChart fx:id="topForumsChart" prefHeight="300" prefWidth="400">
+                            <xAxis>
+                                <CategoryAxis label="Forum" fx:id="topForumAxis" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis label="Messages" fx:id="messagesAxis" />
+                            </yAxis>
+                        </BarChart>
+                    </VBox>
+                </HBox>
+
+                <!-- Forums par Catégorie Section -->
+                <HBox spacing="20">
+                    <!-- Category List -->
+                    <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 25; -fx-border-color: #e2e8f0; -fx-border-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);" HBox.hgrow="ALWAYS" spacing="15">
+                        <Label text="📁 Forums par Catégorie" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+                        <ListView fx:id="categoryListView" prefHeight="250" />
+                    </VBox>
+
+                    <!-- Bar Chart - Forums par Catégorie -->
+                    <VBox style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 25; -fx-border-color: #e2e8f0; -fx-border-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 10, 0, 0, 2);" HBox.hgrow="ALWAYS" spacing="15">
+                        <Label text="📊 Forums par Catégorie (Graphique)" style="-fx-font-size: 18; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+                        <BarChart fx:id="forumsByCategoryChart" prefHeight="250" prefWidth="400">
+                            <xAxis>
+                                <CategoryAxis label="Catégorie" fx:id="categoryAxis" />
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis label="Forums" fx:id="forumsCountAxis" />
+                            </yAxis>
+                        </BarChart>
+                    </VBox>
+                </HBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

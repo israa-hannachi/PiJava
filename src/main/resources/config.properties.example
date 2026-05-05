@@ -1,0 +1,35 @@
+# ============================================================
+# FICHIER EXEMPLE - Copiez ce fichier en config.properties
+# et remplissez vos propres clés API
+# NE JAMAIS committer config.properties avec de vraies clés !
+# ============================================================
+
+# Configuration Gemini AI
+# Obtenez une clé gratuite sur: https://aistudio.google.com/apikey
+GEMINI_API_KEY=your_gemini_api_key_here
+
+# Configuration OpenAI (alternative)
+# Obtenez une clé API sur: https://platform.openai.com/api-keys
+OPENAI_API_KEY=your_openai_api_key_here
+
+# Configuration Hugging Face (gratuit)
+# Obtenez une clé sur: https://huggingface.co/settings/tokens
+HUGGINGFACE_API_KEY=your_huggingface_api_key_here
+
+# Configuration Groq (gratuit et rapide)
+# Obtenez une clé API gratuite sur: https://console.groq.com/keys
+GROQ_API_KEY=your_groq_api_key_here
+
+# Ordre de priorité des providers IA (séparés par des virgules)
+AI_PROVIDERS_PRIORITY=groq,huggingface,gemini,openai
+
+# Configuration du fallback automatique
+GEMINI_ENABLE_FALLBACK=true
+GEMINI_MAX_RETRIES=2
+GEMINI_RETRY_DELAY_MS=5000
+
+# Activer/Désactiver les providers
+ENABLE_GEMINI=true
+ENABLE_OPENAI=true
+ENABLE_HUGGINGFACE=true
+ENABLE_GROQ=true

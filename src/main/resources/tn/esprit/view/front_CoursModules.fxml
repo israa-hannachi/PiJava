@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.front.FrontCoursModulesController"
+            prefWidth="1440.0" prefHeight="980.0"
+            style="-fx-background-color:#FFFFFF; -fx-font-family:'Segoe UI';">
+
+    <!-- SIDEBAR -->
+    <left>
+        <VBox prefWidth="250.0" spacing="12.0"
+              style="-fx-background-color: #FFFFFF; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 2, 0);">
+            <padding><Insets top="20.0" right="15.0" bottom="20.0" left="15.0"/></padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <ImageView fitWidth="180.0" preserveRatio="true" pickOnBounds="true">
+                    <image><Image url="@/assets/images/logo.png"/></image>
+                </ImageView>
+            </HBox>
+
+            <Region prefHeight="20"/>
+
+            <Button text="🏠 Accueil" maxWidth="1.7976931348623157E308" alignment="BASELINE_LEFT" onAction="#handleHome"
+                    style="-fx-background-color:transparent; -fx-text-fill:#4B5563; -fx-font-weight:600; -fx-background-radius:10; -fx-padding:12 15; -fx-font-size:15; -fx-cursor:hand;"/>
+            <Button text="👤 Profil" maxWidth="1.7976931348623157E308" alignment="BASELINE_LEFT" onAction="#handleProfile"
+                    style="-fx-background-color:transparent; -fx-text-fill:#4B5563; -fx-font-weight:600; -fx-background-radius:10; -fx-padding:12 15; -fx-font-size:15; -fx-cursor:hand;"/>
+            <Button text="📚 Cours" maxWidth="1.7976931348623157E308" alignment="BASELINE_LEFT" onAction="#handleCoursCategories"
+                    style="-fx-background-color:linear-gradient(to right, rgba(15,181,169,0.1), rgba(15,181,169,0.05)); -fx-text-fill:#0FB5A9; -fx-font-weight:700; -fx-background-radius:10; -fx-padding:12 15; -fx-font-size:15; -fx-border-color:#0FB5A9; -fx-border-width:0 0 0 4; -fx-border-radius:10;"/>
+            <Button text="🎥 Meet" maxWidth="1.7976931348623157E308" alignment="BASELINE_LEFT" onAction="#handleMeets"
+                    style="-fx-background-color:transparent; -fx-text-fill:#4B5563; -fx-font-weight:600; -fx-background-radius:10; -fx-padding:12 15; -fx-font-size:15; -fx-cursor:hand;"/>
+            <Button text="🎮 Jeux" maxWidth="1.7976931348623157E308" alignment="BASELINE_LEFT" onAction="#handleJeux"
+                    style="-fx-background-color:transparent; -fx-text-fill:#4B5563; -fx-font-weight:600; -fx-background-radius:10; -fx-padding:12 15; -fx-font-size:15; -fx-cursor:hand;"/>
+            <Button text="📅 Events" maxWidth="1.7976931348623157E308" alignment="BASELINE_LEFT"
+                    style="-fx-background-color:transparent; -fx-text-fill:#4B5563; -fx-font-weight:600; -fx-background-radius:10; -fx-padding:12 15; -fx-font-size:15; -fx-cursor:hand;"/>
+            <Button text="💬 Forums" maxWidth="1.7976931348623157E308" alignment="BASELINE_LEFT" onAction="#handleForums"
+                    style="-fx-background-color:transparent; -fx-text-fill:#4B5563; -fx-font-weight:600; -fx-background-radius:10; -fx-padding:12 15; -fx-font-size:15; -fx-cursor:hand;"/>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <VBox spacing="10" style="-fx-background-color:linear-gradient(to bottom right, #0FB5A9, #04B6D5); -fx-background-radius:15; -fx-padding:20;">
+                <Label text="Need Help?" style="-fx-font-weight:bold; -fx-text-fill:white; -fx-font-size:16;"/>
+                <Label text="Check our docs or contact support." style="-fx-text-fill:rgba(255,255,255,0.9); -fx-wrap-text:true;"/>
+                <Button text="Support" style="-fx-background-color:white; -fx-text-fill:#0FB5A9; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:8 15; -fx-cursor:hand;"/>
+            </VBox>
+
+            <Button text="🚪 Logout" maxWidth="Infinity" onAction="#handleLogout"
+                    style="-fx-background-color:#FEF2F2; -fx-text-fill:#EF4444; -fx-font-weight:700; -fx-background-radius:10; -fx-padding:10 15; -fx-font-size:14; -fx-cursor:hand;"/>
+        </VBox>
+    </left>
+
+    <!-- TOP BAR -->
+    <top>
+        <HBox spacing="12.0" alignment="CENTER_LEFT"
+              style="-fx-background-color:#FFFFFF; -fx-border-color:rgba(15,181,169,0.12); -fx-border-width:0 0 1 0;">
+            <padding><Insets top="10.0" right="20.0" bottom="10.0" left="20.0"/></padding>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <TextField fx:id="searchField" promptText="🔍 Rechercher un module..." prefWidth="340.0"
+                       style="-fx-background-color:#F7FFFE; -fx-background-radius:12; -fx-border-color:transparent; -fx-padding:10 14;"
+                       onKeyReleased="#handleSearch"/>
+            <ComboBox fx:id="filterNiveau" promptText="Niveau" prefWidth="130.0"
+                      style="-fx-background-radius:10;" onAction="#handleFilterNiveau"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="profileButton" text="Profile" onAction="#handleProfile"
+                    style="-fx-background-color:linear-gradient(to bottom right, #0FB5A9, #04B6D5); -fx-text-fill:white; -fx-font-weight:700; -fx-background-radius:999;"/>
+        </HBox>
+    </top>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background:#F0FFFE;">
+            <VBox spacing="20.0" style="-fx-background-color:#F0FFFE;">
+                <padding><Insets top="24.0" right="28.0" bottom="24.0" left="28.0"/></padding>
+
+                <!-- Breadcrumb + back -->
+                <HBox spacing="8.0" alignment="CENTER_LEFT">
+                    <Button text="← Catégories" onAction="#handleCoursCategories"
+                            style="-fx-background-color:transparent; -fx-text-fill:#0FB5A9; -fx-font-weight:700; -fx-cursor:hand; -fx-padding:0;"/>
+                    <Label text="›" style="-fx-text-fill:#94a3b8;"/>
+                    <Label fx:id="breadcrumbLabel" text="Modules"
+                           style="-fx-text-fill:#1f2937; -fx-font-weight:700;"/>
+                </HBox>
+
+                <!-- Category header banner -->
+                <VBox spacing="6.0"
+                      style="-fx-background-color:linear-gradient(to right, #0FB5A9, #04B6D5); -fx-background-radius:18; -fx-padding:22;">
+                    <Label fx:id="categorieNomLabel" text="📦 Modules"
+                           style="-fx-font-size:28px; -fx-font-weight:800; -fx-text-fill:white;"/>
+                    <Label fx:id="categorieDescLabel" text=""
+                           style="-fx-font-size:13px; -fx-text-fill:rgba(255,255,255,0.9); -fx-wrap-text:true;"/>
+                </VBox>
+
+                <!-- Stats -->
+                <HBox spacing="14.0">
+                    <VBox spacing="4.0" HBox.hgrow="ALWAYS"
+                          style="-fx-background-color:white; -fx-background-radius:12; -fx-padding:14; -fx-border-color:rgba(15,181,169,0.15); -fx-border-radius:12;">
+                        <Label fx:id="totalModLabel" text="—" style="-fx-font-size:28px; -fx-font-weight:800; -fx-text-fill:#1f2937;"/>
+                        <Label text="Modules" style="-fx-text-fill:#64748b;"/>
+                    </VBox>
+                    <VBox spacing="4.0" HBox.hgrow="ALWAYS"
+                          style="-fx-background-color:white; -fx-background-radius:12; -fx-padding:14; -fx-border-color:rgba(15,181,169,0.15); -fx-border-radius:12;">
+                        <Label fx:id="debutantLabel" text="—" style="-fx-font-size:28px; -fx-font-weight:800; -fx-text-fill:#16a34a;"/>
+                        <Label text="Débutant" style="-fx-text-fill:#64748b;"/>
+                    </VBox>
+                    <VBox spacing="4.0" HBox.hgrow="ALWAYS"
+                          style="-fx-background-color:white; -fx-background-radius:12; -fx-padding:14; -fx-border-color:rgba(15,181,169,0.15); -fx-border-radius:12;">
+                        <Label fx:id="interLabel" text="—" style="-fx-font-size:28px; -fx-font-weight:800; -fx-text-fill:#2563eb;"/>
+                        <Label text="Intermédiaire" style="-fx-text-fill:#64748b;"/>
+                    </VBox>
+                    <VBox spacing="4.0" HBox.hgrow="ALWAYS"
+                          style="-fx-background-color:white; -fx-background-radius:12; -fx-padding:14; -fx-border-color:rgba(15,181,169,0.15); -fx-border-radius:12;">
+                        <Label fx:id="avanceLabel" text="—" style="-fx-font-size:28px; -fx-font-weight:800; -fx-text-fill:#dc2626;"/>
+                        <Label text="Avancé" style="-fx-text-fill:#64748b;"/>
+                    </VBox>
+                </HBox>
+
+                <!-- Sort bar -->
+                <HBox spacing="10.0" alignment="CENTER_LEFT">
+                    <Label text="Trier:" style="-fx-text-fill:#64748b; -fx-font-size:13;"/>
+                    <Button text="Titre A→Z" onAction="#sortAZ"
+                            style="-fx-background-color:white; -fx-border-color:#e2e8f0; -fx-border-radius:8; -fx-background-radius:8; -fx-padding:6 14; -fx-font-size:12;"/>
+                    <Button text="Durée ↑" onAction="#sortByDuree"
+                            style="-fx-background-color:white; -fx-border-color:#e2e8f0; -fx-border-radius:8; -fx-background-radius:8; -fx-padding:6 14; -fx-font-size:12;"/>
+                    <Button text="Niveau" onAction="#sortByNiveau"
+                            style="-fx-background-color:white; -fx-border-color:#e2e8f0; -fx-border-radius:8; -fx-background-radius:8; -fx-padding:6 14; -fx-font-size:12;"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="countLabel" text="" style="-fx-text-fill:#94a3b8; -fx-font-size:12;"/>
+                </HBox>
+
+                <!-- Module cards -->
+                <FlowPane fx:id="modulesContainer" hgap="16.0" vgap="16.0" prefWrapLength="1200.0"/>
+
+                <!-- Empty state -->
+                <VBox fx:id="emptyState" alignment="CENTER" spacing="12.0" visible="false" managed="false"
+                      style="-fx-padding:60 0;">
+                    <Label text="📦" style="-fx-font-size:48px;"/>
+                    <Label text="Aucun module trouvé" style="-fx-font-size:18px; -fx-font-weight:700; -fx-text-fill:#64748b;"/>
+                </VBox>
+
+            </VBox>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

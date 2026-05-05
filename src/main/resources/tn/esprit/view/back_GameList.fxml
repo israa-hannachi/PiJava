@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.Back.BackGameListController"
+            prefHeight="900.0" prefWidth="1400.0" style="-fx-background-color: #f8fafc;">
+
+    <!-- LEFT SIDEBAR NAVIGATION -->
+    <left>
+        <VBox id="sidebar" prefWidth="260" style="-fx-background-color: #1a202c; -fx-padding: 0;">
+            <!-- Logo Section -->
+            <VBox prefHeight="70" alignment="TOP_CENTER" style="-fx-background-color: #0f172a; -fx-padding: 15;">
+                <Label text="NAJA7NI ADMIN" style="-fx-font-size:18; -fx-font-weight:bold; -fx-text-fill:white;"/>
+            </VBox>
+
+            <!-- Navigation Menu -->
+            <ScrollPane fitToWidth="true" style="-fx-background-color: #1a202c;" hbarPolicy="NEVER">
+                <VBox spacing="5" style="-fx-padding: 10; -fx-background-color: #1a202c;">
+                    <Label text="Navigation" style="-fx-text-fill: #94a3b8; -fx-font-size: 12; -fx-font-weight: bold; -fx-padding: 10 0 5 0;" />
+
+                    <!-- Dashboard Menu -->
+                    <Button text="🏠 Dashboard" onAction="#handleDashboard" maxWidth="1.7976931348623157E308"
+                            style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #334155; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
+
+                    <!-- Comptes Menu -->
+                    <VBox spacing="0" style="-fx-background-radius: 8; -fx-background-color: #334155;">
+                        <Button text="👤 Comptes" onAction="#toggleComptesMenu" maxWidth="1.7976931348623157E308"
+                                style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #334155; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
+                        <VBox fx:id="comptesSubmenu" spacing="0" style="-fx-background-color: #1a202c;" visible="false" managed="false">
+                            <Button text="   Liste des comptes" maxWidth="1.7976931348623157E308"
+                                    onAction="#handleListeComptes"
+                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                        </VBox>
+                    </VBox>
+
+                    <!-- Cours Menu -->
+                    <VBox spacing="0" style="-fx-background-radius: 8; -fx-background-color: #334155;">
+                        <Button text="📚 Cours" onAction="#toggleCoursMenu" maxWidth="1.7976931348623157E308"
+                                style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #334155; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
+                        <VBox fx:id="coursSubmenu" spacing="0" style="-fx-background-color: #1a202c;" visible="false" managed="false">
+                            <Button text="   📂 Catégories" onAction="#handleCategories" maxWidth="1.7976931348623157E308" style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                            <Button text="   📦 Modules" onAction="#handleModules" maxWidth="1.7976931348623157E308" style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                            <Button text="   📖 Cours" onAction="#handleCours" maxWidth="1.7976931348623157E308" style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                        </VBox>
+                    </VBox>
+
+                    <!-- Jeux Menu -->
+                    <VBox spacing="0" style="-fx-background-radius: 8; -fx-background-color: #334155;">
+                        <Button text="🎮 Jeux" onAction="#toggleJeuxMenu"
+                                maxWidth="1.7976931348623157E308"
+                                style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15;
+                   -fx-background-color: #334155; -fx-background-radius: 8;
+                   -fx-alignment: CENTER_LEFT;" />
+                        <VBox fx:id="jeuxSubmenu" spacing="0"
+                              style="-fx-background-color: #1a202c;" visible="true" managed="true">
+                            <Button text="   Liste des Jeux" onAction="#handleBackList"
+                                    maxWidth="1.7976931348623157E308"
+                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15;
+                       -fx-background-color: transparent;" />
+                            <Button text="   Statistiques" onAction="#handleOpenStats"
+                                    maxWidth="1.7976931348623157E308"
+                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15;
+                       -fx-background-color: transparent;" />
+                            <Button text="   Recommandation Quiz" onAction="#handleOpenRecommandation"
+                                    maxWidth="1.7976931348623157E308"
+                                    style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15;
+                       -fx-background-color: transparent;" />
+                        </VBox>
+                    </VBox>
+
+                    <Button text="💬 Forums" maxWidth="Infinity"
+                            style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-alignment: CENTER_LEFT; -fx-padding: 10 20;" />
+
+
+                    <!-- Events Menu -->
+                    <VBox spacing="0" style="-fx-background-radius: 8; -fx-background-color: #334155;">
+                        <Button text="📅 Events" onAction="#toggleEventsMenu" maxWidth="1.7976931348623157E308"
+                                style="-fx-text-fill: #ffffff; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: #334155; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
+                        <VBox fx:id="eventsSubmenu" spacing="0" style="-fx-background-color: #1a202c;" visible="false" managed="false">
+                            <Button text="   Liste des Events" onAction="#handleEventsList" maxWidth="1.7976931348623157E308" style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                            <Button text="   Calendrier" onAction="#handleEventsCalendrier" maxWidth="1.7976931348623157E308" style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                            <Button text="   Sponsors" onAction="#handleEventsSponsors" maxWidth="1.7976931348623157E308" style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                            <Button text="   Inscriptions" onAction="#handleEventsInscriptions" maxWidth="1.7976931348623157E308" style="-fx-text-fill: #cbd5e1; -fx-font-size: 12; -fx-padding: 8 15; -fx-background-color: transparent;" />
+                        </VBox>
+                    </VBox>
+
+                    <Button text="📹 Meet" maxWidth="Infinity"
+                            style="-fx-background-color: transparent; -fx-text-fill: #cbd5e1; -fx-alignment: CENTER_LEFT; -fx-padding: 10 20;" />
+
+
+                    <Region VBox.vgrow="ALWAYS" />
+                    <Button text="🚪 Logout" onAction="#handleLogout" maxWidth="1.7976931348623157E308"
+                            style="-fx-text-fill: #f87171; -fx-font-size: 13; -fx-padding: 12 15; -fx-background-color: transparent; -fx-background-radius: 8; -fx-alignment: CENTER_LEFT;" />
+                </VBox>
+            </ScrollPane>
+        </VBox>
+    </left>
+
+    <!-- TOP NAVBAR -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15"
+              style="-fx-background-color: #ffffff; -fx-border-color: #e2e8f0; -fx-border-width: 0 0 1 0; -fx-padding: 15;">
+            <Label text="NAJA7NI" style="-fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #0f172a;" />
+            <Separator orientation="VERTICAL" />
+            <Label text="Gestion des Jeux" style="-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #64748b;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <TextField fx:id="searchField" promptText="🔍 Rechercher un jeu..." prefWidth="300" style="-fx-background-radius: 8;" onAction="#handleSearch"/>
+            <Button text="➕ Ajouter" onAction="#handleAddGame" style="-fx-background-color:#0FB5A9; -fx-text-fill:white; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:8 16;"/>
+            <Separator orientation="VERTICAL" />
+            <Label fx:id="adminNameLabel" text="Admin" style="-fx-font-size: 13; -fx-font-weight: bold; -fx-text-fill: #0FB5A9;" />
+            <Button text="👤 Profile" onAction="#handleProfile" />
+        </HBox>
+    </top>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <VBox spacing="14" style="-fx-padding: 20; -fx-background-color: #f8fafc;">
+            <!-- Stats Strip -->
+            <HBox spacing="12">
+                <VBox style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 12 20;" HBox.hgrow="ALWAYS">
+                    <Label text="Total Jeux" style="-fx-text-fill: #64748b; -fx-font-size: 11;"/>
+                    <Label fx:id="totalGamesLabel" text="—" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #0f172a;"/>
+                </VBox>
+                <VBox style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 12 20;" HBox.hgrow="ALWAYS">
+                    <Label text="QCM" style="-fx-text-fill: #64748b; -fx-font-size: 11;"/>
+                    <Label fx:id="qcmCountLabel" text="—" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #2563eb;"/>
+                </VBox>
+                <VBox style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 12 20;" HBox.hgrow="ALWAYS">
+                    <Label text="Vrai/Faux" style="-fx-text-fill: #64748b; -fx-font-size: 11;"/>
+                    <Label fx:id="vfCountLabel" text="—" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #0FB5A9;"/>
+                </VBox>
+                <VBox style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #e2e8f0; -fx-border-radius: 8; -fx-padding: 12 20;" HBox.hgrow="ALWAYS">
+                    <Label text="Libres" style="-fx-text-fill: #64748b; -fx-font-size: 11;"/>
+                    <Label fx:id="libreCountLabel" text="—" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #dc2626;"/>
+                </VBox>
+            </HBox>
+
+            <!-- Table des Jeux -->
+            <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #e2e8f0; -fx-border-radius: 10;" VBox.vgrow="ALWAYS">
+                <TableView fx:id="gamesTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <!--TableColumn fx:id="idColumn" text="ID" prefWidth="60" /-->
+                        <TableColumn fx:id="titreColumn" text="Titre" prefWidth="200" />
+                        <TableColumn fx:id="typeColumn" text="Type" prefWidth="120" />
+                        <TableColumn fx:id="niveauColumn" text="Niveau" prefWidth="120" />
+                        <TableColumn fx:id="attemptColumn" text="Tentatives" prefWidth="100" />
+                        <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="350" />
+                    </columns>
+                </TableView>
+            </VBox>
+
+            <!-- Table des Questions liées -->
+            <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-color: #e2e8f0; -fx-border-radius: 10; -fx-padding: 10;" VBox.vgrow="ALWAYS">
+                <Label text="Détails des Questions" style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#0f172a; -fx-padding: 10;"/>
+                <TableView fx:id="questionsTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <!--TableColumn fx:id="questionIdColumn" text="ID" prefWidth="60"/-->
+                        <TableColumn fx:id="questionTextColumn" text="Question" prefWidth="300"/>
+                        <TableColumn fx:id="correctAnswerColumn" text="Réponse Correcte" prefWidth="230"/>
+                        <TableColumn fx:id="questionActionsColumn" text="Actions" prefWidth="200"/>
+                    </columns>
+                </TableView>
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

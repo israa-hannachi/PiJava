@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Authentication</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <style>
+        :root {
+            --teal: #0FB5A9;
+            --cyan: #04B6D5;
+            --slate: #64748b;
+            --text: #1F2937;
+            --border: #E5E7EB;
+            --soft: #F9FAFB;
+        }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; width: 100%; height: 100%; font-family: "Segoe UI", sans-serif; background: #F3F4F6; color: var(--text); }
+        .shell {
+            width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 24px;
+        }
+        .card {
+            width: min(1100px, 100%); min-height: 680px; background: #fff; border-radius: 20px; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12); display: grid; grid-template-columns: 1fr 1fr;
+        }
+        .hero {
+            background: linear-gradient(135deg, var(--teal), var(--cyan)); color: #fff; padding: 42px; display: flex; flex-direction: column; justify-content: center; gap: 18px;
+        }
+        .hero h1 { font-size: 42px; margin: 0; line-height: 1.05; }
+        .hero p { margin: 0; font-size: 17px; color: rgba(255,255,255,0.9); max-width: 340px; }
+        .hero .panel {
+            margin-top: 28px; background: rgba(255,255,255,0.15); border-radius: 18px; padding: 22px;
+        }
+        .content {
+            padding: 42px 50px; display: flex; flex-direction: column; justify-content: center; gap: 14px;
+        }
+        .eyebrow { font-size: 34px; margin-bottom: 2px; }
+        h2 { font-size: 30px; margin: 0; }
+        .sub { color: var(--slate); margin: 0 0 8px 0; line-height: 1.5; }
+        .alert {
+            display: none; padding: 10px 12px; border-radius: 10px; font-size: 14px;
+        }
+        .alert.info { background: #DBEAFE; color: #1D4ED8; }
+        .alert.success { background: #DCFCE7; color: #166534; }
+        .alert.warning { background: #FEF3C7; color: #92400E; }
+        .alert.error { background: #FEE2E2; color: #991B1B; }
+        .field { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+        .label { font-weight: 700; color: #374151; }
+        .input {
+            width: 100%; border: 1px solid var(--border); background: var(--soft); border-radius: 8px; padding: 12px 15px; font-size: 14px; outline: none;
+        }
+        .input:focus { border-color: var(--teal); background: #fff; }
+        .camera-wrap {
+            border: 1px solid var(--border); border-radius: 16px; padding: 14px; background: #fff; box-shadow: 0 12px 24px rgba(15, 181, 169, 0.08);
+        }
+        .video-box { position: relative; width: 100%; display: flex; justify-content: center; }
+        video { width: 100%; max-width: 420px; aspect-ratio: 4 / 3; background: #111827; border-radius: 12px; object-fit: cover; }
+        canvas { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 420px; aspect-ratio: 4 / 3; pointer-events: none; }
+        .status { min-height: 26px; color: var(--slate); font-size: 14px; }
+        .spinner {
+            width: 18px; height: 18px; border: 3px solid rgba(15,181,169,0.2); border-top-color: var(--teal); border-radius: 50%; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; margin-right: 8px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .button-row { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 8px; }
+        button {
+            border: none; border-radius: 8px; padding: 12px 14px; font-size: 15px; font-weight: 700; cursor: pointer;
+        }
+        .primary { background: var(--teal); color: white; }
+        .secondary { background: #EEF2F7; color: #334155; }
+        .link { color: var(--teal); text-decoration: underline; background: transparent; padding: 0; font-size: 14px; font-weight: 700; }
+        .small { font-size: 14px; color: var(--slate); line-height: 1.5; }
+        .muted-card { margin-top: 10px; background: #F8FAFC; border-radius: 14px; padding: 16px; }
+        ol { margin: 8px 0 0 18px; color: #334155; line-height: 1.7; }
+        @media (max-width: 900px) {
+            .card { grid-template-columns: 1fr; }
+            .hero { padding: 32px; }
+            .content { padding: 32px; }
+        }
+    </style>
+</head>
+<body>
+<div class="shell">
+    <div class="card">
+        <section class="hero">
+            <div>
+                <h1 id="heroTitle">Face Authentication</h1>
+                <p id="heroText">Use the template face models to register your biometric descriptor or log in without a password.</p>
+            </div>
+            <div class="panel">
+                <div style="font-size:16px;font-weight:700;margin-bottom:8px;">How it works</div>
+                <div class="small" id="heroHint">We load the face detector, capture a descriptor from your face, and send it back to Java for storage or verification.</div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="eyebrow">🧬</div>
+            <h2 id="pageTitle">Face Authentication</h2>
+            <p class="sub" id="pageSubtitle">Allow camera access, center your face, then capture the descriptor.</p>
+
+            <div id="statusMessage" class="alert info"></div>
+
+            <div class="field" id="emailFieldWrap">
+                <label class="label" for="emailInput">Email Address</label>
+                <input id="emailInput" class="input" type="email" placeholder="Enter your email">
+            </div>
+
+            <div class="field" id="emailDisplayWrap" style="display:none;">
+                <label class="label">Signed in as</label>
+                <div id="emailDisplay" class="input" style="background:#F8FAFC;display:flex;align-items:center;min-height:46px;"></div>
+            </div>
+
+            <div class="camera-wrap">
+                <div class="video-box">
+                    <video id="video" autoplay muted playsinline></video>
+                    <canvas id="overlay"></canvas>
+                </div>
+                <div id="loadingModels" class="status"><span class="spinner"></span>Loading face models...</div>
+                <div class="button-row">
+                    <button id="captureBtn" class="primary" disabled>Capture Face</button>
+                    <button id="closeBtn" class="secondary" type="button">Close</button>
+                </div>
+            </div>
+
+            <div class="muted-card">
+                <div class="label">Instructions</div>
+                <ol>
+                    <li id="instruction1">Position your face in the center of the frame.</li>
+                    <li id="instruction2">Make sure the area is well lit.</li>
+                    <li id="instruction3">Keep your face visible and click capture.</li>
+                </ol>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script>
+(() => {
+    const params = new URLSearchParams(window.location.search);
+    const mode = (params.get('mode') || 'login').toLowerCase();
+    const email = params.get('email') || '';
+    const modelsUrl = params.get('models');
+
+    const title = document.getElementById('pageTitle');
+    const subtitle = document.getElementById('pageSubtitle');
+    const captureBtn = document.getElementById('captureBtn');
+    const closeBtn = document.getElementById('closeBtn');
+    const statusMessage = document.getElementById('statusMessage');
+    const loadingModels = document.getElementById('loadingModels');
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('overlay');
+    const emailInput = document.getElementById('emailInput');
+    const emailFieldWrap = document.getElementById('emailFieldWrap');
+    const emailDisplayWrap = document.getElementById('emailDisplayWrap');
+    const emailDisplay = document.getElementById('emailDisplay');
+    const heroTitle = document.getElementById('heroTitle');
+    const heroText = document.getElementById('heroText');
+    const heroHint = document.getElementById('heroHint');
+    const instruction1 = document.getElementById('instruction1');
+    const instruction2 = document.getElementById('instruction2');
+    const instruction3 = document.getElementById('instruction3');
+
+    let modelsLoaded = false;
+
+    function showStatus(message, type = 'info') {
+        statusMessage.className = `alert ${type}`;
+        statusMessage.textContent = message;
+        statusMessage.style.display = 'block';
+    }
+
+    function sendToJava(payload) {
+        if (typeof window.cefQuery !== 'function') {
+            showStatus('Java bridge not available.', 'error');
+            return;
+        }
+        window.cefQuery({
+            request: 'face-auth:' + JSON.stringify(payload),
+            onSuccess: function() {},
+            onFailure: function(code, message) {
+                showStatus(message || 'Face authentication failed.', 'error');
+            }
+        });
+    }
+
+    function configureMode() {
+        if (mode === 'register') {
+            title.textContent = 'Register your face';
+            subtitle.textContent = 'Capture your face once and reuse it to log in later.';
+            heroTitle.textContent = 'Face Registration';
+            heroText.textContent = 'Store your biometric descriptor in the database using the template face models.';
+            heroHint.textContent = 'This uses face-api.js with the template models: detector, landmarks, and recognition network.';
+            captureBtn.textContent = 'Save Face ID';
+            instruction1.textContent = 'Align your face in the middle of the camera.';
+            instruction2.textContent = 'Make sure your face is well lit and fully visible.';
+            instruction3.textContent = 'Click Save Face ID to store your descriptor.';
+            emailFieldWrap.style.display = 'none';
+            emailDisplayWrap.style.display = 'block';
+            emailDisplay.textContent = email || 'Current profile account';
+        } else {
+            title.textContent = 'Login with Face ID';
+            subtitle.textContent = 'Enter your email first, then verify with your face.';
+            heroTitle.textContent = 'Face Login';
+            heroText.textContent = 'Match the live face descriptor against the biometric descriptor stored in the database.';
+            heroHint.textContent = 'The same template models are used for both registration and login verification.';
+            captureBtn.textContent = 'Login with Face ID';
+            instruction1.textContent = 'Enter the email attached to your account.';
+            instruction2.textContent = 'Allow the camera and position your face in the frame.';
+            instruction3.textContent = 'Click Login with Face ID to verify your identity.';
+            emailFieldWrap.style.display = 'block';
+            emailDisplayWrap.style.display = 'none';
+            emailInput.value = email;
+        }
+    }
+
+    async function loadModels() {
+        try {
+            if (!modelsUrl) {
+                throw new Error('Model directory not provided.');
+            }
+            await faceapi.nets.ssdMobilenetv1.loadFromUri(modelsUrl);
+            await faceapi.nets.faceLandmark68Net.loadFromUri(modelsUrl);
+            await faceapi.nets.faceRecognitionNet.loadFromUri(modelsUrl);
+            modelsLoaded = true;
+            loadingModels.style.display = 'none';
+            captureBtn.disabled = false;
+            showStatus('Models loaded. You can capture your face now.', 'success');
+        } catch (error) {
+            loadingModels.innerHTML = 'Failed to load face models: ' + error.message;
+            showStatus('Unable to load face models: ' + error.message, 'error');
+        }
+    }
+
+    async function startVideo() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { width: 420, height: 315 } });
+            video.srcObject = stream;
+        } catch (error) {
+            showStatus('Camera access is required. Please allow camera permissions.', 'error');
+        }
+    }
+
+    async function captureFace() {
+        if (!modelsLoaded) {
+            showStatus('Wait until the face models finish loading.', 'warning');
+            return;
+        }
+
+        const emailValue = emailInput.value.trim();
+        if (mode === 'login' && !emailValue) {
+            showStatus('Please enter your email address.', 'warning');
+            return;
+        }
+
+        captureBtn.disabled = true;
+        showStatus('Detecting face...', 'info');
+
+        try {
+            const detection = await faceapi.detectSingleFace(video).withFaceLandmarks().withFaceDescriptor();
+
+            if (!detection) {
+                showStatus('No face detected. Try again with better lighting.', 'warning');
+                captureBtn.disabled = false;
+                return;
+            }
+
+            const payload = {
+                mode,
+                email: mode === 'register' ? email : emailValue,
+                descriptor: Array.from(detection.descriptor)
+            };
+
+            showStatus(mode === 'register' ? 'Saving face descriptor...' : 'Verifying face descriptor...', 'info');
+            sendToJava(payload);
+        } catch (error) {
+            showStatus('Face capture failed: ' + error.message, 'error');
+            captureBtn.disabled = false;
+        }
+    }
+
+    captureBtn.addEventListener('click', captureFace);
+    closeBtn.addEventListener('click', () => {
+        if (typeof window.cefQuery === 'function') {
+            showStatus('Closing...', 'info');
+        }
+        window.close();
+    });
+
+    configureMode();
+    startVideo();
+    video.addEventListener('loadedmetadata', () => {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        loadModels();
+    });
+})();
+</script>
+</body>
+</html>
