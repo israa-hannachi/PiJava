@@ -1,0 +1,25 @@
+# IDE / Build artifacts
+target/
+*.class
+*.jar
+*.war
+
+# IntelliJ
+.idea/workspace.xml
+.idea/usage.statistics.xml
+*.iws
+*.iml
+out/
+
+# Maven
+.mvn/timing.properties
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local secrets — NEVER push these
+stripe.properties
+*.properties.local
+.env
+.env.local
